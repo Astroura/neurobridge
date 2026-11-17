@@ -35,7 +35,7 @@ Provide appropriately licensed stimuli and reviewed questions; no participant re
 
 Separate build jobs target **Apple Silicon** and **Intel** using Python 3.12. Dependencies set a practical macOS 12+ baseline; built artifacts may require a newer macOS depending on dependency wheels. Confirm the OS versions supported by a particular release in its release notes. No claim of support for every historical Mac is made.
 
-The local Apple Silicon build uses the available Python 3.9 runtime and macOS 14+ NumPy wheel. Treat that artifact as a **macOS 14+ Apple Silicon preview**. Intel builds and older OS compatibility require CI and hardware checks. Bluetooth, audio output, native folder selection and an entire session must be smoke-tested on each supported architecture before declaring a release stable.
+The local Apple Silicon preview uses Python 3.12 and pinned dependencies. Intel and Apple Silicon builds run import, interface-asset, report-generation and HTTP tests in CI. Older macOS versions and real Bluetooth/audio behavior still require hardware checks. Bluetooth, audio output, native folder selection and an entire session must be smoke-tested on each supported architecture before declaring a release stable.
 
 Builds are ad-hoc signed locally, **not Developer ID signed or notarized**. macOS may block downloaded builds. For routine distribution without those warnings, the maintainer must provide an Apple Developer ID and notarize releases. Do not disable Gatekeeper. A source launcher is available below as an alternative.
 

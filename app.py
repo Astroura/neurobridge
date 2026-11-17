@@ -104,5 +104,7 @@ if __name__=='__main__':
         os.environ['NEUROBRIDGE_DATA_DIR']=tempfile.mkdtemp(prefix='neurobridge-selftest-')
         import numpy,scipy,pylsl,matplotlib,webview
         import server,reports
+        assert (server.STATIC/'experiment.html').is_file(), 'Bundled interface assets missing'
+        assert (server.STATIC/'storage.js').is_file(), 'Bundled storage controls missing'
         print('NeuroBridge imports OK; LSL',pylsl.library_version(),flush=True)
     else:main()

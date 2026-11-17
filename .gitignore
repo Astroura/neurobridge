@@ -12,3 +12,4 @@ reports/
 stimuli/
 *.npz
 *.csv
+work/

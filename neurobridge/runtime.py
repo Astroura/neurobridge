@@ -1,7 +1,7 @@
 import os,sys
 from pathlib import Path
 DATA=Path(os.environ.get('NEUROBRIDGE_DATA_DIR',str(Path.home()/'Documents'/'NeuroBridge Data'))).expanduser().resolve()
-CODE=Path(__file__).resolve().parent
+CODE=(Path(sys._MEIPASS)/'neurobridge') if getattr(sys,'frozen',False) else Path(__file__).resolve().parent
 
 def worker(kind,*args):
     base=[sys.executable] if getattr(sys,'frozen',False) else [sys.executable,str(CODE.parent/'app.py')]

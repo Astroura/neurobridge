@@ -1,10 +1,10 @@
 # Tested dependency family; Python 3.12 recommended for release builds.
 muselsl==2.5.3
 pylsl==1.18.2
-numpy>=1.26,<2.1
-scipy>=1.12,<1.14
-pandas>=2.2,<2.4
-matplotlib>=3.8,<3.10
+numpy==1.26.4
+scipy==1.13.1
+pandas==2.3.3
+matplotlib==3.9.4
 pywebview==5.4
 pyobjc-core==11.1
 pyobjc-framework-Cocoa==11.1
@@ -13,3 +13,6 @@ pyobjc-framework-Quartz==11.1
 pyobjc-framework-Security==11.1
 pyobjc-framework-CoreBluetooth==11.1
 pyobjc-framework-libdispatch==11.1
+bleak==1.1.1
+bitstring==4.4.0
+scikit-learn==1.6.1
