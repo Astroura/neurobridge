@@ -19,10 +19,10 @@ def generate(path,destination):
     axes=fig.subplots(4,2)
     for i,c in enumerate(result['channels']):
         ax,ps=axes[i]
-        ax.plot(timestamps-timestamps[0],eeg[:,i],lw=.4,color='#26735d')
+        ax.plot(timestamps-timestamps[0],eeg[:,i],lw=.4,color='#8973a6')
         ax.set_ylabel(c['name']+' (µV)');ax.grid(alpha=.2)
         spectrum=np.asarray(c['spectrum'])
-        if len(spectrum):ps.semilogy(spectrum[:,0],spectrum[:,1],color='#507c91',lw=1)
+        if len(spectrum):ps.semilogy(spectrum[:,0],spectrum[:,1],color='#8294ac',lw=1)
         ps.set_xlim(0,100);ps.set_ylabel('PSD (µV²/Hz)');ps.grid(alpha=.2)
     axes[0,0].set_title('Raw EEG · full resolution');axes[0,1].set_title('Welch spectrum · longest continuous segment, 256 Hz')
     axes[-1,0].set_xlabel('Seconds');axes[-1,1].set_xlabel('Hz')

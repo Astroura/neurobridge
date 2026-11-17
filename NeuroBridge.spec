@@ -17,7 +17,7 @@ pyz=PYZ(a.pure)
 exe=EXE(pyz,a.scripts,[],exclude_binaries=True,name='NeuroBridge',console=True,disable_windowed_traceback=False,target_arch=None,codesign_identity=None)
 coll=COLLECT(exe,a.binaries,a.datas,name='NeuroBridge')
 app=BUNDLE(coll,name='NeuroBridge.app',bundle_identifier='org.neurobridge.research',info_plist={
- 'CFBundleName':'NeuroBridge','CFBundleShortVersionString':'0.2.0','CFBundleVersion':'2',
+ 'CFBundleName':'NeuroBridge','CFBundleShortVersionString':'0.3.0','CFBundleVersion':'3',
  'NSBluetoothAlwaysUsageDescription':'NeuroBridge connects to your Muse headset to record EEG for your local research sessions.',
  'NSBluetoothPeripheralUsageDescription':'Connect to your Muse EEG headset.',
  'NSDocumentsFolderUsageDescription':'Save recordings and scientific reports in the folder you choose.',

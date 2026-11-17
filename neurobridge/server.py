@@ -141,7 +141,7 @@ class Handler(BaseHTTPRequestHandler):
                 if key not in CACHE:
                     CACHE.clear(); CACHE[key] = analyze(p)
                 return self.reply(CACHE[key])
-            assets = {'/':('index.html','text/html; charset=utf-8'), '/app.js':('app.js','text/javascript'), '/style.css':('style.css','text/css'), '/experiment':('experiment.html','text/html; charset=utf-8'), '/experiment.js':('experiment.js','text/javascript'), '/storage.js':('storage.js','text/javascript')}
+            assets = {'/':('index.html','text/html; charset=utf-8'), '/app.js':('app.js','text/javascript'), '/style.css':('style.css','text/css'), '/experiment':('experiment.html','text/html; charset=utf-8'), '/experiment.js':('experiment.js','text/javascript'), '/storage.js':('storage.js','text/javascript'), '/setup-state.js':('setup-state.js','text/javascript')}
             if u.path not in assets: return self.reply({'error':'Not found'},404)
             name, mime = assets[u.path]
             return self.reply((STATIC/name).read_bytes(), content=mime)

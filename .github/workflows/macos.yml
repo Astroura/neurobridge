@@ -7,7 +7,7 @@ on:
   workflow_dispatch:
     inputs:
       release_tag:
-        description: 'Optional preview release tag, e.g. v0.2.0-preview'
+        description: 'Optional preview release tag, e.g. v0.3.0-preview'
         required: false
         default: ''
 permissions:
@@ -68,9 +68,11 @@ jobs:
           draft: false
           prerelease: true
           fail_on_unmatched_files: true
-          name: NeuroBridge 0.2.0 — live conversation preview
+          name: NeuroBridge 0.3.0 — guided setup & lilac UI
           body: |
-            Local EEG experiments with prerecorded audio or live spoken passages.
+            A redesigned muted lilac and gray interface guides you through workspace, trial selection, and final review.
+
+            Import a stimulus ZIP, preview its contents, and select individual trials or audio/live groups before adding them. Compact trial cards show missing details/questions; the start checklist explains what remains. Save and reload setups, choose a local recording folder, and export EEG, answers, NumPy arrays, and scientific plots.
 
             Download the app for your Mac (arm64: Apple Silicon; x86_64: Intel) and the separate NeuroBridge-Stimulus-Pack-v1.zip. Import the pack in the app. It includes all six current practice audio clips, source/licensing notes and three draft paired English/Egyptian Arabic live stories with matching questions.
 
