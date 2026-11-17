@@ -1,0 +1,70 @@
+name: Publish verified preview artifacts
+on:
+  workflow_dispatch:
+permissions:
+  contents: write
+  actions: read
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/github-script@v7
+        with:
+          script: |
+            const fs = require('fs');
+            const path = require('path');
+            const crypto = require('crypto');
+            const repo = context.repo;
+            const sources = [
+              {run: 44126537159, name: 'NeuroBridge-macOS-arm64', job: 'build (macos-15, arm64)'},
+              {run: 44128276259, name: 'NeuroBridge-macOS-x86_64', job: 'build (macos-15-intel, x86_64)'},
+              {run: 44128276259, name: 'NeuroBridge-Stimulus-Pack-v1', job: 'stimuli'}
+            ];
+            fs.mkdirSync('verified', {recursive:true});
+            for (const item of sources) {
+              const {data: run} = await github.rest.actions.getWorkflowRun({...repo, run_id:item.run});
+              if (run.head_repository.full_name !== `${repo.owner}/${repo.repo}`) throw Error('Unexpected source repository');
+              const comparison = await github.rest.repos.compareCommitsWithBasehead({...repo, basehead:`${run.head_sha}...${context.sha}`});
+              if (comparison.data.status !== 'ahead' && comparison.data.status !== 'identical') throw Error('Source is not an ancestor');
+              // Reuse only when application/runtime files are unchanged. Packaging and this publisher may differ.
+              for (const file of comparison.data.files || []) {
+                if (!(file.filename.startsWith('stimulus-materials/source/') || file.filename === 'scripts/build_stimulus_pack.py' || file.filename === '.github/workflows/publish-verified.yml')) {
+                  throw Error(`Application source differs: ${file.filename}`);
+                }
+              }
+              const jobs = await github.paginate(github.rest.actions.listJobsForWorkflowRun, {...repo, run_id:item.run});
+              if (!jobs.some(j => j.name === item.job && j.conclusion === 'success')) throw Error(`Build/test job did not pass: ${item.job}`);
+              const artifacts = await github.paginate(github.rest.actions.listWorkflowRunArtifacts, {...repo, run_id:item.run});
+              const artifact = artifacts.find(a => a.name === item.name && !a.expired);
+              if (!artifact) throw Error(`Missing artifact: ${item.name}`);
+              const archive = await github.rest.actions.downloadArtifact({...repo, artifact_id:artifact.id, archive_format:'zip'});
+              const bytes = Buffer.from(archive.data);
+              if (artifact.digest && artifact.digest !== 'sha256:' + crypto.createHash('sha256').update(bytes).digest('hex')) throw Error('Artifact digest mismatch');
+              fs.writeFileSync(path.join('verified',item.name+'.artifact.zip'),bytes);
+              core.info(`Verified ${item.name} from ${run.head_sha}`);
+            }
+      - run: |
+          mkdir -p downloads
+          for archive in verified/*.artifact.zip; do unzip -j "$archive" -d downloads; done
+          test -s downloads/NeuroBridge-macOS-arm64.zip
+          test -s downloads/NeuroBridge-macOS-x86_64.zip
+          test -s downloads/NeuroBridge-Stimulus-Pack-v1.zip
+      - uses: softprops/action-gh-release@v2
+        with:
+          tag_name: v0.2.0-preview
+          target_commitish: ${{ github.sha }}
+          files: downloads/*.zip
+          fail_on_unmatched_files: true
+          draft: false
+          prerelease: true
+          name: NeuroBridge 0.2.0 — live conversation & stimulus pack
+          body: |
+            Download your Mac app (arm64 for Apple Silicon; x86_64 for Intel) and the separate NeuroBridge-Stimulus-Pack-v1.zip. Quit the older app before opening 0.2.0. Import the ZIP using Import stimulus pack ZIP.
+
+            The pack contains all six CURRENT practice recordings (one English practice, two English clips, three Egyptian Arabic excerpts), source/licensing notes, English source transcripts, and three draft stories in English and Egyptian Arabic with matching questionnaires. This is not a validated final study dataset. Recorded questions are blank pending review; Arabic fixed-time excerpts may cut sentences. Draft live translations need fluent-speaker review.
+
+            Live mode: Add live conversation → enter language, coded speaker ID, intended content and two factual questions → Start session → Start speaking → Finish speaking → questions and 1–5 understanding rating. EEG, language, speaker, intended script, manual speech events and responses are saved locally. Duplicate with same questionnaire reuses the questions across languages. Avoid repeating both translations to the same subject without accounting for learning.
+
+            No microphone recording or EEG-based comprehension prediction is included. One correct answer out of two does not prove exactly half the speech was understood. Speech markers are operator-button receipt timestamps, not acoustic onset.
+
+            All attached artifacts passed their architecture-specific build/test or pack job. This publication workflow verifies the source ancestry, unchanged app/runtime code, successful source jobs and artifact digests before uploading. Hardware rehearsals remain necessary. Apps are ad-hoc signed, not Apple-notarized.
