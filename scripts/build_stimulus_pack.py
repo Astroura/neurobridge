@@ -1,12 +1,13 @@
 """Build the current practice pack from checksum-pinned, openly licensed sources.
 Extra build-only dependencies: pyarrow, soundfile, imageio-ffmpeg.
 """
-import csv,hashlib,io,json,subprocess,urllib.request,zipfile,tempfile,argparse
+import csv,hashlib,io,json,subprocess,urllib.request,zipfile,tempfile,argparse,shutil
 from pathlib import Path
 
 def fetch(url,path,expected):
     if not path.exists() or hashlib.sha256(path.read_bytes()).hexdigest()!=expected:
-        urllib.request.urlretrieve(url,path)
+        request=urllib.request.Request(url,headers={'User-Agent':'NeuroBridgeStimulusPack/1.0 (https://github.com/Astroura/neurobridge)'})
+        with urllib.request.urlopen(request,timeout=90) as response:path.write_bytes(response.read())
     if hashlib.sha256(path.read_bytes()).hexdigest()!=expected:raise ValueError('Source checksum changed: '+url)
 
 def build(destination,cache):
@@ -16,6 +17,8 @@ def build(destination,cache):
     root=Path(__file__).resolve().parents[1];cache.mkdir(parents=True,exist_ok=True)
     english=cache/'english.parquet';arabic=cache/'egyptian.ogg'
     fetch('https://huggingface.co/datasets/hf-internal-testing/librispeech_asr_dummy/resolve/main/clean/validation-00000-of-00001.parquet',english,'4e69a06fa5edc90921e5e7e39a7084881f8b3ed9c805c574f4f39c6fde27c603')
+    bundled=root/'stimulus-materials/source/egyptian.ogg'
+    if bundled.is_file():shutil.copyfile(bundled,arabic)
     fetch('https://upload.wikimedia.org/wikipedia/commons/d/d2/Anonymous_20200622_arz.ogg',arabic,'3b621f471c263c955de808933cc179cccd7dfa94ebe57978a6a39b95997b9211')
     files={};clips=[];manifest=[]
     def empty():return [dict(text='',options=['','',''],correct=0) for _ in range(2)]
