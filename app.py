@@ -44,11 +44,26 @@ def main():
     server.PORT=0
     http=ThreadingHTTPServer(('127.0.0.1',0),server.Handler);server.PORT=http.server_address[1]
     threading.Thread(target=http.serve_forever,daemon=True).start()
+    def choose_native_folder():
+        from AppKit import NSOpenPanel, NSModalResponseOK
+        from PyObjCTools import AppHelper
+        done=threading.Event();result=[]
+        def show():
+            try:
+                panel=NSOpenPanel.alloc().init()
+                panel.setTitle_('Choose a NeuroBridge folder')
+                panel.setCanChooseFiles_(False);panel.setCanChooseDirectories_(True)
+                panel.setAllowsMultipleSelection_(False);panel.setCanCreateDirectories_(True)
+                panel.setAllowedFileTypes_(None)
+                if panel.runModal()==NSModalResponseOK:result.append(str(panel.URL().path()))
+            finally:done.set()
+        AppHelper.callAfter(show);done.wait()
+        return result
     class Bridge:
         def choose_folder(self):
             with server.LOCK:
                 if server.running('record') or server.running('stream'):return {'error':'Disconnect Muse and stop recording before changing folders.'}
-            chosen=webview.windows[0].create_file_dialog(webview.FOLDER_DIALOG)
+            chosen=choose_native_folder()
             if not chosen:return {'cancelled':True}
             try:
                 with server.LOCK:
@@ -61,7 +76,7 @@ def main():
             with server.LOCK:
                 if server.running('record'):return {'error':'Wait for recording to finish before exporting.'}
                 source=server.ROOT
-            chosen=webview.windows[0].create_file_dialog(webview.FOLDER_DIALOG)
+            chosen=choose_native_folder()
             if not chosen:return {'cancelled':True}
             try:
                 with server.LOCK:
@@ -80,7 +95,7 @@ def main():
                     files=[p for p in source.rglob('*') if p.is_file() and not p.is_symlink() and p.suffix.lower()!='.zip']
                     with zipfile.ZipFile(dest,'x',compression=zipfile.ZIP_DEFLATED) as z:
                         for p in files:z.write(p,p.relative_to(source))
-                return {'path':str(dest)}
+                return {'path':str(dest),'warnings':failures}
             except Exception as exc:return {'error':str(exc)}
     window=webview.create_window('NeuroBridge',f'http://127.0.0.1:{server.PORT}/experiment',js_api=Bridge(),width=1240,height=850,min_size=(800,600))
     def closing():
@@ -106,5 +121,12 @@ if __name__=='__main__':
         import server,reports
         assert (server.STATIC/'experiment.html').is_file(), 'Bundled interface assets missing'
         assert (server.STATIC/'storage.js').is_file(), 'Bundled storage controls missing'
-        print('NeuroBridge imports OK; LSL',pylsl.library_version(),flush=True)
+        import numpy as np
+        root=Path(os.environ['NEUROBRIDGE_DATA_DIR'])
+        t=np.arange(256)/256
+        path=root/'SYNTHETIC_SELFTEST.csv'
+        np.savetxt(path,np.column_stack([t]+[np.sin(2*np.pi*10*t)]*4),delimiter=',',header='timestamps,TP9,AF7,AF8,TP10',comments='')
+        output=reports.generate(path,root/'reports')
+        assert all((output/name).is_file() for name in ['signals.png','signals.pdf','recording.npz'])
+        print('NeuroBridge imports, assets, PNG/PDF/NumPy exports OK; LSL',pylsl.library_version(),flush=True)
     else:main()

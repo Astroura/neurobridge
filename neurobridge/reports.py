@@ -4,6 +4,7 @@ from pathlib import Path
 import numpy as np
 from matplotlib.figure import Figure
 from matplotlib.backends.backend_agg import FigureCanvasAgg
+from matplotlib.backends.backend_pdf import FigureCanvasPdf
 from analysis import analyze,CHANNELS
 
 def generate(path,destination):

@@ -60,7 +60,7 @@ dist/NeuroBridge.app/Contents/MacOS/NeuroBridge --self-test
 ditto -c -k --sequesterRsrc --keepParent dist/NeuroBridge.app NeuroBridge-macOS-preview.zip
 ```
 
-Build each architecture on a matching Mac. CI (`.github/workflows/macos.yml`) tests and packages both architectures. Push a `v*` tag to create a **draft** release with downloadable ZIPs after both jobs succeed. Inspect the artifacts and smoke-test before publishing that draft. A signing/notarization step is not yet configured.
+Build each architecture on a matching Mac. CI (`.github/workflows/macos.yml`) tests and packages both architectures. Push a `v*` tag to create a **prerelease** with downloadable ZIPs after both jobs succeed. Inspect the artifacts and smoke-test before promoting the prerelease. A signing/notarization step is not yet configured.
 
 Repository contains application source and tests only. `.gitignore` excludes environments, builds, recordings and arrays. Before publishing, review `git ls-files` to verify no participant data were added.
 
@@ -68,7 +68,7 @@ Repository contains application source and tests only. `.gitignore` excludes env
 
 Source: https://github.com/Astroura/neurobridge
 
-CI builds Intel and Apple Silicon apps. A pushed `v*` tag creates a draft release for hardware smoke-testing; the maintainer publishes it after verification. Source code contains no participant data or audio clips.
+CI builds Intel and Apple Silicon apps. A pushed `v*` tag creates a downloadable prerelease for hardware smoke-testing; the maintainer promotes it after verification. Source code contains no participant data or audio clips.
 
 ## Third-party components
 
