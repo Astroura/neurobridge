@@ -1,0 +1,14 @@
+.venv/
+build/
+dist/
+*.zip
+*.dmg
+__pycache__/
+*.pyc
+.DS_Store
+raw/
+sessions/
+reports/
+stimuli/
+*.npz
+*.csv
