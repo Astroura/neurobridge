@@ -1,6 +1,6 @@
 # NeuroBridge for Mac
 
-Local Muse 2 EEG recording and passage-comprehension experiments. No Petal subscription, phone, cloud account, or Python installation is needed for the packaged app.
+Local Muse 2 EEG recording and passage-comprehension experiments.
 
 ## For participants and project partners
 
