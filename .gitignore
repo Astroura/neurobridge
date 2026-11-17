@@ -13,3 +13,4 @@ stimuli/
 *.npz
 *.csv
 work/
+.stimulus-cache/

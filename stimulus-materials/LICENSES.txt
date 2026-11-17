@@ -1,0 +1,18 @@
+PRERECORDED ENGLISH AUDIO AND SOURCE TRANSCRIPTS
+LibriSpeech, prepared by Vassil Panayotov, Guoguo Chen, Daniel Povey and Sanjeev Khudanpur; recordings derived from LibriVox audiobooks.
+CC BY 4.0: https://creativecommons.org/licenses/by/4.0/
+Original dataset/license: https://www.openslr.org/12/
+Sample mirror: https://huggingface.co/datasets/hf-internal-testing/librispeech_asr_dummy
+Changes: decoded FLAC to PCM WAV; no trimming. Original segment IDs and checksums are in sources_and_manifest.csv.
+
+PRERECORDED EGYPTIAN ARABIC AUDIO
+Wikitongues, Anonymous speaking Egyptian Arabic.
+https://commons.wikimedia.org/wiki/File:Anonymous_20200622_arz.ogg
+CC BY-SA 4.0: https://creativecommons.org/licenses/by-sa/4.0/
+Changes: audio extracted and converted to 16 kHz mono PCM WAV, excerpts 0–15, 15–30, and 30–45 seconds. Adapted Arabic excerpts remain CC BY-SA 4.0. Retain credit, license links and change notices on redistribution; share adaptations under the same or a compatible license.
+
+ORIGINAL LIVE SCRIPT EXAMPLES
+NeuroBridge draft English stories, Egyptian Arabic translations and questionnaires were AI-authored for this pack. They are offered under CC0 1.0 to the extent any rights apply: https://creativecommons.org/publicdomain/zero/1.0/
+These are not recordings or previously validated study materials. Obtain fluent-speaker review before research use.
+
+Licenses apply per material, not as a claim that all files share the same license.

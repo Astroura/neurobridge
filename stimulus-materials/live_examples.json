@@ -1,0 +1,188 @@
+[
+  {
+    "id": "LIVE_BUS_EN",
+    "mode": "live",
+    "language": "English",
+    "speaker_id": "SPEAKER_01",
+    "script": "Maya planned to take the bus to the library on Tuesday morning. At the bus stop, she learned that the road was closed for repairs. She took a taxi instead. Before leaving, she called her brother to say she would arrive fifteen minutes late. She kept her books in a blue bag.",
+    "content_id": "BUS",
+    "practice": false,
+    "source": "Original NeuroBridge draft; AI-authored; fluent-speaker review required",
+    "review_status": "Draft script and translation; verify naturalness and matched meaning before study use",
+    "questions": [
+      {
+        "text": "Why did Maya take a taxi?",
+        "options": [
+          "The road was closed for repairs",
+          "She forgot her books",
+          "The library was closed"
+        ],
+        "correct": 0
+      },
+      {
+        "text": "Whom did she call?",
+        "options": [
+          "Her teacher",
+          "Her brother",
+          "Her neighbour"
+        ],
+        "correct": 1
+      }
+    ]
+  },
+  {
+    "id": "LIVE_BUS_AR",
+    "mode": "live",
+    "language": "Egyptian Arabic",
+    "speaker_id": "SPEAKER_01",
+    "script": "مايا كانت ناوية تروح المكتبة بالأتوبيس صباح يوم التلات. لما وصلت المحطة، عرفت إن الطريق مقفول عشان فيه تصليحات. فركبت تاكسي بدل الأتوبيس. قبل ما تمشي، كلمت أخوها وقالت له إنها هتوصل متأخرة ربع ساعة. الكتب كانت معاها في شنطة زرقا.",
+    "content_id": "BUS",
+    "practice": false,
+    "source": "Original NeuroBridge draft; AI-authored; fluent-speaker review required",
+    "review_status": "Draft script and translation; verify naturalness and matched meaning before study use",
+    "questions": [
+      {
+        "text": "Why did Maya take a taxi?",
+        "options": [
+          "The road was closed for repairs",
+          "She forgot her books",
+          "The library was closed"
+        ],
+        "correct": 0
+      },
+      {
+        "text": "Whom did she call?",
+        "options": [
+          "Her teacher",
+          "Her brother",
+          "Her neighbour"
+        ],
+        "correct": 1
+      }
+    ]
+  },
+  {
+    "id": "LIVE_MARKET_EN",
+    "mode": "live",
+    "language": "English",
+    "speaker_id": "SPEAKER_01",
+    "script": "Omar went to the market on Friday to buy tomatoes, rice, and milk. The shop had no milk left, so he bought yoghurt instead. He paid with cash because the card machine was broken. On his way home, he stopped at his aunt’s house and left half of the tomatoes with her.",
+    "content_id": "MARKET",
+    "practice": false,
+    "source": "Original NeuroBridge draft; AI-authored; fluent-speaker review required",
+    "review_status": "Draft script and translation; verify naturalness and matched meaning before study use",
+    "questions": [
+      {
+        "text": "What did Omar buy instead of milk?",
+        "options": [
+          "Bread",
+          "Cheese",
+          "Yoghurt"
+        ],
+        "correct": 2
+      },
+      {
+        "text": "Why did he pay with cash?",
+        "options": [
+          "The card machine was broken",
+          "He lost his card",
+          "The shop charged extra for cards"
+        ],
+        "correct": 0
+      }
+    ]
+  },
+  {
+    "id": "LIVE_MARKET_AR",
+    "mode": "live",
+    "language": "Egyptian Arabic",
+    "speaker_id": "SPEAKER_01",
+    "script": "عمر راح السوق يوم الجمعة عشان يشتري طماطم ورز ولبن. المحل ما كانش فيه لبن، فاشترى زبادي بداله. دفع كاش عشان ماكينة الكروت كانت بايظة. وهو راجع البيت، عدى على بيت خالته وساب معاها نص الطماطم.",
+    "content_id": "MARKET",
+    "practice": false,
+    "source": "Original NeuroBridge draft; AI-authored; fluent-speaker review required",
+    "review_status": "Draft script and translation; verify naturalness and matched meaning before study use",
+    "questions": [
+      {
+        "text": "What did Omar buy instead of milk?",
+        "options": [
+          "Bread",
+          "Cheese",
+          "Yoghurt"
+        ],
+        "correct": 2
+      },
+      {
+        "text": "Why did he pay with cash?",
+        "options": [
+          "The card machine was broken",
+          "He lost his card",
+          "The shop charged extra for cards"
+        ],
+        "correct": 0
+      }
+    ]
+  },
+  {
+    "id": "LIVE_MEETING_EN",
+    "mode": "live",
+    "language": "English",
+    "speaker_id": "SPEAKER_01",
+    "script": "Sara arranged to meet her friend at a café at six in the evening. Her train was delayed, so she sent a message asking to meet at half past six instead. Her friend agreed and reserved a table by the window. Sara brought a small notebook because they wanted to plan a weekend trip.",
+    "content_id": "MEETING",
+    "practice": false,
+    "source": "Original NeuroBridge draft; AI-authored; fluent-speaker review required",
+    "review_status": "Draft script and translation; verify naturalness and matched meaning before study use",
+    "questions": [
+      {
+        "text": "What was the new meeting time?",
+        "options": [
+          "Six o’clock",
+          "Half past six",
+          "Seven o’clock"
+        ],
+        "correct": 1
+      },
+      {
+        "text": "Why did Sara bring a notebook?",
+        "options": [
+          "To plan a weekend trip",
+          "To study for an exam",
+          "To write a shopping list"
+        ],
+        "correct": 0
+      }
+    ]
+  },
+  {
+    "id": "LIVE_MEETING_AR",
+    "mode": "live",
+    "language": "Egyptian Arabic",
+    "speaker_id": "SPEAKER_01",
+    "script": "سارة اتفقت تقابل صاحبتها في كافيه الساعة ستة بالليل. القطر اتأخر، فبعتت رسالة تسألها لو ممكن يتقابلوا الساعة ستة ونص بدل ستة. صاحبتها وافقت وحجزت ترابيزة جنب الشباك. سارة جابت معاها كشكول صغير عشان كانوا عايزين يخططوا لرحلة آخر الأسبوع.",
+    "content_id": "MEETING",
+    "practice": false,
+    "source": "Original NeuroBridge draft; AI-authored; fluent-speaker review required",
+    "review_status": "Draft script and translation; verify naturalness and matched meaning before study use",
+    "questions": [
+      {
+        "text": "What was the new meeting time?",
+        "options": [
+          "Six o’clock",
+          "Half past six",
+          "Seven o’clock"
+        ],
+        "correct": 1
+      },
+      {
+        "text": "Why did Sara bring a notebook?",
+        "options": [
+          "To plan a weekend trip",
+          "To study for an exam",
+          "To write a shopping list"
+        ],
+        "correct": 0
+      }
+    ]
+  }
+]

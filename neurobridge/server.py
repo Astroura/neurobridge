@@ -18,6 +18,7 @@ import time
 from urllib.parse import urlparse, parse_qs, quote
 import uuid
 from analysis import analyze
+from protocol import validate_clips
 from runtime import DATA, CODE, worker, ensure
 
 ROOT = ensure(DATA)
@@ -54,7 +55,7 @@ def spawn(kind, args):
                 with LOCK:
                     if 'Streaming EEG' in line: STREAM.update(status='streaming',error='')
                     if 'BLE is unsupported' in line:
-                        STREAM.update(status='error', error='This dashboard process cannot access Bluetooth. Close the old streaming terminal and launch Open-Experiment.command from your Mac Terminal, then use http://127.0.0.1:8766/experiment. Allow Terminal Bluetooth access if macOS asks.')
+                        STREAM.update(status='error', error='Bluetooth is unavailable to this app. Turn on Bluetooth, allow NeuroBridge in System Settings → Privacy & Security → Bluetooth, close other Muse apps, then reopen NeuroBridge.')
             log(f'[{kind}] {line}')
         code = proc.wait()
         with LOCK:
@@ -157,7 +158,11 @@ class Handler(BaseHTTPRequestHandler):
             if length > 80000000: raise ValueError('Request too large')
             body = json.loads(self.rfile.read(length) or b'{}')
             with LOCK:
-                if self.path == '/api/setup':
+                if self.path == '/api/import-pack':
+                    if running('record'): raise ValueError('Stop recording before importing a pack.')
+                    from packs import import_pack
+                    return self.reply(import_pack(base64.b64decode(body['data'],validate=True),ROOT))
+                elif self.path == '/api/setup':
                     if running('record'): raise ValueError('Cannot change setup during recording.')
                     p=ROOT/'study_setup.json'
                     temp=p.with_suffix('.tmp');temp.write_text(json.dumps(body,indent=2));temp.replace(p)
@@ -176,25 +181,22 @@ class Handler(BaseHTTPRequestHandler):
                     participant=str(body.get('participant','')).strip()
                     if not re.fullmatch(r'[A-Za-z0-9_-]{1,32}',participant): raise ValueError('Use a coded participant ID, such as P01.')
                     clips=body.get('clips',[])
-                    if not 1 <= len(clips) <= 30: raise ValueError('Add between 1 and 30 clips.')
-                    for clip in clips:
-                        if not re.fullmatch(r'[A-Za-z0-9_-]{1,40}',clip.get('id','')): raise ValueError('Each clip needs a simple unique ID.')
-                        audio=clip.get('audio','')
-                        if Path(audio).name!=audio or not (ROOT/'stimuli/audio'/audio).is_file(): raise ValueError('Upload audio for every clip.')
-                        if len(clip.get('questions',[]))!=2: raise ValueError('Each clip needs two questions.')
-                        for q in clip['questions']:
-                            if not q.get('text') or len(q.get('options',[]))!=3 or any(not x for x in q['options']) or type(q.get('correct'))!=int or q['correct'] not in [0,1,2]: raise ValueError('Complete each question, its three options, and correct answer.')
-                    if len(set(c['id'] for c in clips))!=len(clips): raise ValueError('Clip IDs must be unique.')
+                    validate_clips(clips,ROOT)
                     practice=[c for c in clips if c.get('practice')]
                     trials=[c for c in clips if not c.get('practice')]
                     random.SystemRandom().shuffle(trials)
                     sid=participant+'_'+datetime.now().strftime('%Y%m%d_%H%M%S')+'_'+uuid.uuid4().hex[:6]
                     folder=ROOT/'sessions'/sid;folder.mkdir(parents=True)
-                    config=dict(participant=participant,clips=practice+trials,background=body.get('background',''),notes=body.get('notes',''),status='running',eeg_file=sid+'.csv',timing='Events use host LSL local_clock; EEG timestamps include LSL clock correction. Audio markers bracket native afplay requests/returns; acoustic latency unmeasured.',baseline_seconds=30,fixation_seconds=3,rest_seconds=5)
+                    config=dict(participant=participant,clips=practice+trials,background=body.get('background',''),notes=body.get('notes',''),status='running',eeg_file=sid+'.csv',timing='Events use host LSL local_clock; EEG timestamps include LSL clock correction. Prerecorded audio markers bracket native afplay requests/returns. Live speech markers record operator button receipt; acoustic onsets are unmeasured.',baseline_seconds=30,fixation_seconds=3,rest_seconds=5)
                     (folder/'session.json').write_text(json.dumps(config,indent=2))
                     STATE.clear();STATE.update(phase='searching',message='Starting session',elapsed=0,samples=0,file=config['eeg_file'],target=3600,step='searching',session_folder=sid)
                     spawn('record',worker('experiment',folder))
                     return self.reply({'session':sid})
+                elif self.path == '/api/session/live':
+                    if not running('record') or STATE.get('phase') not in ['awaiting_speech','live_listening']: raise ValueError('No live trial is awaiting this action.')
+                    expected='start_speaking' if STATE['phase']=='awaiting_speech' else 'end_speaking'
+                    if body.get('action')!=expected or body.get('trial_id')!=STATE.get('trial_id'): raise ValueError('Stale live trial action. Refresh the current phase.')
+                    PROCS['record'].stdin.write(json.dumps(body)+'\n');PROCS['record'].stdin.flush()
                 elif self.path == '/api/session/answer':
                     if not running('record') or STATE.get('phase')!='questions': raise ValueError('No question is awaiting a response.')
                     if body.get('trial_id')!=STATE.get('trial_id'): raise ValueError('This response belongs to a different trial.')
