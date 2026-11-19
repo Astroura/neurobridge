@@ -1,0 +1,31 @@
+{
+  "sans_package": "@ibm/plex-sans",
+  "version": "2.0.0",
+  "tarball": "https://registry.npmjs.org/@ibm/plex-sans/-/plex-sans-2.0.0.tgz",
+  "integrity": "sha512-iGvuyYd1nBw5ojlspC+uMKvQNd1rlbPR4LX9bzn6KsnXULPemANYmHyZPlrDGDBWaJb84crU/A4rNoH5dl3/Wg==",
+  "sans": [
+    {
+      "file": "IBMPlexSans-400.ttf",
+      "package_member": "package/fonts/complete/woff/IBMPlexSans-Regular.woff",
+      "source_sha256": "a1bbc018212347f547d9e807c848814ff67bfb0f568d7ed31957936054b07694",
+      "sha256": "618174ff38a576f125ee5f12a4fd8f2dec33ab854047172e732d19d6ec599ad4",
+      "conversion": "Lossless removal of WOFF compression; font tables verified unchanged except SFNT header checksums. No glyph, naming, or variation changes."
+    },
+    {
+      "file": "IBMPlexSans-500.ttf",
+      "package_member": "package/fonts/complete/woff/IBMPlexSans-Medium.woff",
+      "source_sha256": "41ea95245406cd2326408c22dc0d55cc3ae77aacf365dcfc552866a64184a7ec",
+      "sha256": "46e62d052403317b88b07b8b76aca8306ddaa07987984a20b19ccda5a149d704",
+      "conversion": "Lossless removal of WOFF compression; font tables verified unchanged except SFNT header checksums. No glyph, naming, or variation changes."
+    },
+    {
+      "file": "IBMPlexSans-600.ttf",
+      "package_member": "package/fonts/complete/woff/IBMPlexSans-SemiBold.woff",
+      "source_sha256": "d98a667eec7c59dae5088db4c8a717243419a6e2d3b4f1806e5379091b2222d3",
+      "sha256": "6f4f70973492a6ad6d14c0d8ec68885b348338c21313db242352103d864d6034",
+      "conversion": "Lossless removal of WOFF compression; font tables verified unchanged except SFNT header checksums. No glyph, naming, or variation changes."
+    }
+  ],
+  "serif_source": "https://github.com/google/fonts/tree/main/ofl/ibmplexserif",
+  "arabic_source": "https://github.com/google/fonts/tree/main/ofl/ibmplexsansarabic"
+}
