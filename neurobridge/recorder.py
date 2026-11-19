@@ -50,6 +50,10 @@ def main():
                 samples, stamps = inlet.pull_chunk(timeout=.25, max_samples=256)
                 now = time.monotonic()
                 if stamps:
+                    if 'quality-v1' in sys.argv:
+                        from quality import CHANNELS
+                        indices=[labels.index(c) for c in CHANNELS]
+                        emit(quality_samples={'timestamps':[s+correction for s in stamps],'samples':[[row[i] for i in indices] for row in samples]})
                     if len(sys.argv) > 3 and abs(stamps[-1]+correction-local_clock()) > 60:
                         raise RuntimeError("EEG stream uses an incompatible clock. Close the old streaming terminal, then reconnect from the dashboard.")
                     last_received = now

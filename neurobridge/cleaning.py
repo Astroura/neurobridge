@@ -141,10 +141,25 @@ def clean(path, destination, options=None, session_folder=None):
     if len(boundaries)>2: warnings.append('Timestamp gaps were split before filtering and spectral analysis; missing EEG was not reconstructed.')
     if not usable.any(): warnings.append('No samples passed the common four-channel screen. No band powers can be estimated; consider re-recording.')
     report = dict(file=path.name,source_sha256=hashlib.sha256(path.read_bytes()).hexdigest(),duration_seconds=float(elapsed[-1]),recorded_seconds=len(t)/FS,samples=len(t),gaps=len(boundaries)-2,gap_seconds=float(np.sum(dt[dt>.020]-1/FS)),usable_percent=float(usable.mean()*100),usable_seconds=float(usable.sum()/FS),rejected_percent=float((~usable).mean()*100),settings=settings,warnings=warnings,channels=channels,intervals=intervals,trials=trial_rows)
+    if session_folder and (Path(session_folder)/'events.csv').is_file():
+        from quality import assess_trials,POLICY,policy_hash
+        with (Path(session_folder)/'events.csv').open() as stream:events=list(csv.DictReader(stream))
+        config_path=Path(session_folder)/'session.json'
+        config=json.loads(config_path.read_text()) if config_path.is_file() else {}
+        report['quality_trials']=assess_trials(t,x,filtered,usable,events,config,settings)
+        report['quality_policy']=POLICY;report['quality_policy_sha256']=policy_hash()
     destination.mkdir(parents=True,exist_ok=False)
     with (destination/'cleaned.csv').open('w',newline='') as stream:
         writer=csv.writer(stream);writer.writerow(['timestamps']+CHANNELS+['usable_all_channels']+['usable_'+c for c in CHANNELS])
         for i in range(len(t)):writer.writerow([f'{t[i]:.9f}']+[f'{v:.9g}' if np.isfinite(v) else '' for v in filtered[i]]+[int(usable[i])]+usable_channel[i].astype(int).tolist())
+    if 'quality_trials' in report:
+        (destination/'quality_policy.json').write_text(json.dumps({'policy':report['quality_policy'],'sha256':report['quality_policy_sha256']},indent=2))
+        with (destination/'quality_trials.csv').open('w',newline='') as output:
+            fields=['trial_id','clip_id','eligible','prospective','baseline_accepted_epochs','baseline_candidate_epochs','listening_accepted_epochs','listening_candidate_epochs','channel','band','baseline_uv2','listening_uv2','change_db','reasons']
+            writer=csv.DictWriter(output,fieldnames=fields);writer.writeheader()
+            for trial in report['quality_trials']:
+                row=dict(trial_id=trial['trial_id'],clip_id=trial['clip_id'],eligible=trial['eligible'],prospective=trial['prospective'],baseline_accepted_epochs=trial['baseline']['accepted_epochs'],baseline_candidate_epochs=trial['baseline']['candidate_epochs'],listening_accepted_epochs=trial['listening']['accepted_epochs'],listening_candidate_epochs=trial['listening']['candidate_epochs'],reasons='; '.join(trial['reasons']))
+                for feature in trial['features'] or [{}]:writer.writerow({**row,**feature})
     np.savez_compressed(destination/'cleaned.npz',timestamps=t,eeg=filtered,usable=usable,usable_channel=usable_channel,reason_bits=reasons,channel_names=np.array(CHANNELS),sample_rate_hz=np.array(FS))
     for filename,rows,fields in [('rejected_intervals.csv',intervals,['channel','start','end','reason','reason_bits']),('trial_analysis.csv',trial_rows,['trial_id','clip_id','mode','channel','marked_seconds','recorded_seconds','usable_seconds','recorded_samples','usable_samples','usable_percent','spectral_windows','theta','alpha','beta'])]:
         with (destination/filename).open('w',newline='') as stream:

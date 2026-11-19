@@ -27,10 +27,12 @@ RAW = ROOT / 'raw'
 RAW.mkdir(exist_ok=True)
 LOCK = threading.RLock()
 LOG = deque(maxlen=100)
-PROCS = {'stream': None, 'record': None}
+PROCS = {'stream': None, 'record': None, 'quality': None}
 STATE = dict(phase='idle', message='Ready to connect', elapsed=0, samples=0, file=None, target=60)
 CACHE = {}
 STREAM = dict(status='disconnected', error='')
+QUALITY = dict(ready=False,good_seconds=0,status='Start the live EEG check',channels=[],traces=[])
+QUALITY_AT = 0.
 TOKEN = uuid.uuid4().hex
 PORT = int(os.environ.get('NEUROBRIDGE_PORT', '8765'))
 
@@ -44,10 +46,18 @@ def spawn(kind, args):
     PROCS[kind] = proc
     if kind == 'stream': STREAM.update(status='connecting',error='')
     def read():
+        global QUALITY_AT
         for line in proc.stdout:
+            if kind == 'quality':
+                try:
+                    data=json.loads(line)
+                    with LOCK:QUALITY.clear();QUALITY.update(data);QUALITY_AT=time.monotonic()
+                    continue
+                except (ValueError,TypeError):pass
             if kind == 'record':
                 try:
                     data = json.loads(line)
+                    if 'quality' in data:data['quality_received_at']=time.monotonic()
                     with LOCK: STATE.update(data)
                     continue
                 except (ValueError, TypeError): pass
@@ -83,7 +93,7 @@ def stop(kind):
         threading.Thread(target=finish, daemon=True).start()
 
 def cleanup():
-    for kind in ['record','stream']:
+    for kind in ['record','stream','quality']:
         if running(kind):
             try: os.killpg(PROCS[kind].pid, signal.SIGINT)
             except ProcessLookupError: pass
@@ -112,6 +122,9 @@ class Handler(BaseHTTPRequestHandler):
             u = urlparse(self.path)
             host=self.headers.get('Host','').split(':')[0]
             if host not in ['127.0.0.1','localhost']: return self.reply({'error':'Local requests only'},403)
+            if u.path == '/quality-protocol':
+                path=STATIC/'QUALITY-PROTOCOL.md' if getattr(sys,'frozen',False) else CODE.parent/'QUALITY-PROTOCOL.md'
+                return self.reply(path.read_bytes(),content='text/markdown; charset=utf-8')
             if u.path == '/tokens.css':
                 from theme import css
                 return self.reply(css().encode(),content='text/css')
@@ -143,7 +156,7 @@ class Handler(BaseHTTPRequestHandler):
                         for p in folder.iterdir():
                             if p.is_file() and not p.is_symlink():z.write(p,p.name)
                     return self.reply(stream.getvalue(),content='application/zip')
-                if name not in ['comparison.png','comparison.pdf','analysis.json','cleaned.csv','cleaned.npz','rejected_intervals.csv','trial_analysis.csv','PROCESSING.txt']:raise ValueError('Invalid cleaned export')
+                if name not in ['comparison.png','comparison.pdf','analysis.json','cleaned.csv','cleaned.npz','rejected_intervals.csv','trial_analysis.csv','PROCESSING.txt','quality_policy.json','quality_trials.csv']:raise ValueError('Invalid cleaned export')
                 p=folder/name
                 if p.is_symlink():raise ValueError('Invalid cleaned export')
                 if name=='analysis.json':return self.reply(json.loads(p.read_text()))
@@ -157,8 +170,13 @@ class Handler(BaseHTTPRequestHandler):
                 return self.reply((output/'signals.png').read_bytes(),content='image/png')
             if u.path == '/api/sessions':
                 return self.reply([dict(name=p.parent.name, **json.loads(p.read_text())) for p in sorted((ROOT/'sessions').glob('*/session.json'),reverse=True)])
+            if u.path == '/api/quality':
+                with LOCK:
+                    d=dict(QUALITY) if running('quality') and time.monotonic()-QUALITY_AT<2 else dict(ready=False,good_seconds=0,status='No fresh EEG preview. Start or restart the live check.',channels=[],traces=[])
+                return self.reply(d)
             if u.path == '/api/status':
                 with LOCK: data = dict(STATE, stream_running=running('stream'), record_running=running('record'), stream_status=STREAM['status'], stream_error=STREAM['error'], logs=list(LOG))
+                if 'quality' in data and time.monotonic()-data.get('quality_received_at',0)>1.5:data['quality']=dict(ready=False,good_seconds=0,status='No fresh EEG',channels=[],traces=[])
                 return self.reply(data)
             if u.path == '/api/files':
                 files = [dict(name=p.name, size=p.stat().st_size, modified=p.stat().st_mtime) for p in RAW.glob('*.csv') if p.is_file() and not p.is_symlink()]
@@ -172,7 +190,7 @@ class Handler(BaseHTTPRequestHandler):
                 if key not in CACHE:
                     CACHE.clear(); CACHE[key] = analyze(p)
                 return self.reply(CACHE[key])
-            assets = {'/':('index.html','text/html; charset=utf-8'), '/app.js':('app.js','text/javascript'), '/style.css':('style.css','text/css'), '/experiment':('experiment.html','text/html; charset=utf-8'), '/experiment.js':('experiment.js','text/javascript'), '/storage.js':('storage.js','text/javascript'), '/setup-state.js':('setup-state.js','text/javascript'), '/clean':('clean.html','text/html; charset=utf-8'), '/clean.js':('clean.js','text/javascript')}
+            assets = {'/':('index.html','text/html; charset=utf-8'), '/app.js':('app.js','text/javascript'), '/style.css':('style.css','text/css'), '/experiment':('experiment.html','text/html; charset=utf-8'), '/experiment.js':('experiment.js','text/javascript'), '/quality.js':('quality.js','text/javascript'), '/storage.js':('storage.js','text/javascript'), '/setup-state.js':('setup-state.js','text/javascript'), '/clean':('clean.html','text/html; charset=utf-8'), '/clean.js':('clean.js','text/javascript')}
             assets['/plot.js']=('plot.js','text/javascript')
             assets['/icons.svg']=('icons.svg','image/svg+xml')
             if u.path not in assets: return self.reply({'error':'Not found'},404)
@@ -232,6 +250,8 @@ class Handler(BaseHTTPRequestHandler):
                     sid=participant+'_'+datetime.now().strftime('%Y%m%d_%H%M%S')+'_'+uuid.uuid4().hex[:6]
                     folder=ROOT/'sessions'/sid;folder.mkdir(parents=True)
                     config=dict(participant=participant,clips=practice+trials,background=body.get('background',''),notes=body.get('notes',''),status='running',eeg_file=sid+'.csv',timing='Events use host LSL local_clock; EEG timestamps include LSL clock correction. Prerecorded audio markers bracket native afplay requests/returns. Live speech markers record operator button receipt; acoustic onsets are unmeasured.',baseline_seconds=30,fixation_seconds=3,rest_seconds=5)
+                    from quality import POLICY,policy_hash
+                    config.update(quality_policy=POLICY,quality_policy_sha256=policy_hash(),baseline_scope='before_each_trial')
                     (folder/'session.json').write_text(json.dumps(config,indent=2))
                     STATE.clear();STATE.update(phase='searching',message='Starting session',elapsed=0,samples=0,file=config['eeg_file'],target=3600,step='searching',session_folder=sid)
                     spawn('record',worker('experiment',folder))
@@ -245,6 +265,9 @@ class Handler(BaseHTTPRequestHandler):
                     if not running('record') or STATE.get('phase')!='questions': raise ValueError('No question is awaiting a response.')
                     if body.get('trial_id')!=STATE.get('trial_id'): raise ValueError('This response belongs to a different trial.')
                     PROCS['record'].stdin.write(json.dumps(body)+'\n');PROCS['record'].stdin.flush()
+                elif self.path == '/api/quality/start':
+                    if not running('quality'):spawn('quality',worker('quality'))
+                    return self.reply({'ok':True})
                 elif self.path == '/api/connect':
                     if not running('stream'):
                         log('Starting Bluetooth connection. Close any other app connected to your Muse.')

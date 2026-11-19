@@ -1,3 +1,11 @@
+## Live quality checks and fixed spectral protocol (0.6.0)
+
+Session setup now shows raw TP9/AF7/AF8/TP10 traces and channel-specific warnings. Start the live check after connecting Muse. Each trial waits for ten continuous passing seconds and receives its own 30-second quiet baseline. Failed raw baselines are logged and retried, up to three attempts. The packaged-app Muse decoder import is now checked as well as reporting dependencies.
+
+[QUALITY-PROTOCOL.md](QUALITY-PROTOCOL.md) defines NB-QC-1, its numerical criteria and limits. A versioned policy and SHA-256 fingerprint are saved before recording. Primary eligibility requires 70% accepted nonoverlapping 2-second epochs in both phases, at least ten baseline epochs and five listening epochs. The fixed analysis saves paired baseline/listening band powers and dB changes, with one feature set per trial. It never uses answers or understanding scores to choose accepted EEG. Short clips can be recorded but cannot meet the primary-analysis duration rule.
+
+After saving, the locked screen runs automatically. Review & clean displays the primary eligibility reasons separately from descriptive recording-wide powers. `quality_policy.json`, `quality_trials.csv` and full analysis JSON are included in cleaning/workspace exports. Changing the cleaning preset disqualifies that run from the fixed profile. Old-session applications are explicitly retrospective. These are pilot engineering thresholds, not validated artifact detection or a comprehension biomarker.
+
 ## Stimulus collections (0.5.1)
 
 Download the [0.5.1 release packs](https://github.com/Astroura/neurobridge/releases/tag/v0.5.1-preview), keep each ZIP zipped, and import from Session setup. English Simple v2 and Arabic Simple v2 each contain six human recordings and two simple English questions per clip. Hindi-English Listening v1 contains four matched content pairs (eight clips) with **no questions, rating or score**. Listening-only trials need app 0.5.1 and have an explicit response mode, never blank placeholder questions.

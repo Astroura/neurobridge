@@ -9,9 +9,9 @@ def dispatch():
     if kind=='stream':
         from muselsl.cli import CLI
         sys.argv=['muselsl','stream']+sys.argv[1:];CLI('stream')
-    elif kind in ['record','experiment']:
+    elif kind in ['record','experiment','quality']:
         import runpy
-        runpy.run_module('recorder' if kind=='record' else 'experiment',run_name='__main__')
+        runpy.run_module({'record':'recorder','experiment':'experiment','quality':'quality_monitor'}[kind],run_name='__main__')
     else:raise ValueError('Unknown worker')
 
 def main():
@@ -121,6 +121,16 @@ if __name__=='__main__':
         os.environ['NEUROBRIDGE_DATA_DIR']=tempfile.mkdtemp(prefix='neurobridge-selftest-')
         import numpy,scipy,pylsl,matplotlib,webview
         import server,reports
+        from muselsl.muse import Muse
+        from muselsl.cli import CLI
+        from bleak.backends.corebluetooth.client import BleakClientCoreBluetooth
+        from bitstring import pack
+        packet=pack('uint:16,'+','.join(['uint:12']*12),7,*([2048]*12)).tobytes()
+        index,decoded=Muse._unpack_eeg_channel(None,packet)
+        assert index==7 and numpy.all(decoded==0), 'Muse packet decoder unavailable'
+        import quality,quality_monitor
+        protocol_path=server.STATIC/'QUALITY-PROTOCOL.md' if getattr(sys,'frozen',False) else CODE.parent/'QUALITY-PROTOCOL.md'
+        assert 'NB-QC-1' in protocol_path.read_text(), 'Quality protocol missing'
         assert (server.STATIC/'experiment.html').is_file(), 'Bundled interface assets missing'
         assert (server.STATIC/'storage.js').is_file(), 'Bundled storage controls missing'
         assert (server.STATIC/'clean.html').is_file(), 'Bundled cleaning interface missing'

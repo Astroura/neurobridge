@@ -47,8 +47,21 @@ class HttpTests(unittest.TestCase):
         headers={'Content-Type':'application/json'}
         if token:headers['X-NeuroBridge']=self.s.TOKEN
         return urllib.request.urlopen(urllib.request.Request(self.base+path,data=json.dumps(data).encode(),headers=headers))
+    def test_quality_preview_never_reuses_stale_ready_state(self):
+        from unittest.mock import patch
+        with patch.object(self.s,'running',return_value=True),patch.object(self.s,'QUALITY_AT',0),patch.dict(self.s.QUALITY,{'ready':True},clear=True):
+            with urllib.request.urlopen(self.base+'/api/quality') as response:data=json.load(response)
+            self.assertFalse(data['ready']);self.assertEqual(data['traces'],[])
+    def test_session_start_freezes_server_quality_policy(self):
+        from unittest.mock import patch
+        from quality import POLICY,policy_hash
+        clip=dict(id='C01',mode='live',language='Arabic',speaker_id='S01',script='Pilot passage',questions=[],response_mode='none')
+        with patch.object(self.s,'spawn'),patch.dict(self.s.STATE,{},clear=True):
+            with self.request('/api/session/start',dict(participant='QC01',clips=[clip],quality_policy={'rail_uv':9999})) as response:session=json.load(response)['session']
+        cfg=json.loads((self.s.ROOT/'sessions'/session/'session.json').read_text())
+        self.assertEqual(cfg['quality_policy'],POLICY);self.assertEqual(cfg['quality_policy_sha256'],policy_hash());self.assertEqual(cfg['baseline_scope'],'before_each_trial')
     def test_pages_and_persistent_setup(self):
-        for path in ['/','/experiment','/storage.js','/api/storage','/clean','/clean.js','/api/clean-runs?file=x.csv','/tokens.css','/icons.svg','/plot.js','/fonts/IBMPlexSans-400.ttf','/fonts/IBMPlexSansArabic-Regular.ttf']:
+        for path in ['/','/experiment','/storage.js','/api/storage','/clean','/clean.js','/api/clean-runs?file=x.csv','/tokens.css','/icons.svg','/plot.js','/fonts/IBMPlexSans-400.ttf','/fonts/IBMPlexSansArabic-Regular.ttf','/quality.js','/api/quality','/quality-protocol']:
             with urllib.request.urlopen(self.base+path) as r:self.assertEqual(r.status,200)
         with self.request('/api/setup',{'participant':'P01','clips':[]}):pass
         with urllib.request.urlopen(self.base+'/api/setup') as r:self.assertEqual(json.load(r)['participant'],'P01')

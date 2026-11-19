@@ -39,3 +39,10 @@ One canonical theme.json supplies CSS variables and Matplotlib report styling. C
 Keyboard-operable controls retain visible focus, permanent labels and 44px targets. Semantic notices use text and rules, not color alone. Figure units, time windows, source fingerprints and settings remain visible. Initial palette contrast calculations and actual CSS pairings were checked against DESIGN.md; muted text is not used on the darker instrument well. Disabled controls use explicit colors.
 
 Scientific/HTTP/export tests, asset/unique-ID checks, JS parsing and frozen-app self-tests are required before release. Both architecture CI results are reported with the release. Live hardware Bluetooth, audio timing and native Save-dialog rehearsals on partners' Macs remain separate checks; this visual pass does not claim to have repeated them.
+
+
+## 0.6 quality-check addition
+
+The live instrument uses existing typography, color, spacing, borders and SVG plot tokens. Four channels form one ruled instrument, with raw amplitudes in µV and channel-specific messages. Passing is violet status, actions remain teal, and error messages use the existing rust token. No extra gradients, shadows, emoji or card system.
+
+Reviewed missing-stream, ready, TP10 saturation/flatness and active-gate states on desktop and 390 px mobile. Mobile content has no horizontal overflow and Stop remains visible in the sticky run toolbar. Stale streams clear the traces/readiness. Trial plots are hidden in participant view and shown for operator fit/start checks. Baseline and spectral behavior is verified by unit/worker tests, including gate failures, per-trial baselines, short clips, policy mismatch and absent baseline. Actual sensor fit and a new subject session require a hardware rehearsal; synthetic UI states do not certify a Muse signal.
