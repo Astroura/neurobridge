@@ -74,7 +74,7 @@ jobs:
           fail_on_unmatched_files: true
           draft: false
           prerelease: true
-          name: NeuroBridge 0.5.0: notebook interface
+          name: 'NeuroBridge 0.5.0: notebook interface'
           body: |
             Research notebook and bench instrument UI, implemented from the approved DESIGN.md.
 
