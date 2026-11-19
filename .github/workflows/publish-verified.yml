@@ -34,7 +34,6 @@ jobs:
             const sources = [
               {run: sourceRun, name: 'NeuroBridge-macOS-arm64', job: 'build (macos-15, arm64)'},
               {run: sourceRun, name: 'NeuroBridge-macOS-x86_64', job: 'build (macos-15-intel, x86_64)'},
-              {run: sourceRun, name: 'NeuroBridge-Stimulus-Pack-v1', job: 'stimuli'},
               {run: sourceRun, name: 'NeuroBridge-Stimulus-Collections-v2', job: 'stimuli'}
             ];
             fs.mkdirSync('verified', {recursive:true});
@@ -66,7 +65,6 @@ jobs:
           for archive in verified/*.artifact.zip; do unzip -j "$archive" -d downloads; done
           test -s downloads/NeuroBridge-macOS-arm64.zip
           test -s downloads/NeuroBridge-macOS-x86_64.zip
-          test -s downloads/NeuroBridge-Stimulus-Pack-v1.zip
           test -s downloads/NeuroBridge-English-Simple-v2.zip
           test -s downloads/NeuroBridge-Arabic-Simple-v2.zip
           test -s downloads/NeuroBridge-Hindi-English-Listening-v1.zip
