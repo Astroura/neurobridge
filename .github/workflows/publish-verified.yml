@@ -1,6 +1,16 @@
 name: Publish verified preview artifacts
 on:
   workflow_dispatch:
+    inputs:
+      source_run:
+        description: 'Completed successful Test and build Mac apps run ID'
+        required: true
+        type: string
+      release_tag:
+        description: 'New preview tag'
+        required: true
+        default: 'v0.4.0-preview'
+        type: string
 permissions:
   contents: write
   actions: read
@@ -9,20 +19,27 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/github-script@v7
+        env:
+          SOURCE_RUN: ${{ inputs.source_run }}
+          RELEASE_TAG: ${{ inputs.release_tag }}
         with:
           script: |
             const fs = require('fs');
             const path = require('path');
             const crypto = require('crypto');
             const repo = context.repo;
+            if (!/^v[0-9]+\.[0-9]+\.[0-9]+-preview$/.test(process.env.RELEASE_TAG)) throw Error('Use a versioned preview tag');
+            if (!/^[0-9]+$/.test(process.env.SOURCE_RUN)) throw Error('Invalid source run ID');
+            const sourceRun=Number(process.env.SOURCE_RUN);
             const sources = [
-              {run: 44134098921, name: 'NeuroBridge-macOS-arm64', job: 'build (macos-15, arm64)'},
-              {run: 44134098921, name: 'NeuroBridge-macOS-x86_64', job: 'build (macos-15-intel, x86_64)'},
-              {run: 44134098921, name: 'NeuroBridge-Stimulus-Pack-v1', job: 'stimuli'}
+              {run: sourceRun, name: 'NeuroBridge-macOS-arm64', job: 'build (macos-15, arm64)'},
+              {run: sourceRun, name: 'NeuroBridge-macOS-x86_64', job: 'build (macos-15-intel, x86_64)'},
+              {run: sourceRun, name: 'NeuroBridge-Stimulus-Pack-v1', job: 'stimuli'}
             ];
             fs.mkdirSync('verified', {recursive:true});
             for (const item of sources) {
               const {data: run} = await github.rest.actions.getWorkflowRun({...repo, run_id:item.run});
+              if (run.conclusion !== 'success' || run.path !== '.github/workflows/macos.yml') throw Error('Source must be a completed successful Mac build workflow');
               if (run.head_repository.full_name !== `${repo.owner}/${repo.repo}`) throw Error('Unexpected source repository');
               const comparison = await github.rest.repos.compareCommitsWithBasehead({...repo, basehead:`${run.head_sha}...${context.sha}`});
               if (comparison.data.status !== 'ahead' && comparison.data.status !== 'identical') throw Error('Source is not an ancestor');
@@ -51,15 +68,21 @@ jobs:
           test -s downloads/NeuroBridge-Stimulus-Pack-v1.zip
       - uses: softprops/action-gh-release@v2
         with:
-          tag_name: v0.3.0-preview
+          tag_name: ${{ inputs.release_tag }}
           target_commitish: ${{ github.sha }}
           files: downloads/*.zip
           fail_on_unmatched_files: true
           draft: false
           prerelease: true
-          name: NeuroBridge 0.3.0 — guided setup & lilac UI
+          name: NeuroBridge 0.4.0 — Review & clean EEG
           body: |
-            A redesigned muted lilac and gray interface guides you through workspace, trial selection, and final review.
+            Adds Review & clean: offline artifact screening, manual blink/movement/speech exclusions, raw versus filtered graphs, retained-sample coverage, theta/alpha/beta power, and linked listening-trial summaries when markers exist.
+
+            Open Review & clean, choose a recording, start with the 200 µV peak-to-peak preset and notch off, run the screen, inspect the comparison, then download the analysis ZIP. Existing CSVs remain unchanged. Each run saves cleaned CSV/NumPy arrays, masks/reasons, source fingerprint, settings, trial features, and PNG/PDF reports. Earlier runs can be reopened. Full workspace export includes cleaning outputs.
+
+            Processing: split timestamp gaps, flag missing/near-rail/large/flat raw data, apply manual exclusions and 0.25 s margins, independently filter retained spans with a zero-phase 1–40 Hz Butterworth SOS filter, and trim 1 s edges. Welch band powers use only shared retained intervals across all four channels. Settings and limitations are explained inside the app and exported with each run.
+
+            This is heuristic screening, not validated EEG cleaning or a comprehension detector. No ICA/interpolation/gap reconstruction. Retention percentages describe recorded samples; slow potentials/ERPs require another filtering protocol. Clipped EEG cannot be recovered.
 
             Import a stimulus ZIP, preview its contents, and select individual trials or audio/live groups before adding them. Compact trial cards show missing details/questions; the start checklist explains what remains. Save and reload setups, choose a local recording folder, and export EEG, answers, NumPy arrays, and scientific plots.
 

@@ -121,6 +121,7 @@ if __name__=='__main__':
         import server,reports
         assert (server.STATIC/'experiment.html').is_file(), 'Bundled interface assets missing'
         assert (server.STATIC/'storage.js').is_file(), 'Bundled storage controls missing'
+        assert (server.STATIC/'clean.html').is_file(), 'Bundled cleaning interface missing'
         import numpy as np
         root=Path(os.environ['NEUROBRIDGE_DATA_DIR'])
         t=np.arange(256)/256
@@ -128,5 +129,10 @@ if __name__=='__main__':
         np.savetxt(path,np.column_stack([t]+[np.sin(2*np.pi*10*t)]*4),delimiter=',',header='timestamps,TP9,AF7,AF8,TP10',comments='')
         output=reports.generate(path,root/'reports')
         assert all((output/name).is_file() for name in ['signals.png','signals.pdf','recording.npz'])
+        from cleaning import clean
+        t=np.arange(256*12)/256
+        np.savetxt(path,np.column_stack([t]+[20*np.sin(2*np.pi*10*t)]*4),delimiter=',',header='timestamps,TP9,AF7,AF8,TP10',comments='')
+        cleaned=clean(path,root/'cleaned-selftest')
+        assert cleaned['usable_percent']>50 and cleaned['channels'][0]['bandpower_uv2']['alpha']>100
         print('NeuroBridge imports, assets, PNG/PDF/NumPy exports OK; LSL',pylsl.library_version(),flush=True)
     else:main()

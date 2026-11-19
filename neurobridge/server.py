@@ -117,6 +117,30 @@ class Handler(BaseHTTPRequestHandler):
                 return self.reply(json.loads(p.read_text()) if p.exists() else {})
             if u.path == '/api/storage':
                 return self.reply({'path':str(ROOT),'token':TOKEN})
+            if u.path == '/api/clean-runs':
+                name=parse_qs(u.query).get('file',[''])[0];items=[]
+                for p in (ROOT/'cleaned').glob('*/analysis.json'):
+                    if p.is_symlink() or p.parent.is_symlink():continue
+                    d=json.loads(p.read_text())
+                    if d.get('file')==name:items.append(dict(run=p.parent.name,created=p.stat().st_mtime,usable_percent=d['usable_percent'],amplitude_uv=d['settings']['amplitude_uv']))
+                return self.reply(sorted(items,key=lambda v:v['created'],reverse=True))
+            if u.path == '/api/clean-file':
+                import io, zipfile
+                query=parse_qs(u.query);run=query.get('run',[''])[0];name=query.get('name',[''])[0]
+                if not re.fullmatch(r'[a-f0-9]{32}',run): raise ValueError('Invalid cleaning run')
+                folder=ROOT/'cleaned'/run
+                if folder.is_symlink() or not folder.is_dir(): raise ValueError('Cleaning run not found in this workspace')
+                if name=='bundle.zip':
+                    stream=io.BytesIO()
+                    with zipfile.ZipFile(stream,'w',zipfile.ZIP_DEFLATED) as z:
+                        for p in folder.iterdir():
+                            if p.is_file() and not p.is_symlink():z.write(p,p.name)
+                    return self.reply(stream.getvalue(),content='application/zip')
+                if name not in ['comparison.png','comparison.pdf','analysis.json','cleaned.csv','cleaned.npz','rejected_intervals.csv','trial_analysis.csv','PROCESSING.txt']:raise ValueError('Invalid cleaned export')
+                p=folder/name
+                if p.is_symlink():raise ValueError('Invalid cleaned export')
+                if name=='analysis.json':return self.reply(json.loads(p.read_text()))
+                return self.reply(p.read_bytes(),content={'comparison.png':'image/png','comparison.pdf':'application/pdf'}.get(name,'application/octet-stream'))
             if u.path == '/api/plot':
                 from reports import generate
                 p=csv_path(parse_qs(u.query).get('file',[''])[0])
@@ -141,7 +165,7 @@ class Handler(BaseHTTPRequestHandler):
                 if key not in CACHE:
                     CACHE.clear(); CACHE[key] = analyze(p)
                 return self.reply(CACHE[key])
-            assets = {'/':('index.html','text/html; charset=utf-8'), '/app.js':('app.js','text/javascript'), '/style.css':('style.css','text/css'), '/experiment':('experiment.html','text/html; charset=utf-8'), '/experiment.js':('experiment.js','text/javascript'), '/storage.js':('storage.js','text/javascript'), '/setup-state.js':('setup-state.js','text/javascript')}
+            assets = {'/':('index.html','text/html; charset=utf-8'), '/app.js':('app.js','text/javascript'), '/style.css':('style.css','text/css'), '/experiment':('experiment.html','text/html; charset=utf-8'), '/experiment.js':('experiment.js','text/javascript'), '/storage.js':('storage.js','text/javascript'), '/setup-state.js':('setup-state.js','text/javascript'), '/clean':('clean.html','text/html; charset=utf-8'), '/clean.js':('clean.js','text/javascript')}
             if u.path not in assets: return self.reply({'error':'Not found'},404)
             name, mime = assets[u.path]
             return self.reply((STATIC/name).read_bytes(), content=mime)
@@ -158,7 +182,18 @@ class Handler(BaseHTTPRequestHandler):
             if length > 80000000: raise ValueError('Request too large')
             body = json.loads(self.rfile.read(length) or b'{}')
             with LOCK:
-                if self.path == '/api/import-pack':
+                if self.path == '/api/clean':
+                    if running('record'):raise ValueError('Stop recording before reviewing and cleaning.')
+                    from cleaning import clean
+                    p=csv_path(body.get('file',''));run=uuid.uuid4().hex
+                    folder=ROOT/'sessions'/p.stem
+                    # Resolve linked sessions by recorded filename, without accepting paths from the request.
+                    if not (folder/'session.json').is_file():folder=None
+                    elif json.loads((folder/'session.json').read_text()).get('eeg_file')!=p.name:folder=None
+                    result=clean(p,ROOT/'cleaned'/run,body.get('options'),folder)
+                    result['run']=run
+                    return self.reply(result)
+                elif self.path == '/api/import-pack':
                     if running('record'): raise ValueError('Stop recording before importing a pack.')
                     from packs import import_pack
                     return self.reply(import_pack(base64.b64decode(body['data'],validate=True),ROOT))

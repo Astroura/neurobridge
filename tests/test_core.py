@@ -48,7 +48,7 @@ class HttpTests(unittest.TestCase):
         if token:headers['X-NeuroBridge']=self.s.TOKEN
         return urllib.request.urlopen(urllib.request.Request(self.base+path,data=json.dumps(data).encode(),headers=headers))
     def test_pages_and_persistent_setup(self):
-        for path in ['/','/experiment','/storage.js','/api/storage']:
+        for path in ['/','/experiment','/storage.js','/api/storage','/clean','/clean.js','/api/clean-runs?file=x.csv']:
             with urllib.request.urlopen(self.base+path) as r:self.assertEqual(r.status,200)
         with self.request('/api/setup',{'participant':'P01','clips':[]}):pass
         with urllib.request.urlopen(self.base+'/api/setup') as r:self.assertEqual(json.load(r)['participant'],'P01')
@@ -59,5 +59,17 @@ class HttpTests(unittest.TestCase):
         self.assertEqual(e.exception.code,400)
     def test_traversal(self):
         with self.assertRaises(urllib.error.HTTPError):urllib.request.urlopen(self.base+'/api/download?file=../settings.json')
+    def test_cleaning_exports_and_saved_run(self):
+        import io,zipfile
+        t=np.arange(256*12)/256
+        p=self.s.RAW/'HTTP_SYNTHETIC.csv'
+        np.savetxt(p,np.column_stack([t]+[20*np.sin(2*np.pi*10*t)]*4),delimiter=',',header='timestamps,TP9,AF7,AF8,TP10',comments='')
+        with self.request('/api/clean',{'file':p.name,'options':{}}) as response:d=json.load(response)
+        base=self.base+'/api/clean-file?run='+d['run']+'&name='
+        with urllib.request.urlopen(base+'analysis.json') as response:self.assertEqual(json.load(response)['source_sha256'],d['source_sha256'])
+        with urllib.request.urlopen(base+'bundle.zip') as response:
+            with zipfile.ZipFile(io.BytesIO(response.read())) as bundle:self.assertIn('cleaned.npz',bundle.namelist())
+        with urllib.request.urlopen(self.base+'/api/clean-runs?file='+p.name) as response:self.assertEqual(json.load(response)[0]['run'],d['run'])
+        with self.assertRaises(urllib.error.HTTPError):urllib.request.urlopen(self.base+'/api/clean-file?run=../raw&name=cleaned.csv')
 
 if __name__=='__main__':unittest.main()
