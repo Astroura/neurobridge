@@ -34,6 +34,8 @@ def main():
     from runtime import ensure
     ensure(os.environ['NEUROBRIDGE_DATA_DIR'])
     import server,webview
+    # Cleaning ZIP/PDF links open Cocoa's native Save dialog, letting partners choose the destination.
+    webview.settings['ALLOW_DOWNLOADS']=True
     for p in (server.ROOT/'sessions').glob('*/session.json'):
         try:
             d=json.loads(p.read_text())
