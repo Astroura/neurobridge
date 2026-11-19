@@ -112,6 +112,13 @@ class Handler(BaseHTTPRequestHandler):
             u = urlparse(self.path)
             host=self.headers.get('Host','').split(':')[0]
             if host not in ['127.0.0.1','localhost']: return self.reply({'error':'Local requests only'},403)
+            if u.path == '/tokens.css':
+                from theme import css
+                return self.reply(css().encode(),content='text/css')
+            if u.path.startswith('/fonts/'):
+                name=u.path.removeprefix('/fonts/')
+                if Path(name).name!=name or not name.endswith(('.ttf','.txt')):raise ValueError('Invalid font asset')
+                return self.reply((STATIC/'fonts'/name).read_bytes(),content='font/ttf' if name.endswith('.ttf') else 'text/plain')
             if u.path == '/api/setup':
                 p=ROOT/'study_setup.json'
                 return self.reply(json.loads(p.read_text()) if p.exists() else {})
@@ -166,6 +173,8 @@ class Handler(BaseHTTPRequestHandler):
                     CACHE.clear(); CACHE[key] = analyze(p)
                 return self.reply(CACHE[key])
             assets = {'/':('index.html','text/html; charset=utf-8'), '/app.js':('app.js','text/javascript'), '/style.css':('style.css','text/css'), '/experiment':('experiment.html','text/html; charset=utf-8'), '/experiment.js':('experiment.js','text/javascript'), '/storage.js':('storage.js','text/javascript'), '/setup-state.js':('setup-state.js','text/javascript'), '/clean':('clean.html','text/html; charset=utf-8'), '/clean.js':('clean.js','text/javascript')}
+            assets['/plot.js']=('plot.js','text/javascript')
+            assets['/icons.svg']=('icons.svg','image/svg+xml')
             if u.path not in assets: return self.reply({'error':'Not found'},404)
             name, mime = assets[u.path]
             return self.reply((STATIC/name).read_bytes(), content=mime)

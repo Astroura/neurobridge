@@ -48,7 +48,7 @@ class HttpTests(unittest.TestCase):
         if token:headers['X-NeuroBridge']=self.s.TOKEN
         return urllib.request.urlopen(urllib.request.Request(self.base+path,data=json.dumps(data).encode(),headers=headers))
     def test_pages_and_persistent_setup(self):
-        for path in ['/','/experiment','/storage.js','/api/storage','/clean','/clean.js','/api/clean-runs?file=x.csv']:
+        for path in ['/','/experiment','/storage.js','/api/storage','/clean','/clean.js','/api/clean-runs?file=x.csv','/tokens.css','/icons.svg','/plot.js','/fonts/IBMPlexSans-400.ttf','/fonts/IBMPlexSansArabic-Regular.ttf']:
             with urllib.request.urlopen(self.base+path) as r:self.assertEqual(r.status,200)
         with self.request('/api/setup',{'participant':'P01','clips':[]}):pass
         with urllib.request.urlopen(self.base+'/api/setup') as r:self.assertEqual(json.load(r)['participant'],'P01')

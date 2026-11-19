@@ -49,6 +49,9 @@ def preview(t, x, boundaries):
             points.append([float(t[hi - 1]), None])
     return points
 
+from theme import TOKENS, report_theme
+
+@report_theme
 def clean(path, destination, options=None, session_folder=None):
     path = Path(path); destination = Path(destination); options = options or {}
     threshold = float(options.get('amplitude_uv', 200))
@@ -150,19 +153,19 @@ def clean(path, destination, options=None, session_folder=None):
     (destination/'PROCESSING.txt').write_text('NeuroBridge Review & clean\n\n'+json.dumps(settings,indent=2)+'\n\n'+'\n'.join(warnings)+'\n\ncleaned.csv and cleaned.npz preserve original timestamps and sample count. CSV blanks / NPZ NaNs mark rejected channel samples. usable is the common four-channel mask used for band powers; usable_channel is per-channel availability. Interval times are seconds from the first EEG timestamp. Manual exclusions apply to all channels. Trial boundaries, when available, are operator/playback request markers, not measured acoustic onsets. Theta 4–8, alpha 8–13, beta 13–30 Hz powers are absolute µV² after filtering. They do not measure comprehension. No source CSV is changed. The source SHA-256 is in analysis.json.\n')
     from matplotlib.figure import Figure
     from matplotlib.backends.backend_agg import FigureCanvasAgg
-    fig=Figure(figsize=(15,10),layout='constrained');FigureCanvasAgg(fig);axes=fig.subplots(4,3)
+    fig=Figure(figsize=(float(TOKENS['plot-report-clean-width']),float(TOKENS['plot-report-clean-height'])),layout='constrained');FigureCanvasAgg(fig);axes=fig.subplots(4,3)
     for ch,c in enumerate(channels):
         for ax,signal,title in [(axes[ch,0],x[:,ch],'Raw EEG'),(axes[ch,1],filtered[:,ch],'Filtered / rejected gaps')]:
-            for a,b in zip(boundaries[:-1],boundaries[1:]):ax.plot(elapsed[a:b],signal[a:b],lw=.35,color='#75618e')
+            for a,b in zip(boundaries[:-1],boundaries[1:]):ax.plot(elapsed[a:b],signal[a:b],lw=float(TOKENS['plot-line-width']),color=TOKENS['signal-raw'] if title=='Raw EEG' else TOKENS['signal-filtered'])
             if title=='Raw EEG':
-                for a,b in runs(~usable_channel[:,ch]):ax.axvspan(elapsed[a],elapsed[b-1]+1/FS,color='#c79495',alpha=.25,lw=0)
-            ax.set_ylabel(c['name']+' · µV');ax.set_title(title if ch==0 else '');ax.set_xlabel('Seconds');ax.grid(alpha=.15)
-        for values,color,label in [(c['raw_spectrum'],'#aaa4b0','Raw'),(c['spectrum'],'#75618e','Retained')]:
+                for a,b in runs(~usable_channel[:,ch]):ax.axvspan(elapsed[a],elapsed[b-1]+1/FS,color=TOKENS['signal-rejected'],alpha=float(TOKENS['plot-reject-alpha']),lw=0)
+            ax.set_ylabel(c['name']+' · µV');ax.set_title(title if ch==0 else '');ax.set_xlabel('Seconds');ax.grid(alpha=float(TOKENS['plot-grid-alpha']))
+        for values,color,label in [(c['raw_spectrum'],TOKENS['signal-raw'],'Raw'),(c['spectrum'],TOKENS['signal-filtered'],'Retained')]:
             if values:
                 v=np.array(values);axes[ch,2].semilogy(v[:,0],v[:,1],color=color,label=label)
-        axes[ch,2].set(xlim=(0,80),xlabel='Hz',ylabel='µV²/Hz');axes[ch,2].grid(alpha=.15)
+        axes[ch,2].set(xlim=(0,80),xlabel='Hz',ylabel='µV²/Hz');axes[ch,2].grid(alpha=float(TOKENS['plot-grid-alpha']))
     axes[0,2].set_title('Welch PSD · different retained coverage')
     if axes[0,2].lines:axes[0,2].legend()
-    fig.suptitle(f'{path.name} · {report["usable_percent"]:.1f}% retained across all four channels · heuristic screen',fontsize=11)
-    fig.savefig(destination/'comparison.png',dpi=150);fig.savefig(destination/'comparison.pdf')
+    fig.suptitle(f'{path.name} · {report["usable_percent"]:.1f}% retained across all four channels · heuristic screen',fontsize=float(TOKENS['type-section'].removesuffix('px'))*.75,fontfamily=TOKENS['font-display-name'])
+    fig.savefig(destination/'comparison.png',dpi=int(TOKENS['plot-report-clean-dpi']));fig.savefig(destination/'comparison.pdf')
     return report

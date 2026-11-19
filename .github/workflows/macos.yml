@@ -7,7 +7,7 @@ on:
   workflow_dispatch:
     inputs:
       release_tag:
-        description: 'Optional preview release tag, e.g. v0.4.0-preview'
+        description: 'Optional preview release tag, e.g. v0.5.0-preview'
         required: false
         default: ''
 permissions:
@@ -68,22 +68,14 @@ jobs:
           draft: false
           prerelease: true
           fail_on_unmatched_files: true
-          name: NeuroBridge 0.4.0 — Review & clean EEG
+          name: NeuroBridge 0.5.0: notebook interface
           body: |
-            Adds Review & clean: offline artifact screening, manual blink/movement/speech exclusions, raw versus filtered graphs, retained-sample coverage, theta/alpha/beta power, and linked listening-trial summaries when markers exist.
+            Research notebook and bench instrument UI, implemented from the approved DESIGN.md.
 
-            Open Review & clean, choose a recording, start with the 200 µV peak-to-peak preset and notch off, run the screen, inspect the comparison, then download the analysis ZIP. Existing CSVs remain unchanged. Each run saves cleaned CSV/NumPy arrays, masks/reasons, source fingerprint, settings, trial features, and PNG/PDF reports. Earlier runs can be reopened. Full workspace export includes cleaning outputs.
+            Adds bundled IBM Plex Serif/Sans and Arabic fonts, local Lucide symbols, paper/graphite surfaces, teal actions, violet retained-data annotations, ruled asymmetric layouts, and responsive SVG figures. Setup, capture, graphs, cleaning and bilingual participant questions share one token system; scientific report styling uses the same source.
 
-            Processing: split timestamp gaps, flag missing/near-rail/large/flat raw data, apply manual exclusions and 0.25 s margins, independently filter retained spans with a zero-phase 1–40 Hz Butterworth SOS filter, and trim 1 s edges. Welch band powers use only shared retained intervals across all four channels. Settings and limitations are explained inside the app and exported with each run.
+            Active capture keeps Stop and the timer visible. Participant view hides operator navigation, notes and filesystem paths. Import preview, saved setup, artifact exclusions, source fingerprints and local exports remain available. EEG processing thresholds, calculations, raw files and timing semantics are unchanged.
 
-            This is heuristic screening, not validated EEG cleaning or a comprehension detector. No ICA/interpolation/gap reconstruction. Retention percentages describe recorded samples; slow potentials/ERPs require another filtering protocol. Clipped EEG cannot be recovered.
+            Download arm64 for Apple Silicon or x86_64 for Intel. Quit the older app before opening this build. The separate stimulus pack is unchanged and contains practice materials requiring review. No validated comprehension classifier is included.
 
-            Import a stimulus ZIP, preview its contents, and select individual trials or audio/live groups before adding them. Compact trial cards show missing details/questions; the start checklist explains what remains. Save and reload setups, choose a local recording folder, and export EEG, answers, NumPy arrays, and scientific plots.
-
-            Download the app for your Mac (arm64: Apple Silicon; x86_64: Intel) and the separate NeuroBridge-Stimulus-Pack-v1.zip. Import the pack in the app. It includes all six current practice audio clips, source/licensing notes and three draft paired English/Egyptian Arabic live stories with matching questions.
-
-            Live mode: connect Muse, add a live conversation trial, enter language/speaker/script and two factual questions, then Start session. Operator marks Start speaking / Finish speaking; the subject completes the same 0–2 question score and 1–5 understanding rating. No microphone audio or EEG-based comprehension prediction is included. Operator markers are not acoustic-onset measurements.
-
-            Practice pack is not a validated final study stimulus set. Recorded questions are blank pending review; fixed-time Arabic excerpts may cut sentences. Draft live translations need fluent-speaker review. Avoid giving the same subject both translations without a counterbalanced design.
-
-            Both app builds pass automated tests, including bundled PNG/PDF/NumPy export checks. Full headset rehearsals remain necessary on each partner’s Mac. Apps are ad-hoc signed, not Apple-notarized; macOS may block opening them. Do not disable Gatekeeper. Source-run instructions are in README.md.
+            Includes automated scientific, HTTP, offline-asset, export and packaged-app checks. UI review covers desktop/native and mobile layouts, errors, empty/loading/disabled states, Arabic, reduced motion, and zoom-equivalent rendering. See DESIGN.md and UI-REVIEW.md for the review and limits. Bluetooth/audio and native Save-dialog rehearsals still belong on each partner's Mac. Apps remain ad-hoc signed, not Apple-notarized.
