@@ -1,0 +1,654 @@
+[
+  {
+    "key": "en_us_1528",
+    "language_config": "en_us",
+    "split": "validation",
+    "row_index": 6,
+    "source_id": 1528,
+    "transcript": "Some festivals have special camping areas for families with young children.",
+    "normalized_transcript": "some festivals have special camping areas for families with young children",
+    "source_revision": "70bb2e84b976b7e960aa89f1c648e09c59f894dd",
+    "source_sha256": "d03181782ddc8d02a19653dd605fe416db520db60325888e908974df034bd3f5",
+    "file": "audio/en_us_1528.flac",
+    "sha256": "72b1b5d9a04cb862cd1ead1179d6c780b9de0353145605754424f5e821d2526e",
+    "gain_db": -2.9855539706610728,
+    "duration_seconds": 6.84,
+    "sample_rate": 16000,
+    "processed_peak": 0.683807373046875,
+    "processed_rms": 0.06309575138935052,
+    "changes": "Full source utterance; constant gain toward -24 dBFS RMS limited to -1 dBFS peak; quantized to PCM16 and losslessly stored as FLAC. No cutting, splicing, denoising, compression, speed change or synthesized speech.",
+    "questions": [
+      {
+        "text": "Who are the camping areas for?",
+        "options": [
+          "Families",
+          "Shopkeepers",
+          "Pilots"
+        ],
+        "correct": 0,
+        "evidence": "families with young children"
+      },
+      {
+        "text": "Who are the families bringing?",
+        "options": [
+          "Dogs",
+          "Young children",
+          "Teachers"
+        ],
+        "correct": 1,
+        "evidence": "young children"
+      }
+    ]
+  },
+  {
+    "key": "en_us_1531",
+    "language_config": "en_us",
+    "split": "validation",
+    "row_index": 5,
+    "source_id": 1531,
+    "transcript": "The East African Islands are in the Indian Ocean off the eastern coast of Africa.",
+    "normalized_transcript": "the east african islands are in the indian ocean off the eastern coast of africa",
+    "source_revision": "70bb2e84b976b7e960aa89f1c648e09c59f894dd",
+    "source_sha256": "0e442fc0aa37a2f0b0a1847bcab7b0cb1ac0d4e9daf600422583da65ae5e474e",
+    "file": "audio/en_us_1531.flac",
+    "sha256": "693809212f2a36f6ec29e0789e74b898a42a3dd378df93f74e32fd1bf9cf189a",
+    "gain_db": 41.56968558827956,
+    "duration_seconds": 4.44,
+    "sample_rate": 16000,
+    "processed_peak": 0.56463623046875,
+    "processed_rms": 0.06309575232714563,
+    "changes": "Full source utterance; constant gain toward -24 dBFS RMS limited to -1 dBFS peak; quantized to PCM16 and losslessly stored as FLAC. No cutting, splicing, denoising, compression, speed change or synthesized speech.",
+    "questions": [
+      {
+        "text": "Which ocean are the islands in?",
+        "options": [
+          "Atlantic Ocean",
+          "Pacific Ocean",
+          "Indian Ocean"
+        ],
+        "correct": 2,
+        "evidence": "Indian Ocean"
+      },
+      {
+        "text": "Which coast of Africa is mentioned?",
+        "options": [
+          "Eastern coast",
+          "Western coast",
+          "Northern coast"
+        ],
+        "correct": 0,
+        "evidence": "eastern coast of Africa"
+      }
+    ]
+  },
+  {
+    "key": "en_us_1541",
+    "language_config": "en_us",
+    "split": "validation",
+    "row_index": 40,
+    "source_id": 1541,
+    "transcript": "Courier companies are well paid for delivering things quickly. Frequently, time is very important with business documents, merchandise or spare parts for an urgent repair.",
+    "normalized_transcript": "courier companies are well paid for delivering things quickly frequently time is very important with business documents merchandise or spare parts for an urgent repair",
+    "source_revision": "70bb2e84b976b7e960aa89f1c648e09c59f894dd",
+    "source_sha256": "ad7f948df420701daa4e39d31deb268d9932df09e530e9a15942a1eaade594d4",
+    "file": "audio/en_us_1541.flac",
+    "sha256": "b3a7cc5f2e245825a614dc51c5fcfc769e846e0d1c323bdbf47ca887c694b0ba",
+    "gain_db": 36.10582549540462,
+    "duration_seconds": 10.92,
+    "sample_rate": 16000,
+    "processed_peak": 0.493682861328125,
+    "processed_rms": 0.06309573583142021,
+    "changes": "Full source utterance; constant gain toward -24 dBFS RMS limited to -1 dBFS peak; quantized to PCM16 and losslessly stored as FLAC. No cutting, splicing, denoising, compression, speed change or synthesized speech.",
+    "questions": [
+      {
+        "text": "How are things delivered?",
+        "options": [
+          "Quickly",
+          "Slowly",
+          "Only at night"
+        ],
+        "correct": 0,
+        "evidence": "quickly"
+      },
+      {
+        "text": "What can be delivered?",
+        "options": [
+          "Wild animals",
+          "Spare parts",
+          "Fresh flowers"
+        ],
+        "correct": 1,
+        "evidence": "spare parts"
+      }
+    ]
+  },
+  {
+    "key": "en_us_1521",
+    "language_config": "en_us",
+    "split": "validation",
+    "row_index": 51,
+    "source_id": 1521,
+    "transcript": "The satellite in space gets the call and then reflects it back down, almost instantly.",
+    "normalized_transcript": "the satellite in space gets the call and then reflects it back down almost instantly",
+    "source_revision": "70bb2e84b976b7e960aa89f1c648e09c59f894dd",
+    "source_sha256": "7915ef601929f72ace84ae638b4d4c6b74e579a6d34f99741ef724ceec234264",
+    "file": "audio/en_us_1521.flac",
+    "sha256": "6f90c5cc7027a8b1fa746b75d56ce2ce703405274a56eba1cf53a706a93d4b91",
+    "gain_db": 37.717160551617575,
+    "duration_seconds": 5.52,
+    "sample_rate": 16000,
+    "processed_peak": 0.507965087890625,
+    "processed_rms": 0.06309575771297075,
+    "changes": "Full source utterance; constant gain toward -24 dBFS RMS limited to -1 dBFS peak; quantized to PCM16 and losslessly stored as FLAC. No cutting, splicing, denoising, compression, speed change or synthesized speech.",
+    "questions": [
+      {
+        "text": "Where is the satellite?",
+        "options": [
+          "Under water",
+          "In a forest",
+          "In space"
+        ],
+        "correct": 2,
+        "evidence": "in space"
+      },
+      {
+        "text": "Where does it reflect the call?",
+        "options": [
+          "Back down",
+          "Into the sea",
+          "To the Moon"
+        ],
+        "correct": 0,
+        "evidence": "back down"
+      }
+    ]
+  },
+  {
+    "key": "en_us_1522",
+    "language_config": "en_us",
+    "split": "validation",
+    "row_index": 77,
+    "source_id": 1522,
+    "transcript": "Technology offers the solution with virtual field trips. Students can look at museum artifacts, visit an aquarium, or admire beautiful art while sitting with their class.",
+    "normalized_transcript": "technology offers the solution with virtual field trips students can look at museum artifacts visit an aquarium or admire beautiful art while sitting with their class",
+    "source_revision": "70bb2e84b976b7e960aa89f1c648e09c59f894dd",
+    "source_sha256": "124dc29baf5e5ff7dcaa03becb5e193f3864f6f85d03698bb7f88afb02e68821",
+    "file": "audio/en_us_1522.flac",
+    "sha256": "05d2df918a6bcd947a17d60d8d21af682bb0fb4e9d653a3313a5fce5eea20693",
+    "gain_db": 33.69810348234269,
+    "duration_seconds": 10.14,
+    "sample_rate": 16000,
+    "processed_peak": 0.477203369140625,
+    "processed_rms": 0.0630957526429049,
+    "changes": "Full source utterance; constant gain toward -24 dBFS RMS limited to -1 dBFS peak; quantized to PCM16 and losslessly stored as FLAC. No cutting, splicing, denoising, compression, speed change or synthesized speech.",
+    "questions": [
+      {
+        "text": "What kind of field trips are mentioned?",
+        "options": [
+          "Walking trips",
+          "Virtual trips",
+          "Bus trips"
+        ],
+        "correct": 1,
+        "evidence": "virtual field trips"
+      },
+      {
+        "text": "Where do the students stay?",
+        "options": [
+          "At an airport",
+          "On a ship",
+          "With their class"
+        ],
+        "correct": 2,
+        "evidence": "sitting with their class"
+      }
+    ]
+  },
+  {
+    "key": "en_us_1600",
+    "language_config": "en_us",
+    "split": "validation",
+    "row_index": 67,
+    "source_id": 1600,
+    "transcript": "Examples of on-site activities include hunting, fishing, photography, bird watching, and visiting parks and studying information about the ecosystem.",
+    "normalized_transcript": "examples of on-site activities include hunting fishing photography bird watching and visiting parks and studying information about the ecosystem",
+    "source_revision": "70bb2e84b976b7e960aa89f1c648e09c59f894dd",
+    "source_sha256": "4183b6414911832deb202725c737b2602737da10b8055cfbb5b74645875cdde0",
+    "file": "audio/en_us_1600.flac",
+    "sha256": "2f200e6ada408183174db4672fd8b76b6c84e2e7c189228953ad41dc65404a1d",
+    "gain_db": 5.246790679208385,
+    "duration_seconds": 11.7,
+    "sample_rate": 16000,
+    "processed_peak": 0.64263916015625,
+    "processed_rms": 0.06309570374735747,
+    "changes": "Full source utterance; constant gain toward -24 dBFS RMS limited to -1 dBFS peak; quantized to PCM16 and losslessly stored as FLAC. No cutting, splicing, denoising, compression, speed change or synthesized speech.",
+    "questions": [
+      {
+        "text": "Which activity is mentioned?",
+        "options": [
+          "Fishing",
+          "Skiing",
+          "Dancing"
+        ],
+        "correct": 0,
+        "evidence": "fishing"
+      },
+      {
+        "text": "What places can people visit?",
+        "options": [
+          "Factories",
+          "Airports",
+          "Parks"
+        ],
+        "correct": 2,
+        "evidence": "visiting parks"
+      }
+    ]
+  },
+  {
+    "key": "en_us_1559",
+    "language_config": "en_us",
+    "split": "validation",
+    "row_index": 8,
+    "source_id": 1559,
+    "transcript": "Pronunciation is relatively easy in Italian since most words are pronounced exactly how they are written",
+    "normalized_transcript": "pronunciation is relatively easy in italian since most words are pronounced exactly how they are written",
+    "source_revision": "70bb2e84b976b7e960aa89f1c648e09c59f894dd",
+    "source_sha256": "97c91f17d0fac2f617510489c1f149371234a16990c1e0b8945ea91611a74c4c",
+    "file": "audio/en_us_1559.flac",
+    "sha256": "cd3cbed2a84384f0473e6d71ade00ac34959fdd436156d409873be9d5918ceff",
+    "gain_db": -0.7529191721860948,
+    "duration_seconds": 9.32,
+    "sample_rate": 16000,
+    "processed_peak": 0.863250732421875,
+    "processed_rms": 0.06309577334938528,
+    "changes": "Full source utterance; constant gain toward -24 dBFS RMS limited to -1 dBFS peak; quantized to PCM16 and losslessly stored as FLAC. No cutting, splicing, denoising, compression, speed change or synthesized speech.",
+    "questions": []
+  },
+  {
+    "key": "en_us_1526",
+    "language_config": "en_us",
+    "split": "validation",
+    "row_index": 24,
+    "source_id": 1526,
+    "transcript": "If you visit the Arctic or Antarctic areas in the winter you will experience the polar night, which means that the sun doesn't rise above the horizon.",
+    "normalized_transcript": "if you visit the arctic or antarctic areas in the winter you will experience the polar night which means that the sun doesn't rise above the horizon",
+    "source_revision": "70bb2e84b976b7e960aa89f1c648e09c59f894dd",
+    "source_sha256": "73f1a48841bcd997014dfe7750077f37833e8dfd86d4c9752ef962fa8c9b2539",
+    "file": "audio/en_us_1526.flac",
+    "sha256": "4d21d86ad6dcdb35bd268f51c64e0b951f884ed2b0b328858bcefc17e433dd1f",
+    "gain_db": 3.337364137086612,
+    "duration_seconds": 13.74,
+    "sample_rate": 16000,
+    "processed_peak": 0.891265869140625,
+    "processed_rms": 0.057465299040336856,
+    "changes": "Full source utterance; constant gain toward -24 dBFS RMS limited to -1 dBFS peak; quantized to PCM16 and losslessly stored as FLAC. No cutting, splicing, denoising, compression, speed change or synthesized speech.",
+    "questions": []
+  },
+  {
+    "key": "en_us_1615",
+    "language_config": "en_us",
+    "split": "validation",
+    "row_index": 22,
+    "source_id": 1615,
+    "transcript": "Thousands of years ago, a man called Aristarchus said that the Solar System moved around the Sun.",
+    "normalized_transcript": "thousands of years ago a man called aristarchus said that the solar system moved around the sun",
+    "source_revision": "70bb2e84b976b7e960aa89f1c648e09c59f894dd",
+    "source_sha256": "126dbf80387b8018bd991b7385533f88446aadfa38b9235bd6a8309d9c06857e",
+    "file": "audio/en_us_1615.flac",
+    "sha256": "2f1d3a6993b1864d0aa2bfb21338e3f5d8ef73c4addb2d86a47904c2cdaab2ec",
+    "gain_db": 36.19963849484451,
+    "duration_seconds": 6.78,
+    "sample_rate": 16000,
+    "processed_peak": 0.542266845703125,
+    "processed_rms": 0.06309571106689235,
+    "changes": "Full source utterance; constant gain toward -24 dBFS RMS limited to -1 dBFS peak; quantized to PCM16 and losslessly stored as FLAC. No cutting, splicing, denoising, compression, speed change or synthesized speech.",
+    "questions": []
+  },
+  {
+    "key": "en_us_1594",
+    "language_config": "en_us",
+    "split": "validation",
+    "row_index": 43,
+    "source_id": 1594,
+    "transcript": "Some animals, such as elephants and giraffes, tend to approach closely to cars and standard equipment will allow good viewing.",
+    "normalized_transcript": "some animals such as elephants and giraffes tend to approach closely to cars and standard equipment will allow good viewing",
+    "source_revision": "70bb2e84b976b7e960aa89f1c648e09c59f894dd",
+    "source_sha256": "2556b5fe68b149d3c4f8e310e6b5a4436270996c71617ee734bf537cce9288aa",
+    "file": "audio/en_us_1594.flac",
+    "sha256": "4eb966b64384e46b789b42130f7a0e817898d52874d2e1cdadd00e103fc3adf8",
+    "gain_db": 23.4333122220401,
+    "duration_seconds": 10.98,
+    "sample_rate": 16000,
+    "processed_peak": 0.44659423828125,
+    "processed_rms": 0.06309575395207033,
+    "changes": "Full source utterance; constant gain toward -24 dBFS RMS limited to -1 dBFS peak; quantized to PCM16 and losslessly stored as FLAC. No cutting, splicing, denoising, compression, speed change or synthesized speech.",
+    "questions": []
+  },
+  {
+    "key": "ar_eg_1942",
+    "language_config": "ar_eg",
+    "split": "test",
+    "row_index": 3,
+    "source_id": 1942,
+    "transcript": "نصنع بيوتنا وملابسنا من النباتات . معظم الطعام الذي نتناوله من النباتات كذلك. بدون النباتات، لا يمكن للحيوانات البقاء.",
+    "normalized_transcript": "نصنع بيوتنا وملابسنا من النباتات . معظم الطعام الذي نتناوله من النباتات كذلك. بدون النباتات، لا يمكن للحيوانات البقاء",
+    "source_revision": "70bb2e84b976b7e960aa89f1c648e09c59f894dd",
+    "source_sha256": "4290bcfb2743b45c4979244cb2c960b3c64c90ce6c1a443d76ca41d24de9a77b",
+    "file": "audio/ar_eg_1942.flac",
+    "sha256": "1ddeb369f0daf03b71ebd7c3c34950baba083a8e8389f6aae9714dc40c53a426",
+    "gain_db": 5.1074841230955,
+    "duration_seconds": 10.7,
+    "sample_rate": 16000,
+    "processed_peak": 0.624786376953125,
+    "processed_rms": 0.06309574593909457,
+    "changes": "Full source utterance; constant gain toward -24 dBFS RMS limited to -1 dBFS peak; quantized to PCM16 and losslessly stored as FLAC. No cutting, splicing, denoising, compression, speed change or synthesized speech.",
+    "questions": [
+      {
+        "text": "What do people make clothes from?",
+        "options": [
+          "Metal",
+          "Plants",
+          "Glass"
+        ],
+        "correct": 1,
+        "evidence": "ملابسنا من النباتات"
+      },
+      {
+        "text": "Where does most of our food come from?",
+        "options": [
+          "Plants",
+          "Stones",
+          "Sand"
+        ],
+        "correct": 0,
+        "evidence": "معظم الطعام الذي نتناوله من النباتات"
+      }
+    ]
+  },
+  {
+    "key": "ar_eg_1680",
+    "language_config": "ar_eg",
+    "split": "test",
+    "row_index": 9,
+    "source_id": 1680,
+    "transcript": "بصفته رياضيّاً شاملاً، يمكن للنّمر التّسلق (وإن لم يكن ذلك بشكلٍ جيد) والسّباحة والقفز لمسافاتٍ طويلةٍ والسّحب بقوّة خمسة أضعاف قوّة الإنسان.",
+    "normalized_transcript": "بصفته رياضيّاً شاملاً، يمكن للنّمر التّسلق وإن لم يكن ذلك بشكلٍ جيد والسّباحة والقفز لمسافاتٍ طويلةٍ والسّحب بقوّة خمسة أضعاف قوّة الإنسان",
+    "source_revision": "70bb2e84b976b7e960aa89f1c648e09c59f894dd",
+    "source_sha256": "1f0d1b39b89082a05f88f704710bdb8bfd72d3623920287457b411e2003d41cb",
+    "file": "audio/ar_eg_1680.flac",
+    "sha256": "dfa69e73471df651bb65d4eed534c31adb1e75eb5ce327aa3b647d71e2b27919",
+    "gain_db": -3.3771277748023247,
+    "duration_seconds": 10.92,
+    "sample_rate": 16000,
+    "processed_peak": 0.439453125,
+    "processed_rms": 0.06309572963497183,
+    "changes": "Full source utterance; constant gain toward -24 dBFS RMS limited to -1 dBFS peak; quantized to PCM16 and losslessly stored as FLAC. No cutting, splicing, denoising, compression, speed change or synthesized speech.",
+    "questions": [
+      {
+        "text": "Which animal is described?",
+        "options": [
+          "A rabbit",
+          "A whale",
+          "A tiger"
+        ],
+        "correct": 2,
+        "evidence": "للنّمر"
+      },
+      {
+        "text": "What can the tiger do?",
+        "options": [
+          "Swim",
+          "Fly",
+          "Speak"
+        ],
+        "correct": 0,
+        "evidence": "السّباحة"
+      }
+    ]
+  },
+  {
+    "key": "ar_eg_1714",
+    "language_config": "ar_eg",
+    "split": "test",
+    "row_index": 11,
+    "source_id": 1714,
+    "transcript": "أُرسل القمر الصناعي إلى الفضاء بواسطة صاروخ. يستخدم العلماء التلسكوبات في الفضاء لأن الغلاف الجوي لكوكب الأرض يشوه بعض الضوء والرؤية.",
+    "normalized_transcript": "أُرسل القمر الصناعي إلى الفضاء بواسطة صاروخ يستخدم العلماء التلسكوبات في الفضاء لأن الغلاف الجوي لكوكب الأرض يشوه بعض الضوء والرؤية",
+    "source_revision": "70bb2e84b976b7e960aa89f1c648e09c59f894dd",
+    "source_sha256": "f803333ac8916553a993cd33e2b963ecdce76ba63dfeaecc4fc47ba022e65245",
+    "file": "audio/ar_eg_1714.flac",
+    "sha256": "ceb18ec5b4b5d74dadf49c274e911c308ce664c4226cdc304b415f59afebe4a9",
+    "gain_db": 2.0770482842399214,
+    "duration_seconds": 11.4,
+    "sample_rate": 16000,
+    "processed_peak": 0.891265869140625,
+    "processed_rms": 0.055290530211355764,
+    "changes": "Full source utterance; constant gain toward -24 dBFS RMS limited to -1 dBFS peak; quantized to PCM16 and losslessly stored as FLAC. No cutting, splicing, denoising, compression, speed change or synthesized speech.",
+    "questions": [
+      {
+        "text": "What carried the satellite into space?",
+        "options": [
+          "A train",
+          "A rocket",
+          "A bus"
+        ],
+        "correct": 1,
+        "evidence": "بواسطة صاروخ"
+      },
+      {
+        "text": "What do scientists use in space?",
+        "options": [
+          "Bicycles",
+          "Boats",
+          "Telescopes"
+        ],
+        "correct": 2,
+        "evidence": "التلسكوبات في الفضاء"
+      }
+    ]
+  },
+  {
+    "key": "ar_eg_1778",
+    "language_config": "ar_eg",
+    "split": "test",
+    "row_index": 13,
+    "source_id": 1778,
+    "transcript": "يتصاعد من المصنع دخاناً أبيض، وهذا ما أظهرته تقارير تلفزيونية.",
+    "normalized_transcript": "يتصاعد من المصنع دخاناً أبيض وهذا ما أظهرته تقارير تلفزيونية",
+    "source_revision": "70bb2e84b976b7e960aa89f1c648e09c59f894dd",
+    "source_sha256": "28aacbf6c32ae30aaed5671b13d81be9ea7bbef9a32244a5e754703395414361",
+    "file": "audio/ar_eg_1778.flac",
+    "sha256": "fb57a809b749cf26d3d841bb3eb76aa87e75eceab05a2370e9b6a7519d04e320",
+    "gain_db": -0.9474289873880775,
+    "duration_seconds": 6.0,
+    "sample_rate": 16000,
+    "processed_peak": 0.54278564453125,
+    "processed_rms": 0.0630958037405922,
+    "changes": "Full source utterance; constant gain toward -24 dBFS RMS limited to -1 dBFS peak; quantized to PCM16 and losslessly stored as FLAC. No cutting, splicing, denoising, compression, speed change or synthesized speech.",
+    "questions": [
+      {
+        "text": "What color is the smoke?",
+        "options": [
+          "White",
+          "Blue",
+          "Green"
+        ],
+        "correct": 0,
+        "evidence": "دخاناً أبيض"
+      },
+      {
+        "text": "Where is the smoke coming from?",
+        "options": [
+          "A school",
+          "A factory",
+          "A farm"
+        ],
+        "correct": 1,
+        "evidence": "من المصنع"
+      }
+    ]
+  },
+  {
+    "key": "ar_eg_1737",
+    "language_config": "ar_eg",
+    "split": "test",
+    "row_index": 30,
+    "source_id": 1737,
+    "transcript": "الأسود هي أكثر القطط اجتماعية وتعيش في مجموعات كبيرة تدعى قطعاناً.",
+    "normalized_transcript": "الأسود هي أكثر القطط اجتماعية وتعيش في مجموعات كبيرة تدعى قطعاناً",
+    "source_revision": "70bb2e84b976b7e960aa89f1c648e09c59f894dd",
+    "source_sha256": "cbcb798be5a2de8f2a9657d97d3203bccdde5bfac59f7626b3329bfbbec18af7",
+    "file": "audio/ar_eg_1737.flac",
+    "sha256": "03d13fc8f57c69d0679563d2021f6b4757e8b15100284549dbe3fa95056fa750",
+    "gain_db": 1.3489253880008842,
+    "duration_seconds": 7.92,
+    "sample_rate": 16000,
+    "processed_peak": 0.448577880859375,
+    "processed_rms": 0.06309571804850701,
+    "changes": "Full source utterance; constant gain toward -24 dBFS RMS limited to -1 dBFS peak; quantized to PCM16 and losslessly stored as FLAC. No cutting, splicing, denoising, compression, speed change or synthesized speech.",
+    "questions": [
+      {
+        "text": "Which animals are described?",
+        "options": [
+          "Lions",
+          "Bears",
+          "Zebras"
+        ],
+        "correct": 0,
+        "evidence": "الأسود"
+      },
+      {
+        "text": "How do they live?",
+        "options": [
+          "Only alone",
+          "In pairs only",
+          "In large groups"
+        ],
+        "correct": 2,
+        "evidence": "مجموعات كبيرة"
+      }
+    ]
+  },
+  {
+    "key": "ar_eg_1720",
+    "language_config": "ar_eg",
+    "split": "test",
+    "row_index": 24,
+    "source_id": 1720,
+    "transcript": "الشوكولاتة الساخنة متوافقة مع المعايير البلجيكية. عصائر الفاكهة ممتازة على الرغم من أنها باهظة الثمن.",
+    "normalized_transcript": "الشوكولاتة الساخنة متوافقة مع المعايير البلجيكية عصائر الفاكهة ممتازة على الرغم من أنها باهظة الثمن",
+    "source_revision": "70bb2e84b976b7e960aa89f1c648e09c59f894dd",
+    "source_sha256": "0ae4f570fcb0bd67d84ad5ec07c3b1491a2590a5548d58c7ea3a0a6374979b25",
+    "file": "audio/ar_eg_1720.flac",
+    "sha256": "a07d48626d96f0e442e981befce87df57d8f1d1e14649e6bc85a4d2ae3e8233e",
+    "gain_db": 2.8579209807835055,
+    "duration_seconds": 10.16,
+    "sample_rate": 16000,
+    "processed_peak": 0.510650634765625,
+    "processed_rms": 0.06309575586303141,
+    "changes": "Full source utterance; constant gain toward -24 dBFS RMS limited to -1 dBFS peak; quantized to PCM16 and losslessly stored as FLAC. No cutting, splicing, denoising, compression, speed change or synthesized speech.",
+    "questions": [
+      {
+        "text": "Which hot drink is mentioned?",
+        "options": [
+          "Tea",
+          "Chocolate",
+          "Coffee"
+        ],
+        "correct": 1,
+        "evidence": "الشوكولاتة الساخنة"
+      },
+      {
+        "text": "How are the fruit juices described?",
+        "options": [
+          "Cheap",
+          "Free",
+          "Expensive"
+        ],
+        "correct": 2,
+        "evidence": "باهظة الثمن"
+      }
+    ]
+  },
+  {
+    "key": "hi_in_1559",
+    "language_config": "hi_in",
+    "split": "validation",
+    "row_index": 10,
+    "source_id": 1559,
+    "transcript": "इतालवी भाषा में उच्चारण करना तुलनात्मक रूप से आसान है क्योंकि ज़्यादातर शब्दों का उच्चारण वैसे ही किया जाता है जैसे उन्हें लिखा जाता है",
+    "normalized_transcript": "इतालवी भाषा में उच्चारण करना तुलनात्मक रूप से आसान है क्योंकि ज़्यादातर शब्दों का उच्चारण वैसे ही किया जाता है जैसे उन्हें लिखा जाता है",
+    "source_revision": "70bb2e84b976b7e960aa89f1c648e09c59f894dd",
+    "source_sha256": "6dba059899b92b11d0c3ae6e1d5770c923246996f48ff848141a49a9f692d93d",
+    "file": "audio/hi_in_1559.flac",
+    "sha256": "27aca23e2ecde15725c2b98ec51c87a3fe3cc9ef3c7b193491a9f638ab651c3e",
+    "gain_db": -1.2069465741135814,
+    "duration_seconds": 9.24,
+    "sample_rate": 16000,
+    "processed_peak": 0.401611328125,
+    "processed_rms": 0.06309575312902917,
+    "changes": "Full source utterance; constant gain toward -24 dBFS RMS limited to -1 dBFS peak; quantized to PCM16 and losslessly stored as FLAC. No cutting, splicing, denoising, compression, speed change or synthesized speech.",
+    "questions": []
+  },
+  {
+    "key": "hi_in_1526",
+    "language_config": "hi_in",
+    "split": "validation",
+    "row_index": 7,
+    "source_id": 1526,
+    "transcript": "यदि आप सर्दियों में आर्कटिक या अंटार्कटिक क्षेत्रों में जाते हैं, तो आप ध्रुवीय रात का अनुभव करेंगे, जिसका अर्थ है कि सूरज क्षितिज से ऊपर नहीं उगता है।",
+    "normalized_transcript": "यदि आप सर्दियों में आर्कटिक या अंटार्कटिक क्षेत्रों में जाते हैं तो आप ध्रुवीय रात का अनुभव करेंगे जिसका अर्थ है कि सूरज क्षितिज से ऊपर नहीं उगता है",
+    "source_revision": "70bb2e84b976b7e960aa89f1c648e09c59f894dd",
+    "source_sha256": "95d0533055cb7c4a122416cc9dfffc1f1ce03ebefbfeeab86aa6327f887dec4e",
+    "file": "audio/hi_in_1526.flac",
+    "sha256": "123a6dbe6cdccc02ef3524e75dbcc11fcc049225e47fa914f1c99e2ed1c89915",
+    "gain_db": 18.61042047212845,
+    "duration_seconds": 14.16,
+    "sample_rate": 16000,
+    "processed_peak": 0.552001953125,
+    "processed_rms": 0.06309571888759662,
+    "changes": "Full source utterance; constant gain toward -24 dBFS RMS limited to -1 dBFS peak; quantized to PCM16 and losslessly stored as FLAC. No cutting, splicing, denoising, compression, speed change or synthesized speech.",
+    "questions": []
+  },
+  {
+    "key": "hi_in_1615",
+    "language_config": "hi_in",
+    "split": "validation",
+    "row_index": 25,
+    "source_id": 1615,
+    "transcript": "हज़ारों साल पहले, एरिस्टार्चस नामक एक व्यक्ति ने कहा था कि सौर मंडल सूर्य के चारों ओर घूमता है।",
+    "normalized_transcript": "हज़ारों साल पहले एरिस्टार्चस नामक एक व्यक्ति ने कहा था कि सौर मंडल सूर्य के चारों ओर घूमता है",
+    "source_revision": "70bb2e84b976b7e960aa89f1c648e09c59f894dd",
+    "source_sha256": "95c7da08aacf252cda5b43e51358cdca71468fb3d9f7c108f1d5e9f53c6acfe7",
+    "file": "audio/hi_in_1615.flac",
+    "sha256": "dab59b039abb8b94274ec4759a8a1ad622fdecf8c6150e125e5135a0b5478f1b",
+    "gain_db": 9.562921568242487,
+    "duration_seconds": 14.52,
+    "sample_rate": 16000,
+    "processed_peak": 0.73321533203125,
+    "processed_rms": 0.06309574107851133,
+    "changes": "Full source utterance; constant gain toward -24 dBFS RMS limited to -1 dBFS peak; quantized to PCM16 and losslessly stored as FLAC. No cutting, splicing, denoising, compression, speed change or synthesized speech.",
+    "questions": []
+  },
+  {
+    "key": "hi_in_1594",
+    "language_config": "hi_in",
+    "split": "validation",
+    "row_index": 79,
+    "source_id": 1594,
+    "transcript": "हाथी और जिराफ़ जैसे कुछ जानवर, कारों के बहुत करीब चले आते हैं और मानक उपकरण से अच्छा नज़ारा दिखाई देगा.",
+    "normalized_transcript": "हाथी और जिराफ़ जैसे कुछ जानवर कारों के बहुत करीब चले आते हैं और मानक उपकरण से अच्छा नज़ारा दिखाई देगा",
+    "source_revision": "70bb2e84b976b7e960aa89f1c648e09c59f894dd",
+    "source_sha256": "6c2f8b75d71ae0a8ecc98c5e9205eae495adb636735c733de4fb9a20aa8b86d2",
+    "file": "audio/hi_in_1594.flac",
+    "sha256": "4381bbebb0ce7cc293093fdf2ecb8a9635776460cc6c0f32f92f2bce1c2eb6af",
+    "gain_db": 3.292637534821484,
+    "duration_seconds": 9.9,
+    "sample_rate": 16000,
+    "processed_peak": 0.51556396484375,
+    "processed_rms": 0.06309574480532783,
+    "changes": "Full source utterance; constant gain toward -24 dBFS RMS limited to -1 dBFS peak; quantized to PCM16 and losslessly stored as FLAC. No cutting, splicing, denoising, compression, speed change or synthesized speech.",
+    "questions": []
+  }
+]

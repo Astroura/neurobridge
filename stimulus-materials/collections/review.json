@@ -1,0 +1,622 @@
+[
+  {
+    "key": "en_us_1528",
+    "source_transcript": "Some festivals have special camping areas for families with young children.",
+    "independent_asr": "Some festivals have special camping areas for families with young children.",
+    "duration_seconds": 6.84,
+    "sample_rate": 16000,
+    "channels": 1,
+    "peak": 0.683807373046875,
+    "rms": 0.06309575138935052,
+    "clipping_fraction": 0.0,
+    "finite": true,
+    "asr_model": "Systran/faster-whisper-small (Whisper small multilingual), CPU int8; machine cross-check, not auditory certification",
+    "text_review": "Complete source transcript and question evidence checked by Codex; not a human/fluent-speaker certification.",
+    "auditory_review": false,
+    "review_date": "2026-11-19",
+    "review_notes": "Both questions use the explicit family/young-child phrase. They are intentionally easy and partly redundant; do not treat them as independent psychometric items.",
+    "answer_evidence": [
+      {
+        "text": "Who are the camping areas for?",
+        "options": [
+          "Families",
+          "Shopkeepers",
+          "Pilots"
+        ],
+        "correct": 0,
+        "evidence": "families with young children"
+      },
+      {
+        "text": "Who are the families bringing?",
+        "options": [
+          "Dogs",
+          "Young children",
+          "Teachers"
+        ],
+        "correct": 1,
+        "evidence": "young children"
+      }
+    ]
+  },
+  {
+    "key": "en_us_1531",
+    "source_transcript": "The East African Islands are in the Indian Ocean off the eastern coast of Africa.",
+    "independent_asr": "The East African islands are in the Indian Ocean off the eastern coast of Africa.",
+    "duration_seconds": 4.44,
+    "sample_rate": 16000,
+    "channels": 1,
+    "peak": 0.56463623046875,
+    "rms": 0.06309575232714563,
+    "clipping_fraction": 0.0,
+    "finite": true,
+    "asr_model": "Systran/faster-whisper-small (Whisper small multilingual), CPU int8; machine cross-check, not auditory certification",
+    "text_review": "Complete source transcript and question evidence checked by Codex; not a human/fluent-speaker certification.",
+    "auditory_review": false,
+    "review_date": "2026-11-19",
+    "review_notes": "Both Indian Ocean and eastern coast are explicit. The source clip was quiet; constant gain was applied, with no content change.",
+    "answer_evidence": [
+      {
+        "text": "Which ocean are the islands in?",
+        "options": [
+          "Atlantic Ocean",
+          "Pacific Ocean",
+          "Indian Ocean"
+        ],
+        "correct": 2,
+        "evidence": "Indian Ocean"
+      },
+      {
+        "text": "Which coast of Africa is mentioned?",
+        "options": [
+          "Eastern coast",
+          "Western coast",
+          "Northern coast"
+        ],
+        "correct": 0,
+        "evidence": "eastern coast of Africa"
+      }
+    ]
+  },
+  {
+    "key": "en_us_1541",
+    "source_transcript": "Courier companies are well paid for delivering things quickly. Frequently, time is very important with business documents, merchandise or spare parts for an urgent repair.",
+    "independent_asr": "Career companies are well paid for delivering things quickly. Frequently,  time is very important with business documents, merchandise, or spare parts for  an urgent repair.",
+    "duration_seconds": 10.92,
+    "sample_rate": 16000,
+    "channels": 1,
+    "peak": 0.493682861328125,
+    "rms": 0.06309573583142021,
+    "clipping_fraction": 0.0,
+    "finite": true,
+    "asr_model": "Systran/faster-whisper-small (Whisper small multilingual), CPU int8; machine cross-check, not auditory certification",
+    "text_review": "Complete source transcript and question evidence checked by Codex; not a human/fluent-speaker certification.",
+    "auditory_review": false,
+    "review_date": "2026-11-19",
+    "review_notes": "Machine transcription writes Career for Courier. Questions deliberately target the clearly transcribed delivery speed and spare parts, not the disputed word.",
+    "answer_evidence": [
+      {
+        "text": "How are things delivered?",
+        "options": [
+          "Quickly",
+          "Slowly",
+          "Only at night"
+        ],
+        "correct": 0,
+        "evidence": "quickly"
+      },
+      {
+        "text": "What can be delivered?",
+        "options": [
+          "Wild animals",
+          "Spare parts",
+          "Fresh flowers"
+        ],
+        "correct": 1,
+        "evidence": "spare parts"
+      }
+    ]
+  },
+  {
+    "key": "en_us_1521",
+    "source_transcript": "The satellite in space gets the call and then reflects it back down, almost instantly.",
+    "independent_asr": "The satellite in space gets the call and then reflects it back down almost instantly.",
+    "duration_seconds": 5.52,
+    "sample_rate": 16000,
+    "channels": 1,
+    "peak": 0.507965087890625,
+    "rms": 0.06309575771297075,
+    "clipping_fraction": 0.0,
+    "finite": true,
+    "asr_model": "Systran/faster-whisper-small (Whisper small multilingual), CPU int8; machine cross-check, not auditory certification",
+    "text_review": "Complete source transcript and question evidence checked by Codex; not a human/fluent-speaker certification.",
+    "auditory_review": false,
+    "review_date": "2026-11-19",
+    "review_notes": "In space and back down are explicit. Questions test the passage wording; this is not an assertion that every telephone call uses a satellite.",
+    "answer_evidence": [
+      {
+        "text": "Where is the satellite?",
+        "options": [
+          "Under water",
+          "In a forest",
+          "In space"
+        ],
+        "correct": 2,
+        "evidence": "in space"
+      },
+      {
+        "text": "Where does it reflect the call?",
+        "options": [
+          "Back down",
+          "Into the sea",
+          "To the Moon"
+        ],
+        "correct": 0,
+        "evidence": "back down"
+      }
+    ]
+  },
+  {
+    "key": "en_us_1522",
+    "source_transcript": "Technology offers the solution with virtual field trips. Students can look at museum artifacts, visit an aquarium, or admire beautiful art while sitting with their class.",
+    "independent_asr": "Technology offers a solution with virtual field trips.  Students can look at museum artifacts to visit an aquarium or admire beautiful art while sitting with their class.",
+    "duration_seconds": 10.14,
+    "sample_rate": 16000,
+    "channels": 1,
+    "peak": 0.477203369140625,
+    "rms": 0.0630957526429049,
+    "clipping_fraction": 0.0,
+    "finite": true,
+    "asr_model": "Systran/faster-whisper-small (Whisper small multilingual), CPU int8; machine cross-check, not auditory certification",
+    "text_review": "Complete source transcript and question evidence checked by Codex; not a human/fluent-speaker certification.",
+    "auditory_review": false,
+    "review_date": "2026-11-19",
+    "review_notes": "Virtual field trips and staying with the class are explicit. A minor ASR connector difference does not change either answer.",
+    "answer_evidence": [
+      {
+        "text": "What kind of field trips are mentioned?",
+        "options": [
+          "Walking trips",
+          "Virtual trips",
+          "Bus trips"
+        ],
+        "correct": 1,
+        "evidence": "virtual field trips"
+      },
+      {
+        "text": "Where do the students stay?",
+        "options": [
+          "At an airport",
+          "On a ship",
+          "With their class"
+        ],
+        "correct": 2,
+        "evidence": "sitting with their class"
+      }
+    ]
+  },
+  {
+    "key": "en_us_1600",
+    "source_transcript": "Examples of on-site activities include hunting, fishing, photography, bird watching, and visiting parks and studying information about the ecosystem.",
+    "independent_asr": "Examples on all site activities including hunting, fishing, photography, bird  watching, and visiting parks and studying information about the ecosystem.",
+    "duration_seconds": 11.7,
+    "sample_rate": 16000,
+    "channels": 1,
+    "peak": 0.64263916015625,
+    "rms": 0.06309570374735747,
+    "clipping_fraction": 0.0,
+    "finite": true,
+    "asr_model": "Systran/faster-whisper-small (Whisper small multilingual), CPU int8; machine cross-check, not auditory certification",
+    "text_review": "Complete source transcript and question evidence checked by Codex; not a human/fluent-speaker certification.",
+    "auditory_review": false,
+    "review_date": "2026-11-19",
+    "review_notes": "Fishing and visiting parks are explicit items in the activity list. Distractors are absent from the passage.",
+    "answer_evidence": [
+      {
+        "text": "Which activity is mentioned?",
+        "options": [
+          "Fishing",
+          "Skiing",
+          "Dancing"
+        ],
+        "correct": 0,
+        "evidence": "fishing"
+      },
+      {
+        "text": "What places can people visit?",
+        "options": [
+          "Factories",
+          "Airports",
+          "Parks"
+        ],
+        "correct": 2,
+        "evidence": "visiting parks"
+      }
+    ]
+  },
+  {
+    "key": "en_us_1559",
+    "source_transcript": "Pronunciation is relatively easy in Italian since most words are pronounced exactly how they are written",
+    "independent_asr": "The pronunciation is relatively easy in Italian, since most words are pronounced exactly how they are written.",
+    "duration_seconds": 9.32,
+    "sample_rate": 16000,
+    "channels": 1,
+    "peak": 0.863250732421875,
+    "rms": 0.06309577334938528,
+    "clipping_fraction": 0.0,
+    "finite": true,
+    "asr_model": "Systran/faster-whisper-small (Whisper small multilingual), CPU int8; machine cross-check, not auditory certification",
+    "text_review": "Complete source transcript and question evidence checked by Codex; not a human/fluent-speaker certification.",
+    "auditory_review": false,
+    "review_date": "2026-11-19",
+    "review_notes": "Hindi and English both say Italian pronunciation is comparatively easy because spelling and pronunciation generally agree. Listening only; no scored items.",
+    "answer_evidence": []
+  },
+  {
+    "key": "en_us_1526",
+    "source_transcript": "If you visit the Arctic or Antarctic areas in the winter you will experience the polar night, which means that the sun doesn't rise above the horizon.",
+    "independent_asr": "If you visit the arctic or Antarctic areas in the winter, you will experience the polar  night, which means that the sun doesn't rise above the horizon.",
+    "duration_seconds": 13.74,
+    "sample_rate": 16000,
+    "channels": 1,
+    "peak": 0.891265869140625,
+    "rms": 0.057465299040336856,
+    "clipping_fraction": 0.0,
+    "finite": true,
+    "asr_model": "Systran/faster-whisper-small (Whisper small multilingual), CPU int8; machine cross-check, not auditory certification",
+    "text_review": "Complete source transcript and question evidence checked by Codex; not a human/fluent-speaker certification.",
+    "auditory_review": false,
+    "review_date": "2026-11-19",
+    "review_notes": "Both languages describe polar night in winter and the Sun not rising above the horizon. Listening only.",
+    "answer_evidence": []
+  },
+  {
+    "key": "en_us_1615",
+    "source_transcript": "Thousands of years ago, a man called Aristarchus said that the Solar System moved around the Sun.",
+    "independent_asr": "Thousands of years ago, a man called Arish Churus said the solar system moved around the sun.",
+    "duration_seconds": 6.78,
+    "sample_rate": 16000,
+    "channels": 1,
+    "peak": 0.542266845703125,
+    "rms": 0.06309571106689235,
+    "clipping_fraction": 0.0,
+    "finite": true,
+    "asr_model": "Systran/faster-whisper-small (Whisper small multilingual), CPU int8; machine cross-check, not auditory certification",
+    "text_review": "Complete source transcript and question evidence checked by Codex; not a human/fluent-speaker certification.",
+    "auditory_review": false,
+    "review_date": "2026-11-19",
+    "review_notes": "Both languages refer to Aristarchus and the Solar System moving around the Sun. ASR does not reliably spell the proper name; it is retained in the source transcript, not silently replaced. Listening only.",
+    "answer_evidence": []
+  },
+  {
+    "key": "en_us_1594",
+    "source_transcript": "Some animals, such as elephants and giraffes, tend to approach closely to cars and standard equipment will allow good viewing.",
+    "independent_asr": "Some animals such as elephants and giraffes tend to approach closely to cars and standard equipment will allow good viewing.",
+    "duration_seconds": 10.98,
+    "sample_rate": 16000,
+    "channels": 1,
+    "peak": 0.44659423828125,
+    "rms": 0.06309575395207033,
+    "clipping_fraction": 0.0,
+    "finite": true,
+    "asr_model": "Systran/faster-whisper-small (Whisper small multilingual), CPU int8; machine cross-check, not auditory certification",
+    "text_review": "Complete source transcript and question evidence checked by Codex; not a human/fluent-speaker certification.",
+    "auditory_review": false,
+    "review_date": "2026-11-19",
+    "review_notes": "Both languages mention elephants/giraffes approaching cars and viewing equipment. Listening only.",
+    "answer_evidence": []
+  },
+  {
+    "key": "ar_eg_1942",
+    "source_transcript": "نصنع بيوتنا وملابسنا من النباتات . معظم الطعام الذي نتناوله من النباتات كذلك. بدون النباتات، لا يمكن للحيوانات البقاء.",
+    "independent_asr": "نصنع بيوتنا وملابسنا من النباتات  مرزم الطعام الذي نتناوله من النباتات كذلك  بدون النباتات ليمكن للحيوانات البقاء",
+    "duration_seconds": 10.7,
+    "sample_rate": 16000,
+    "channels": 1,
+    "peak": 0.624786376953125,
+    "rms": 0.06309574593909457,
+    "clipping_fraction": 0.0,
+    "finite": true,
+    "asr_model": "Systran/faster-whisper-small (Whisper small multilingual), CPU int8; machine cross-check, not auditory certification",
+    "text_review": "Complete source transcript and question evidence checked by Codex; not a human/fluent-speaker certification.",
+    "auditory_review": false,
+    "review_date": "2026-11-19",
+    "review_notes": "Clothes and most food coming from plants are explicit. Source text proofread; ASR has spelling errors in the word meaning most. No inference about unmentioned materials is required.",
+    "answer_evidence": [
+      {
+        "text": "What do people make clothes from?",
+        "options": [
+          "Metal",
+          "Plants",
+          "Glass"
+        ],
+        "correct": 1,
+        "evidence": "ملابسنا من النباتات"
+      },
+      {
+        "text": "Where does most of our food come from?",
+        "options": [
+          "Plants",
+          "Stones",
+          "Sand"
+        ],
+        "correct": 0,
+        "evidence": "معظم الطعام الذي نتناوله من النباتات"
+      }
+    ]
+  },
+  {
+    "key": "ar_eg_1680",
+    "source_transcript": "بصفته رياضيّاً شاملاً، يمكن للنّمر التّسلق (وإن لم يكن ذلك بشكلٍ جيد) والسّباحة والقفز لمسافاتٍ طويلةٍ والسّحب بقوّة خمسة أضعاف قوّة الإنسان.",
+    "independent_asr": "بسفة رياضياً شاملاً يمكن للنمر التسلق وإن لم يكن زالت بشكل جيد والسباحة والقفز لمسافة الطويلة والسحب بقوة 5 أضعف قوية الإنسان",
+    "duration_seconds": 10.92,
+    "sample_rate": 16000,
+    "channels": 1,
+    "peak": 0.439453125,
+    "rms": 0.06309572963497183,
+    "clipping_fraction": 0.0,
+    "finite": true,
+    "asr_model": "Systran/faster-whisper-small (Whisper small multilingual), CPU int8; machine cross-check, not auditory certification",
+    "text_review": "Complete source transcript and question evidence checked by Codex; not a human/fluent-speaker certification.",
+    "auditory_review": false,
+    "review_date": "2026-11-19",
+    "review_notes": "Tiger and swimming are explicit. Avoided the more difficult five-times-strength detail. Arabic orthographic variants in machine transcription are retained in the audit.",
+    "answer_evidence": [
+      {
+        "text": "Which animal is described?",
+        "options": [
+          "A rabbit",
+          "A whale",
+          "A tiger"
+        ],
+        "correct": 2,
+        "evidence": "للنّمر"
+      },
+      {
+        "text": "What can the tiger do?",
+        "options": [
+          "Swim",
+          "Fly",
+          "Speak"
+        ],
+        "correct": 0,
+        "evidence": "السّباحة"
+      }
+    ]
+  },
+  {
+    "key": "ar_eg_1714",
+    "source_transcript": "أُرسل القمر الصناعي إلى الفضاء بواسطة صاروخ. يستخدم العلماء التلسكوبات في الفضاء لأن الغلاف الجوي لكوكب الأرض يشوه بعض الضوء والرؤية.",
+    "independent_asr": "أرسل القامر الصناعي إلى الفضائي بواصطة صاروخ  يستخدم العلماء التليسكوبات في الفضائي لأن الغلاف الجوي لكوكب الأرض  يشاوه بعض الضوء والرؤية",
+    "duration_seconds": 11.4,
+    "sample_rate": 16000,
+    "channels": 1,
+    "peak": 0.891265869140625,
+    "rms": 0.055290530211355764,
+    "clipping_fraction": 0.0,
+    "finite": true,
+    "asr_model": "Systran/faster-whisper-small (Whisper small multilingual), CPU int8; machine cross-check, not auditory certification",
+    "text_review": "Complete source transcript and question evidence checked by Codex; not a human/fluent-speaker certification.",
+    "auditory_review": false,
+    "review_date": "2026-11-19",
+    "review_notes": "Rocket and telescopes are explicit. Avoided asking for an explanation of atmospheric distortion.",
+    "answer_evidence": [
+      {
+        "text": "What carried the satellite into space?",
+        "options": [
+          "A train",
+          "A rocket",
+          "A bus"
+        ],
+        "correct": 1,
+        "evidence": "بواسطة صاروخ"
+      },
+      {
+        "text": "What do scientists use in space?",
+        "options": [
+          "Bicycles",
+          "Boats",
+          "Telescopes"
+        ],
+        "correct": 2,
+        "evidence": "التلسكوبات في الفضاء"
+      }
+    ]
+  },
+  {
+    "key": "ar_eg_1778",
+    "source_transcript": "يتصاعد من المصنع دخاناً أبيض، وهذا ما أظهرته تقارير تلفزيونية.",
+    "independent_asr": "يتصعد من المصنع دخاناً أبيض وهذا ما أزهرته تقارير تلفزيونية",
+    "duration_seconds": 6.0,
+    "sample_rate": 16000,
+    "channels": 1,
+    "peak": 0.54278564453125,
+    "rms": 0.0630958037405922,
+    "clipping_fraction": 0.0,
+    "finite": true,
+    "asr_model": "Systran/faster-whisper-small (Whisper small multilingual), CPU int8; machine cross-check, not auditory certification",
+    "text_review": "Complete source transcript and question evidence checked by Codex; not a human/fluent-speaker certification.",
+    "auditory_review": false,
+    "review_date": "2026-11-19",
+    "review_notes": "White and factory are explicit. Each question asks for a single concrete noun or color.",
+    "answer_evidence": [
+      {
+        "text": "What color is the smoke?",
+        "options": [
+          "White",
+          "Blue",
+          "Green"
+        ],
+        "correct": 0,
+        "evidence": "دخاناً أبيض"
+      },
+      {
+        "text": "Where is the smoke coming from?",
+        "options": [
+          "A school",
+          "A factory",
+          "A farm"
+        ],
+        "correct": 1,
+        "evidence": "من المصنع"
+      }
+    ]
+  },
+  {
+    "key": "ar_eg_1737",
+    "source_transcript": "الأسود هي أكثر القطط اجتماعية وتعيش في مجموعات كبيرة تدعى قطعاناً.",
+    "independent_asr": "الوسود هي أكثر القطة إجتماعية وتعيش في مجموعة كبيرة تدعى قطعانا",
+    "duration_seconds": 7.92,
+    "sample_rate": 16000,
+    "channels": 1,
+    "peak": 0.448577880859375,
+    "rms": 0.06309571804850701,
+    "clipping_fraction": 0.0,
+    "finite": true,
+    "asr_model": "Systran/faster-whisper-small (Whisper small multilingual), CPU int8; machine cross-check, not auditory certification",
+    "text_review": "Complete source transcript and question evidence checked by Codex; not a human/fluent-speaker certification.",
+    "auditory_review": false,
+    "review_date": "2026-11-19",
+    "review_notes": "Lions and large groups are explicit. No question depends on translating the collective-noun term.",
+    "answer_evidence": [
+      {
+        "text": "Which animals are described?",
+        "options": [
+          "Lions",
+          "Bears",
+          "Zebras"
+        ],
+        "correct": 0,
+        "evidence": "الأسود"
+      },
+      {
+        "text": "How do they live?",
+        "options": [
+          "Only alone",
+          "In pairs only",
+          "In large groups"
+        ],
+        "correct": 2,
+        "evidence": "مجموعات كبيرة"
+      }
+    ]
+  },
+  {
+    "key": "ar_eg_1720",
+    "source_transcript": "الشوكولاتة الساخنة متوافقة مع المعايير البلجيكية. عصائر الفاكهة ممتازة على الرغم من أنها باهظة الثمن.",
+    "independent_asr": "الشكلات الساخنة متوفقة مع المعاير البلجيكية عصائر الفاكيها ممتازة على الرغم من أنها بهضة الثمن",
+    "duration_seconds": 10.16,
+    "sample_rate": 16000,
+    "channels": 1,
+    "peak": 0.510650634765625,
+    "rms": 0.06309575586303141,
+    "clipping_fraction": 0.0,
+    "finite": true,
+    "asr_model": "Systran/faster-whisper-small (Whisper small multilingual), CPU int8; machine cross-check, not auditory certification",
+    "text_review": "Complete source transcript and question evidence checked by Codex; not a human/fluent-speaker certification.",
+    "auditory_review": false,
+    "review_date": "2026-11-19",
+    "review_notes": "Hot chocolate and expensive fruit juice are explicit. Avoided the less useful Belgian-standards reference.",
+    "answer_evidence": [
+      {
+        "text": "Which hot drink is mentioned?",
+        "options": [
+          "Tea",
+          "Chocolate",
+          "Coffee"
+        ],
+        "correct": 1,
+        "evidence": "الشوكولاتة الساخنة"
+      },
+      {
+        "text": "How are the fruit juices described?",
+        "options": [
+          "Cheap",
+          "Free",
+          "Expensive"
+        ],
+        "correct": 2,
+        "evidence": "باهظة الثمن"
+      }
+    ]
+  },
+  {
+    "key": "hi_in_1559",
+    "source_transcript": "इतालवी भाषा में उच्चारण करना तुलनात्मक रूप से आसान है क्योंकि ज़्यादातर शब्दों का उच्चारण वैसे ही किया जाता है जैसे उन्हें लिखा जाता है",
+    "independent_asr": "इताल भी बाशान उचारन करना तुल्नात्मक रूप सी आसान है, क्योंके जयादाता शब्दों को उचारन वैसे ही किया जैसे नहीं लिखा जाता है.",
+    "duration_seconds": 9.24,
+    "sample_rate": 16000,
+    "channels": 1,
+    "peak": 0.401611328125,
+    "rms": 0.06309575312902917,
+    "clipping_fraction": 0.0,
+    "finite": true,
+    "asr_model": "Systran/faster-whisper-small (Whisper small multilingual), CPU int8; machine cross-check, not auditory certification",
+    "text_review": "Complete source transcript and question evidence checked by Codex; not a human/fluent-speaker certification.",
+    "auditory_review": false,
+    "review_date": "2026-11-19",
+    "review_notes": "Medium-model cross-check supports the source comparative-ease/spelling meaning; small-model negation was inconsistent. Source script retained. Not an auditory certification.",
+    "answer_evidence": [],
+    "second_asr_cross_check": "इतालबी भाशा में उच्छारण करना तुलनात्मक रूप से आसान है, क्योकि ज्यादाता शब्दों को उच्छारण वैसे ही किया जाता है, जैसे उन्हें लिखा जाता है।",
+    "second_asr_model": "Systran/faster-whisper-medium (Whisper medium multilingual), CPU int8; machine cross-check, not auditory certification"
+  },
+  {
+    "key": "hi_in_1526",
+    "source_transcript": "यदि आप सर्दियों में आर्कटिक या अंटार्कटिक क्षेत्रों में जाते हैं, तो आप ध्रुवीय रात का अनुभव करेंगे, जिसका अर्थ है कि सूरज क्षितिज से ऊपर नहीं उगता है।",
+    "independent_asr": "यदि आप सर्दियो में आर्टिक या अंटार्टिक शेट्रो में जाते है, तो आप द्रुवे रात का अनुभाओ करेंगे, जिसका अर्थ है कि सूरज शितिच रे उपन नहीं उपता है.",
+    "duration_seconds": 14.16,
+    "sample_rate": 16000,
+    "channels": 1,
+    "peak": 0.552001953125,
+    "rms": 0.06309571888759662,
+    "clipping_fraction": 0.0,
+    "finite": true,
+    "asr_model": "Systran/faster-whisper-small (Whisper small multilingual), CPU int8; machine cross-check, not auditory certification",
+    "text_review": "Complete source transcript and question evidence checked by Codex; not a human/fluent-speaker certification.",
+    "auditory_review": false,
+    "review_date": "2026-11-19",
+    "review_notes": "Medium-model cross-check supports winter, Arctic/Antarctic and Sun-not-rising meaning, with phonetic/spelling errors in place names and horizon. Source script retained.",
+    "answer_evidence": [],
+    "second_asr_cross_check": "यदि आप सर्दियों में आर्टिक या अन्टार्टिक शेत्रों में जाते हैं, तो आप द्रूविय रात का अनुभाव करेंगे, जिसका अर्थ है कि सूर्च शिति उपप नहीं उपता है।",
+    "second_asr_model": "Systran/faster-whisper-medium (Whisper medium multilingual), CPU int8; machine cross-check, not auditory certification"
+  },
+  {
+    "key": "hi_in_1615",
+    "source_transcript": "हज़ारों साल पहले, एरिस्टार्चस नामक एक व्यक्ति ने कहा था कि सौर मंडल सूर्य के चारों ओर घूमता है।",
+    "independent_asr": "प्रज़ारो साल पहले एरिष्ट च्र्स्नामक एक भिर्तिने कहाथा किस सोर मंडल सूर्या के चारो और गुमता है",
+    "duration_seconds": 14.52,
+    "sample_rate": 16000,
+    "channels": 1,
+    "peak": 0.73321533203125,
+    "rms": 0.06309574107851133,
+    "clipping_fraction": 0.0,
+    "finite": true,
+    "asr_model": "Systran/faster-whisper-small (Whisper small multilingual), CPU int8; machine cross-check, not auditory certification",
+    "text_review": "Complete source transcript and question evidence checked by Codex; not a human/fluent-speaker certification.",
+    "auditory_review": false,
+    "review_date": "2026-11-19",
+    "review_notes": "Medium-model cross-check supports the Solar System revolving around the Sun. Proper name is uncertain in ASR and remains the source spelling. No comprehension score collected.",
+    "answer_evidence": [],
+    "second_asr_cross_check": "हजारो साल पहले येरिष्टर्च्यर्श नामक एक विर्तिने कहा था कि इस सोर्मंडल सुर्य के चारो वर गुमता है।",
+    "second_asr_model": "Systran/faster-whisper-medium (Whisper medium multilingual), CPU int8; machine cross-check, not auditory certification"
+  },
+  {
+    "key": "hi_in_1594",
+    "source_transcript": "हाथी और जिराफ़ जैसे कुछ जानवर, कारों के बहुत करीब चले आते हैं और मानक उपकरण से अच्छा नज़ारा दिखाई देगा.",
+    "independent_asr": "हाती और जेव राप जैसे कुछ जान्वर कारूं के बहुत करीब चले जाते हैं  और माना कुप करनो से अच्छा नजारा दिखाई देगा",
+    "duration_seconds": 9.9,
+    "sample_rate": 16000,
+    "channels": 1,
+    "peak": 0.51556396484375,
+    "rms": 0.06309574480532783,
+    "clipping_fraction": 0.0,
+    "finite": true,
+    "asr_model": "Systran/faster-whisper-small (Whisper small multilingual), CPU int8; machine cross-check, not auditory certification",
+    "text_review": "Complete source transcript and question evidence checked by Codex; not a human/fluent-speaker certification.",
+    "auditory_review": false,
+    "review_date": "2026-11-19",
+    "review_notes": "Medium-model cross-check supports animals approaching cars. ASR spells giraffe phonetically. Source script and pair meaning retained.",
+    "answer_evidence": [],
+    "second_asr_cross_check": "हाथी और जेवराब जैसे कुछ जानवर कारों के बहुत करीब चले जाते हैं  और मानकुप करनों से अच्छा नजारा देखाई देगा",
+    "second_asr_model": "Systran/faster-whisper-medium (Whisper medium multilingual), CPU int8; machine cross-check, not auditory certification"
+  }
+]

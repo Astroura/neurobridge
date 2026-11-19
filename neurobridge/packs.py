@@ -25,7 +25,10 @@ def import_pack(data,root):
             pending.append((name,payload));c['original_name']=path.name;c['audio']=name
         # Check manifest shape before any writes. Draft questions may be blank for review.
         for c in clips:
-            if not isinstance(c.get('questions'),list) or len(c['questions'])!=2:raise ValueError('Each imported trial needs two question fields.')
+            response_mode=c.get('response_mode','questionnaire')
+            if response_mode not in ['questionnaire','none']:raise ValueError('Invalid response mode.')
+            expected=0 if response_mode=='none' else 2
+            if not isinstance(c.get('questions'),list) or len(c['questions'])!=expected:raise ValueError('Use two questions, or an explicit listening-only trial with no questions.')
         audio_dir=root/'stimuli/audio';audio_dir.mkdir(parents=True,exist_ok=True)
         for name,payload in pending:
             dest=audio_dir/name
@@ -34,6 +37,6 @@ def import_pack(data,root):
         provenance=root/'stimuli'/'packs'/hashlib.sha256(data).hexdigest()[:24]
         provenance.mkdir(parents=True,exist_ok=True)
         (provenance/'pack.json').write_text(json.dumps(manifest,ensure_ascii=False,indent=2))
-        for member in ['README.txt','LICENSES.txt','sources_and_manifest.csv']:
+        for member in ['README.txt','LICENSES.txt','sources_and_manifest.csv','REVIEW.md','review.json']:
             if member in names:(provenance/member).write_bytes(archive.read(member))
         return {'clips':clips,'title':manifest.get('title','Stimulus pack'),'review_notice':manifest.get('review_notice','Review all materials before use.')}

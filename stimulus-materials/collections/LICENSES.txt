@@ -1,0 +1,9 @@
+Audio and source transcripts: Google FLEURS (The Google and Hugging Face Datasets Authors), based on the FLORES parallel text benchmark. Source: https://huggingface.co/datasets/google/fleurs and https://github.com/google-research-datasets/fleurs
+Pinned Hugging Face dataset revision: 70bb2e84b976b7e960aa89f1c648e09c59f894dd
+License: Creative Commons Attribution 4.0 International (CC BY 4.0).
+License terms: https://creativecommons.org/licenses/by/4.0/
+Dataset paper: https://arxiv.org/abs/2205.12446
+
+Changes: selected full utterances; constant per-file gain toward -24 dBFS RMS, capped at -1 dBFS peak; conversion to 16-bit mono WAV at the original 16 kHz. Committed intermediate FLAC is lossless relative to this PCM16. No speech synthesis, sentence splicing or content editing. Individual gain and hashes are in sources_and_manifest.csv.
+
+New questions, answer evidence, pack organization and review notes: original NeuroBridge material, AI-authored and text-proofread. These additions are provided under CC BY 4.0; attribute NeuroBridge contributors, https://github.com/Astroura/neurobridge . No endorsement by Google, FLEURS authors or speakers is implied.

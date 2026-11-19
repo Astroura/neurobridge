@@ -16,6 +16,11 @@ def validate_clips(clips,root):
             if not str(c.get('language','')).strip():raise ValueError('Enter the spoken language for each live trial.')
             if not str(c.get('speaker_id','')).strip():raise ValueError('Enter a coded speaker ID for each live trial.')
             if not str(c.get('script','')).strip():raise ValueError('Save the intended speech/script or topic for each live trial.')
+        response_mode=c.get('response_mode','questionnaire')
+        if response_mode not in ['questionnaire','none']:raise ValueError('Choose questions and rating, or listening only.')
+        if response_mode=='none':
+            if c.get('questions')!=[]:raise ValueError('Listening-only trials must have an empty question list.')
+            continue
         qs=c.get('questions',[])
         if not isinstance(qs,list) or len(qs)!=2:raise ValueError('Each trial needs two questions.')
         for q in qs:

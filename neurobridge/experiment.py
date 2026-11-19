@@ -26,7 +26,7 @@ def main():
     events=(folder/'events.csv').open('x',newline='');ew=csv.writer(events)
     ew.writerow(['participant_id','session_id','trial_id','clip_id','event','lsl_timestamp','details'])
     response=(folder/'answers.csv').open('x',newline='');rw=csv.writer(response)
-    rw.writerow(['participant_id','session_id','trial_id','clip_id','practice','q1_response','q2_response','q1_correct','q2_correct','comprehension_score','understanding_rating','lsl_timestamp','language','mode','speaker_id'])
+    rw.writerow(['participant_id','session_id','trial_id','clip_id','practice','q1_response','q2_response','q1_correct','q2_correct','comprehension_score','understanding_rating','lsl_timestamp','language','mode','speaker_id','response_mode'])
     def event(name,trial='',clip='',details=''):
         ew.writerow([config['participant'],folder.name,trial,clip,name,f'{local_clock():.9f}',details]);events.flush();os.fsync(events.fileno())
     ready=threading.Event(); failed=[]
@@ -74,22 +74,26 @@ def main():
             else:
                 event('AUDIO_PLAY_REQUEST',tid,cid)
                 audio=subprocess.Popen(['/usr/bin/afplay',str(root/'stimuli/audio'/clip['audio'])],stdout=subprocess.DEVNULL,stderr=subprocess.PIPE)
-                emit(phase='listening',message='Listen quietly. Questions follow playback.',step='listening')
+                emit(phase='listening',message='Listen quietly. Rest follows playback.' if clip.get('response_mode')=='none' else 'Listen quietly. Questions follow playback.',step='listening')
                 while audio.poll() is None: health();wait(.2)
                 if audio.returncode: raise RuntimeError('Audio playback failed: '+audio.stderr.read().decode()[:300])
                 event('AUDIO_PLAYBACK_RETURNED',tid,cid)
-            event('QUESTIONS_START',tid,cid)
-            emit(phase='questions',message='Answer both questions, then rate your understanding',step='questions',questions=clip['questions'],trial_id=tid)
-            while True:
-                health()
-                try: answer=answers.get(timeout=.2)
-                except queue.Empty: continue
-                if answer.get('trial_id')!=tid: continue
-                vals=answer.get('answers',[]);rating=answer.get('rating')
-                if len(vals)!=2 or any(type(v)!=int or v not in [0,1,2,3] for v in vals) or type(rating)!=int or rating not in range(1,6):continue
-                scores=[int(v==q['correct']) for v,q in zip(vals,clip['questions'])]
-                rw.writerow([config['participant'],folder.name,tid,cid,clip.get('practice',False),*vals,*scores,sum(scores),rating,f'{local_clock():.9f}',clip.get('language',''),clip.get('mode','audio'),clip.get('speaker_id','')]);response.flush();os.fsync(response.fileno())
-                event('RESPONSES_SAVED',tid,cid,json.dumps(answer));break
+            if clip.get('response_mode')=='none':
+                event('RESPONSES_SKIPPED',tid,cid,'Listening only; no questions, rating or comprehension score collected.')
+                rw.writerow([config['participant'],folder.name,tid,cid,clip.get('practice',False),*['']*6,f'{local_clock():.9f}',clip.get('language',''),clip.get('mode','audio'),clip.get('speaker_id',''),'none']);response.flush();os.fsync(response.fileno())
+            else:
+                event('QUESTIONS_START',tid,cid)
+                emit(phase='questions',message='Answer both questions, then rate your understanding',step='questions',questions=clip['questions'],trial_id=tid)
+                while True:
+                    health()
+                    try: answer=answers.get(timeout=.2)
+                    except queue.Empty: continue
+                    if answer.get('trial_id')!=tid: continue
+                    vals=answer.get('answers',[]);rating=answer.get('rating')
+                    if len(vals)!=2 or any(type(v)!=int or v not in [0,1,2,3] for v in vals) or type(rating)!=int or rating not in range(1,6):continue
+                    scores=[int(v==q['correct']) for v,q in zip(vals,clip['questions'])]
+                    rw.writerow([config['participant'],folder.name,tid,cid,clip.get('practice',False),*vals,*scores,sum(scores),rating,f'{local_clock():.9f}',clip.get('language',''),clip.get('mode','audio'),clip.get('speaker_id',''),'questionnaire']);response.flush();os.fsync(response.fileno())
+                    event('RESPONSES_SAVED',tid,cid,json.dumps(answer));break
             event('TRIAL_END',tid,cid)
             emit(phase='rest',message='Rest for five seconds',step='rest',questions=None)
             wait(5)

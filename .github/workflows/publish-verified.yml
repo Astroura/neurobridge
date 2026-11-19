@@ -9,7 +9,7 @@ on:
       release_tag:
         description: 'New preview tag'
         required: true
-        default: 'v0.5.0-preview'
+        default: 'v0.5.1-preview'
         type: string
 permissions:
   contents: write
@@ -34,7 +34,8 @@ jobs:
             const sources = [
               {run: sourceRun, name: 'NeuroBridge-macOS-arm64', job: 'build (macos-15, arm64)'},
               {run: sourceRun, name: 'NeuroBridge-macOS-x86_64', job: 'build (macos-15-intel, x86_64)'},
-              {run: sourceRun, name: 'NeuroBridge-Stimulus-Pack-v1', job: 'stimuli'}
+              {run: sourceRun, name: 'NeuroBridge-Stimulus-Pack-v1', job: 'stimuli'},
+              {run: sourceRun, name: 'NeuroBridge-Stimulus-Collections-v2', job: 'stimuli'}
             ];
             fs.mkdirSync('verified', {recursive:true});
             for (const item of sources) {
@@ -66,6 +67,9 @@ jobs:
           test -s downloads/NeuroBridge-macOS-arm64.zip
           test -s downloads/NeuroBridge-macOS-x86_64.zip
           test -s downloads/NeuroBridge-Stimulus-Pack-v1.zip
+          test -s downloads/NeuroBridge-English-Simple-v2.zip
+          test -s downloads/NeuroBridge-Arabic-Simple-v2.zip
+          test -s downloads/NeuroBridge-Hindi-English-Listening-v1.zip
       - uses: softprops/action-gh-release@v2
         with:
           tag_name: ${{ inputs.release_tag }}
@@ -74,14 +78,15 @@ jobs:
           fail_on_unmatched_files: true
           draft: false
           prerelease: true
-          name: 'NeuroBridge 0.5.0: notebook interface'
+          name: 'NeuroBridge 0.5.1: stimulus collections and listening-only sessions'
           body: |
-            Research notebook and bench instrument UI, implemented from the approved DESIGN.md.
+            Adds three downloadable human-voice stimulus packs with transcripts, attribution, file hashes and per-clip review notes:
+            - English Simple v2: 6 clips, two very simple English factual questions per clip.
+            - Arabic Simple v2: 6 clips, two very simple English factual questions per clip. Formal written Arabic read by source-locale ar_eg speakers.
+            - Hindi / English Listening v1: 8 clips forming four content pairs, with no questions, understanding rating or comprehension score.
 
-            Adds bundled IBM Plex Serif/Sans and Arabic fonts, local Lucide symbols, paper/graphite surfaces, teal actions, violet retained-data annotations, ruled asymmetric layouts, and responsive SVG figures. Setup, capture, graphs, cleaning and bilingual participant questions share one token system; scientific report styling uses the same source.
+            Import ZIPs in Session setup. Listening-only trials require this app version: they advance directly from playback to rest while preserving EEG and events. answers.csv records response_mode=none with blank response/score fields. Existing questionnaire trials keep their behavior.
 
-            Active capture keeps Stop and the timer visible. Participant view hides operator navigation, notes and filesystem paths. Import preview, saved setup, artifact exclusions, source fingerprints and local exports remain available. EEG processing thresholds, calculations, raw files and timing semantics are unchanged.
+            Sources: Google FLEURS, CC BY 4.0. Complete utterances, constant per-file level adjustment and PCM16 conversion; no speech synthesis. Review includes transcript/answer evidence proofreading, independent local machine transcription and file integrity checks, not direct auditory or fluent-speaker certification. See each pack's REVIEW.md. These are short pilot materials, not validated comprehension tests. For paired languages select one translation per subject or counterbalance repetition; ordering is randomized.
 
-            Download arm64 for Apple Silicon or x86_64 for Intel. Quit the older app before opening this build. The separate stimulus pack is unchanged and contains practice materials requiring review. No validated comprehension classifier is included.
-
-            Includes automated scientific, HTTP, offline-asset, export and packaged-app checks. UI review covers desktop/native and mobile layouts, errors, empty/loading/disabled states, Arabic, reduced motion, and zoom-equivalent rendering. See DESIGN.md and UI-REVIEW.md for the review and limits. Bluetooth/audio and native Save-dialog rehearsals still belong on each partner's Mac. Apps remain ad-hoc signed, not Apple-notarized.
+            Mac downloads: arm64 for Apple Silicon, x86_64 for Intel. Quit the older app first. Raw recordings and the chosen data folder are preserved. Apps remain ad-hoc signed and not Apple-notarized.

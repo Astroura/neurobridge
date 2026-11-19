@@ -1,3 +1,11 @@
+## Stimulus collections (0.5.1)
+
+Download the [0.5.1 release packs](https://github.com/Astroura/neurobridge/releases/tag/v0.5.1-preview), keep each ZIP zipped, and import from Session setup. English Simple v2 and Arabic Simple v2 each contain six human recordings and two simple English questions per clip. Hindi-English Listening v1 contains four matched content pairs (eight clips) with **no questions, rating or score**. Listening-only trials need app 0.5.1 and have an explicit response mode, never blank placeholder questions.
+
+Google FLEURS source transcripts, licenses, per-file gain, hashes, answer evidence and machine cross-checks are included. [Material review](stimulus-materials/collections/REVIEW.md) states the checks and their limits. These are short pilot recordings, not a validated or difficulty-matched test. Arabic uses formal written passages from source locale ar_eg, not a conversational dialect guarantee. Questions in both question packs require English reading. Select one translation per content ID per participant or counterbalance repetition.
+
+Build with `python scripts/build_stimulus_collections.py`; verify with `python scripts/verify_stimulus_collections.py`. Build-only dependency: soundfile. The committed FLACs are pinned by SHA-256; rebuilding does not fetch remote audio. `answers.csv` adds a trailing `response_mode` column: questionnaire trials keep existing fields, while listening-only rows leave questions, score and rating blank. `RESPONSES_SKIPPED` explicitly marks skipped responses in events.csv.
+
 # NeuroBridge for Mac
 
 Local Muse 2 EEG recording and passage-comprehension experiments.
