@@ -44,9 +44,9 @@ jobs:
               if (run.head_repository.full_name !== `${repo.owner}/${repo.repo}`) throw Error('Unexpected source repository');
               const comparison = await github.rest.repos.compareCommitsWithBasehead({...repo, basehead:`${run.head_sha}...${context.sha}`});
               if (comparison.data.status !== 'ahead' && comparison.data.status !== 'identical') throw Error('Source is not an ancestor');
-              // Reuse only when application/runtime files are unchanged. Packaging and this publisher may differ.
+              // Reuse only when application/runtime files are unchanged. Packaging, user documentation and this publisher may differ.
               for (const file of comparison.data.files || []) {
-                if (!(file.filename.startsWith('stimulus-materials/source/') || file.filename === 'scripts/build_stimulus_pack.py' || file.filename === '.github/workflows/publish-verified.yml')) {
+                if (!(file.filename.startsWith('stimulus-materials/source/') || file.filename === 'scripts/build_stimulus_pack.py' || file.filename === '.github/workflows/publish-verified.yml' || file.filename === 'README.md')) {
                   throw Error(`Application source differs: ${file.filename}`);
                 }
               }
