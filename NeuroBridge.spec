@@ -6,6 +6,7 @@ data=[(str(base/'neurobridge/static'),'neurobridge/static'),(str(base/'QUALITY-P
 binaries=[];hidden=['server','runtime','reports','theme','cleaning','analysis','recorder','experiment','protocol','packs','quality','quality_monitor','terminal_muse','platform_support','audio_player','webview.platforms.cocoa','muselsl.cli','muselsl.backends','bleak.backends.corebluetooth']
 windows=sys.platform=='win32'
 if windows:
+    data.append((str(base/'third_party/ffmpeg'),'third_party_licenses/FFmpeg'))
     hidden=[h for h in hidden if h not in ['webview.platforms.cocoa','bleak.backends.corebluetooth']]
     hidden+=['webview.platforms.winforms','webview.platforms.edgechromium','bleak.backends.winrt','bleak.backends.winrt.client','bleak.backends.winrt.scanner','winsound','msvcrt','clr_loader','pythonnet']
     hidden+=collect_submodules('winrt')

@@ -1,0 +1,17 @@
+FFmpeg is a separate executable, copyright the FFmpeg developers and
+its listed contributors. The bundled unmodified binary is
+ffmpeg-win-x86_64-v7.1.exe from the imageio-ffmpeg 0.6.0 Windows wheel,
+identified as 7.1-essentials_build-www.gyan.dev. It is GPL version 3 or later.
+The BSD license of the imageio Python wrapper is separate from FFmpeg's license.
+See COPYING.GPLv3 and BUILD-CONFIGURATION.txt, including its SHA256.
+
+FFmpeg 7.1 source release: https://ffmpeg.org/releases/ffmpeg-7.1.tar.xz
+FFmpeg source tag: https://github.com/FFmpeg/FFmpeg/tree/n7.1
+Upstream binary provider and release/source links:
+https://www.gyan.dev/ffmpeg/builds/
+https://github.com/GyanD/codexffmpeg/releases/tag/7.1
+Imageio wheel packaging sources:
+https://github.com/imageio/imageio-ffmpeg/tree/v0.6.0
+External libraries and their sources/licenses are identified by the upstream
+build provider and FFmpeg build configuration. NeuroBridge invokes FFmpeg as
+an independent process to decode audio and does not link FFmpeg into Python.

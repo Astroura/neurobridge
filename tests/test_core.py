@@ -18,7 +18,7 @@ class RecordingTests(unittest.TestCase):
         self.assertEqual(a['samples'],2560);self.assertEqual(a['gaps'],0)
         spectrum=np.array(a['channels'][0]['spectrum']);self.assertAlmostEqual(spectrum[np.argmax(spectrum[:,1]),0],10,delta=.25)
         before=self.csv.read_bytes();dest=generate(self.csv,self.root/'reports')
-        d=np.load(dest/'recording.npz',allow_pickle=False)
+        with np.load(dest/'recording.npz',allow_pickle=False) as archive:d={name:archive[name] for name in archive.files}
         self.assertEqual(d['eeg'].shape,(2560,4));self.assertEqual(list(d['channel_names']),['TP9','AF7','AF8','TP10'])
         self.assertTrue((dest/'signals.png').read_bytes().startswith(b'\x89PNG'))
         self.assertTrue((dest/'signals.pdf').read_bytes().startswith(b'%PDF'))

@@ -17,7 +17,7 @@ class PlatformTests(unittest.TestCase):
     def test_frozen_windows_uses_console_worker_beside_gui(self):
         with patch.object(sys,'platform','win32'),patch.object(sys,'frozen',True,create=True),patch.object(sys,'executable','/a folder/NeuroBridge.exe'):
             args=runtime.worker('record','/data folder/測試.csv',60)
-            self.assertEqual(args[0],'/a folder/NeuroBridge-Worker.exe')
+            self.assertEqual(Path(args[0]),Path('/a folder/NeuroBridge-Worker.exe'))
             self.assertEqual(args[1:3],['--worker','record']);self.assertEqual(args[-1],'60')
     def test_console_launch_uses_argument_vector_and_new_console(self):
         with patch.object(sys,'platform','win32'),patch.object(terminal_muse,'worker',return_value=['C:/a folder/NeuroBridge-Worker.exe','--worker','terminal-stream','--backend','bleak','--lsltime']),patch.object(platform.subprocess,'CREATE_NEW_CONSOLE',0x10,create=True),patch.object(terminal_muse.subprocess,'Popen') as spawn:

@@ -15,13 +15,15 @@ class CleaningTests(unittest.TestCase):
         self.x=20*np.sin(2*np.pi*10*(self.t-1000))+10*np.sin(2*np.pi*70*(self.t-1000))+30*np.sin(2*np.pi*.2*(self.t-1000))
         self.path=self.root/'raw.csv'
     def tearDown(self):self.temp.cleanup()
+    def load_archive(self,path):
+        with np.load(path,allow_pickle=False) as archive:return {name:archive[name] for name in archive.files}
     def save(self,x=None,t=None):
         x=self.x if x is None else x;t=self.t if t is None else t
         if x.ndim==1:x=np.tile(x[:,None],(1,4))
         np.savetxt(self.path,np.column_stack([t,x]),delimiter=',',header='timestamps,TP9,AF7,AF8,TP10',comments='')
     def test_filter_frequency_response_and_source_preservation(self):
         self.save();before=self.path.read_bytes();report=clean(self.path,self.root/'out')
-        self.assertEqual(before,self.path.read_bytes());data=np.load(self.root/'out/cleaned.npz',allow_pickle=False)
+        self.assertEqual(before,self.path.read_bytes());data=self.load_archive(self.root/'out/cleaned.npz')
         self.assertEqual(data['eeg'].shape,(len(self.t),4));np.testing.assert_array_equal(data['timestamps'],self.t)
         valid=data['usable'];self.assertFalse(valid[:FS].any());self.assertFalse(valid[-FS:].any())
         f,p,n=spectral(data['eeg'][:,0],[0,len(self.t)])
@@ -38,7 +40,7 @@ class CleaningTests(unittest.TestCase):
             w=csv.DictWriter(stream,fieldnames=['event','trial_id','clip_id','lsl_timestamp']);w.writeheader()
             for event,stamp in [('AUDIO_PLAY_REQUEST',1000),('AUDIO_PLAYBACK_RETURNED',1030)]:w.writerow(dict(event=event,trial_id='T01',clip_id='EN01',lsl_timestamp=stamp))
         report=clean(self.path,self.root/'out',{'exclusions':[dict(start=18,end=20,reason='Subject speech')]},session)
-        d=np.load(self.root/'out/cleaned.npz',allow_pickle=False);self.assertEqual(report['gaps'],1)
+        d=self.load_archive(self.root/'out/cleaned.npz');self.assertEqual(report['gaps'],1)
         self.assertTrue(np.isnan(d['eeg'][FS*4:FS*6,0]).all());self.assertTrue(np.isnan(d['eeg'][FS*8:FS*10,1]).all())
         self.assertFalse(d['usable'][np.logical_and(t-1000>=18,t-1000<20)].any())
         self.assertTrue(np.isnan(d['eeg'][FS*12-FS:FS*12+FS]).all())
