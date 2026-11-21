@@ -84,6 +84,8 @@ jobs:
 
             Fixed analysis runs automatically after a completed session. Review & clean shows eligibility and reasons, separate from older descriptive plots. Exports include quality_policy.json and quality_trials.csv. Raw EEG, answers and prior reports remain intact. Short clips still record but cannot meet the primary-analysis duration rule.
 
+            Adds Start Muse in Terminal, which opens the bundled MuseLSL command with the same bleak/LSL-clock options as the original working startup script. Keep Terminal open during collection and press Control+C there to disconnect. No separate Python installation is needed.
+
             Fixes the missing dynamic bitstring backend that crashed the packaged Bluetooth worker. Startup checks now import the Muse/Bleak path and decode a known Muse EEG packet.
 
             Download arm64 for Apple Silicon or x86_64 for Intel. The three human-voice stimulus packs are unchanged. Quit the older app before opening this build. Apps remain ad-hoc signed, not Apple-notarized. Quality thresholds are project-specific pilot screening criteria, not validated artifact detection or a comprehension classifier. A Muse hardware rehearsal is still required.
