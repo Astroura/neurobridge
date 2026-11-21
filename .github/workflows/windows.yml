@@ -13,7 +13,6 @@ jobs:
     env:
       PYTHONUTF8: '1'
       PYTHONIOENCODING: utf-8
-      NEUROBRIDGE_SUPPORT_DIR: '${{ runner.temp }}\NeuroBridge-test-support'
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-python@v5
