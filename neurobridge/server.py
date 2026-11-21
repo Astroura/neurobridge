@@ -268,8 +268,18 @@ class Handler(BaseHTTPRequestHandler):
                 elif self.path == '/api/quality/start':
                     if not running('quality'):spawn('quality',worker('quality'))
                     return self.reply({'ok':True})
+                elif self.path == '/api/terminal-muse':
+                    if running('record'): raise ValueError('Stop recording before starting a new Muse connection.')
+                    if running('stream'): raise ValueError('Disconnect the in-app connection first, then start Muse in Terminal.')
+                    from terminal_muse import launch,terminal_running
+                    if terminal_running():return self.reply({'ok':True,'message':'Muse command is already running in Terminal. Use Start live check to inspect incoming EEG.'})
+                    launch()
+                    log('Opened Start-Muse.command in Terminal. Keep that window open; press Control+C there to disconnect.')
+                    return self.reply({'ok':True,'message':'Muse startup opened in Terminal. Wait for Streaming EEG, then click Start live check. Keep Terminal open.'})
                 elif self.path == '/api/connect':
                     if not running('stream'):
+                        from terminal_muse import terminal_running
+                        if terminal_running():raise ValueError('Muse is managed by Terminal. Use Start live check, or press Control+C in Terminal before connecting here.')
                         log('Starting Bluetooth connection. Close any other app connected to your Muse.')
                         spawn('stream',worker('stream','--backend','bleak','--lsltime'))
                 elif self.path == '/api/disconnect':

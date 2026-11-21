@@ -2,7 +2,7 @@ from PyInstaller.utils.hooks import collect_all,collect_dynamic_libs
 from pathlib import Path
 base=Path(SPECPATH)
 data=[(str(base/'neurobridge/static'),'neurobridge/static'),(str(base/'QUALITY-PROTOCOL.md'),'neurobridge/static')]
-binaries=[];hidden=['server','runtime','reports','theme','cleaning','analysis','recorder','experiment','protocol','packs','quality','quality_monitor','webview.platforms.cocoa','muselsl.cli','muselsl.backends','bleak.backends.corebluetooth']
+binaries=[];hidden=['server','runtime','reports','theme','cleaning','analysis','recorder','experiment','protocol','packs','quality','quality_monitor','terminal_muse','webview.platforms.cocoa','muselsl.cli','muselsl.backends','bleak.backends.corebluetooth']
 for package in ['pylsl','webview','bitstring']:
     d,b,h=collect_all(package);data+=d;binaries+=b;hidden+=h
 # Include original third-party license files from wheel metadata.

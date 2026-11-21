@@ -6,7 +6,10 @@ sys.path.insert(0,str(CODE))
 
 def dispatch():
     kind=sys.argv[2];sys.argv=[kind]+sys.argv[3:]
-    if kind=='stream':
+    if kind=='terminal-stream':
+        from terminal_muse import run
+        run()
+    elif kind=='stream':
         from muselsl.cli import CLI
         sys.argv=['muselsl','stream']+sys.argv[1:];CLI('stream')
     elif kind in ['record','experiment','quality']:

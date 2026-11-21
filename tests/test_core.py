@@ -60,6 +60,18 @@ class HttpTests(unittest.TestCase):
             with self.request('/api/session/start',dict(participant='QC01',clips=[clip],quality_policy={'rail_uv':9999})) as response:session=json.load(response)['session']
         cfg=json.loads((self.s.ROOT/'sessions'/session/'session.json').read_text())
         self.assertEqual(cfg['quality_policy'],POLICY);self.assertEqual(cfg['quality_policy_sha256'],policy_hash());self.assertEqual(cfg['baseline_scope'],'before_each_trial')
+    def test_terminal_muse_guards_and_launch(self):
+        from unittest.mock import patch
+        with patch.object(self.s,'running',return_value=False), patch('terminal_muse.terminal_running',return_value=False), patch('terminal_muse.launch') as launch:
+            with self.request('/api/terminal-muse',{}) as response:self.assertTrue(json.load(response)['ok'])
+            launch.assert_called_once_with()
+        with patch.object(self.s,'running',return_value=True), patch('terminal_muse.launch') as launch:
+            with self.assertRaises(urllib.error.HTTPError) as error:self.request('/api/terminal-muse',{})
+            self.assertEqual(error.exception.code,400);launch.assert_not_called()
+        with patch.object(self.s,'running',return_value=False), patch('terminal_muse.terminal_running',return_value=True), patch('terminal_muse.launch') as launch:
+            with self.request('/api/terminal-muse',{}) as response:self.assertTrue(json.load(response)['ok'])
+            launch.assert_not_called()
+            with self.assertRaises(urllib.error.HTTPError):self.request('/api/connect',{})
     def test_pages_and_persistent_setup(self):
         for path in ['/','/experiment','/storage.js','/api/storage','/clean','/clean.js','/api/clean-runs?file=x.csv','/tokens.css','/icons.svg','/plot.js','/fonts/IBMPlexSans-400.ttf','/fonts/IBMPlexSansArabic-Regular.ttf','/quality.js','/api/quality','/quality-protocol']:
             with urllib.request.urlopen(self.base+path) as r:self.assertEqual(r.status,200)
