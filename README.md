@@ -1,3 +1,7 @@
+# NeuroBridge for Windows and Mac
+
+Download the latest [Windows 10 x64, Apple Silicon or Intel Mac build](https://github.com/Astroura/neurobridge/releases). Windows users: extract the whole ZIP and open `NeuroBridge.exe`; see [Windows setup](#windows-10-build-070-preview) and `WINDOWS-START-HERE.txt`. Both platforms use the same local recording, trials, questionnaires, quality checks, cleaning and exports.
+
 ## Live quality checks and fixed spectral protocol (0.6.0)
 
 Session setup now shows raw TP9/AF7/AF8/TP10 traces and channel-specific warnings. Start the live check after connecting Muse. Each trial waits for ten continuous passing seconds and receives its own 30-second quiet baseline. Failed raw baselines are logged and retried, up to three attempts. The packaged-app Muse decoder import is now checked as well as reporting dependencies.
@@ -14,7 +18,7 @@ Google FLEURS source transcripts, licenses, per-file gain, hashes, answer eviden
 
 Build with `python scripts/build_stimulus_collections.py`; verify with `python scripts/verify_stimulus_collections.py`. Build-only dependency: soundfile. The committed FLACs are pinned by SHA-256; rebuilding does not fetch remote audio. `answers.csv` adds a trailing `response_mode` column: questionnaire trials keep existing fields, while listening-only rows leave questions, score and rating blank. `RESPONSES_SKIPPED` explicitly marks skipped responses in events.csv.
 
-# NeuroBridge for Mac
+## Mac quick start
 
 Local Muse 2 EEG recording and passage-comprehension experiments.
 
