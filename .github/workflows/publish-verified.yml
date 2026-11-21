@@ -6,10 +6,14 @@ on:
         description: 'Completed successful Test and build Mac apps run ID'
         required: true
         type: string
+      windows_run:
+        description: 'Completed successful Test and build Windows app run ID'
+        required: true
+        type: string
       release_tag:
         description: 'New preview tag'
         required: true
-        default: 'v0.6.0-preview'
+        default: 'v0.7.0-preview'
         type: string
 permissions:
   contents: write
@@ -21,6 +25,7 @@ jobs:
       - uses: actions/github-script@v7
         env:
           SOURCE_RUN: ${{ inputs.source_run }}
+          WINDOWS_RUN: ${{ inputs.windows_run }}
           RELEASE_TAG: ${{ inputs.release_tag }}
         with:
           script: |
@@ -30,16 +35,18 @@ jobs:
             const repo = context.repo;
             if (!/^v[0-9]+\.[0-9]+\.[0-9]+-preview$/.test(process.env.RELEASE_TAG)) throw Error('Use a versioned preview tag');
             if (!/^[0-9]+$/.test(process.env.SOURCE_RUN)) throw Error('Invalid source run ID');
+            if (!/^[0-9]+$/.test(process.env.WINDOWS_RUN)) throw Error('Invalid Windows run ID');
             const sourceRun=Number(process.env.SOURCE_RUN);
             const sources = [
               {run: sourceRun, name: 'NeuroBridge-macOS-arm64', job: 'build (macos-15, arm64)'},
               {run: sourceRun, name: 'NeuroBridge-macOS-x86_64', job: 'build (macos-15-intel, x86_64)'},
-              {run: sourceRun, name: 'NeuroBridge-Stimulus-Collections-v2', job: 'stimuli'}
+              {run: sourceRun, name: 'NeuroBridge-Stimulus-Collections-v2', job: 'stimuli'},
+              {run: Number(process.env.WINDOWS_RUN), name: 'NeuroBridge-Windows10-x64', job: 'windows', workflow: '.github/workflows/windows.yml'}
             ];
             fs.mkdirSync('verified', {recursive:true});
             for (const item of sources) {
               const {data: run} = await github.rest.actions.getWorkflowRun({...repo, run_id:item.run});
-              if (run.conclusion !== 'success' || run.path !== '.github/workflows/macos.yml') throw Error('Source must be a completed successful Mac build workflow');
+              if (run.conclusion !== 'success' || run.path !== (item.workflow || '.github/workflows/macos.yml')) throw Error('Source must be a completed successful Mac build workflow');
               if (run.head_repository.full_name !== `${repo.owner}/${repo.repo}`) throw Error('Unexpected source repository');
               const comparison = await github.rest.repos.compareCommitsWithBasehead({...repo, basehead:`${run.head_sha}...${context.sha}`});
               if (comparison.data.status !== 'ahead' && comparison.data.status !== 'identical') throw Error('Source is not an ancestor');
@@ -63,29 +70,33 @@ jobs:
       - run: |
           mkdir -p downloads
           for archive in verified/*.artifact.zip; do unzip -j "$archive" -d downloads; done
+          test -s downloads/NeuroBridge-Windows10-x64.zip
           test -s downloads/NeuroBridge-macOS-arm64.zip
           test -s downloads/NeuroBridge-macOS-x86_64.zip
           test -s downloads/NeuroBridge-English-Simple-v2.zip
           test -s downloads/NeuroBridge-Arabic-Simple-v2.zip
           test -s downloads/NeuroBridge-Hindi-English-Listening-v1.zip
+          (cd downloads && sha256sum *.zip > SHA256SUMS.txt)
       - uses: softprops/action-gh-release@v2
         with:
           tag_name: ${{ inputs.release_tag }}
           target_commitish: ${{ github.sha }}
-          files: downloads/*.zip
+          files: |
+            downloads/*.zip
+            downloads/SHA256SUMS.txt
           fail_on_unmatched_files: true
           draft: false
           prerelease: true
-          name: 'NeuroBridge 0.6.0: live quality checks and fixed trial analysis'
+          name: 'NeuroBridge 0.7.0: Windows 10 and Mac'
           body: |
-            Adds four live raw EEG traces with per-channel saturation, amplitude, flatness and timing warnings. Every new trial waits for ten continuous passing seconds and receives a 30-second quiet baseline. Failed baselines are logged and retried; persistent failure preserves partial EEG and stops the session.
+            Adds a portable Windows 10 x64 app with the same interface, stimulus imports, audio and live trials, questionnaires, listening-only mode, raw EEG, quality gates, per-trial baselines, fixed NB-QC-1 analysis, cleaning, scientific graphs, CSV/NumPy exports and chosen local save/export folders as the Mac app.
 
-            NB-QC-1 is saved and fingerprinted before recording. Primary paired spectral features require at least 70% accepted nonoverlapping 2-second epochs in each phase, ten baseline epochs and five listening epochs. Welch Hann PSDs use no overlap; theta/alpha/beta powers and baseline-normalized dB changes are averaged within a trial. Epochs/channels are not independent subjects. Old data applications are labelled retrospective. See QUALITY-PROTOCOL.md for the complete rule, fit instructions and limits.
+            Windows: extract the complete NeuroBridge-Windows10-x64.zip and open NeuroBridge.exe. Keep _internal and NeuroBridge-Worker.exe beside it. Python, MuseLSL and FFmpeg are bundled. Use Start Muse in console or the included Start-Muse.cmd, wait for Streaming EEG, then Start live check. Keep the console open; Control+C disconnects. In-app connection uses Bleak WinRT in a separate worker. Cooperative stop requests preserve partial CSVs and session metadata. WAV, MP3, AIFF/AIF and M4A are supported with bundled decoding and native Windows playback.
 
-            Fixed analysis runs automatically after a completed session. Review & clean shows eligibility and reasons, separate from older descriptive plots. Exports include quality_policy.json and quality_trials.csv. Raw EEG, answers and prior reports remain intact. Short clips still record but cannot meet the primary-analysis duration rule.
+            Target: Windows 10 22H2 x64 with Bluetooth Low Energy, .NET Framework 4.8 and Microsoft Edge WebView2 Runtime. If WebView2 is missing, get Microsoft's Evergreen Runtime at https://developer.microsoft.com/microsoft-edge/webview2/. Read WINDOWS-START-HERE.txt in the ZIP. The Windows executable is unsigned; do not disable security protections if blocked.
 
-            Adds Start Muse in Terminal, which opens the bundled MuseLSL command with the same bleak/LSL-clock options as the original working startup script. Keep Terminal open during collection and press Control+C there to disconnect. No separate Python installation is needed.
+            Mac: choose arm64 for Apple Silicon or x86_64 for Intel. The existing Terminal startup button and Cocoa playback are retained. Mac apps remain ad-hoc signed, not notarized. The three downloadable human-voice stimulus packs are unchanged and work on both platforms.
 
-            Fixes the missing dynamic bitstring backend that crashed the packaged Bluetooth worker. Startup checks now import the Muse/Bleak path and decode a known Muse EEG packet.
+            All common tests and packaged import/Muse-decoder/PNG/PDF/NumPy checks pass on Windows, Apple Silicon and Intel build runners. Windows integration also verifies packaged decoding for all five audio extensions, a synthetic local LSL recording with graceful stop, and native WebView2 loading of Setup, Recordings and Review & clean. The Windows runner is Windows Server 2022, not a Windows 10 headset machine. Real Windows 10 Bluetooth, speaker/headphone output, native folder dialogs and full collection require a hardware rehearsal before study use. Audio markers bracket requests/returns, including Windows decoding, rather than measured acoustic onset.
 
-            Download arm64 for Apple Silicon or x86_64 for Intel. The three human-voice stimulus packs are unchanged. Quit the older app before opening this build. Apps remain ad-hoc signed, not Apple-notarized. Quality thresholds are project-specific pilot screening criteria, not validated artifact detection or a comprehension classifier. A Muse hardware rehearsal is still required.
+            NB-QC-1 requires four passing channels, ten continuous passing seconds, and a 30-second baseline before each trial. Primary analysis requires at least 70% accepted 2-second epochs in both phases, at least ten baseline epochs and five listening epochs. Short clips still record but cannot enter that primary analysis. Rules are saved before recording; raw EEG stays intact. See QUALITY-PROTOCOL.md for details. Screening thresholds are project-specific pilot criteria, not validated artifact detection or a comprehension classifier. This is research preview software.
