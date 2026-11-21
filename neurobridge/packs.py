@@ -36,7 +36,7 @@ def import_pack(data,root):
         # Retain manifest and licenses for local export, without unpacking executable content.
         provenance=root/'stimuli'/'packs'/hashlib.sha256(data).hexdigest()[:24]
         provenance.mkdir(parents=True,exist_ok=True)
-        (provenance/'pack.json').write_text(json.dumps(manifest,ensure_ascii=False,indent=2))
+        (provenance/'pack.json').write_text(json.dumps(manifest,ensure_ascii=False,indent=2), encoding='utf-8')
         for member in ['README.txt','LICENSES.txt','sources_and_manifest.csv','REVIEW.md','review.json']:
             if member in names:(provenance/member).write_bytes(archive.read(member))
         return {'clips':clips,'title':manifest.get('title','Stimulus pack'),'review_notice':manifest.get('review_notice','Review all materials before use.')}

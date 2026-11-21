@@ -7,7 +7,7 @@ from scipy.signal import welch
 CHANNELS = ['TP9', 'AF7', 'AF8', 'TP10']
 
 def analyze(path):
-    with Path(path).open() as f:
+    with Path(path).open(encoding='utf-8') as f:
         reader = csv.DictReader(f)
         fields = reader.fieldnames or []
         if 'timestamps' not in fields or not all(c in fields for c in CHANNELS):

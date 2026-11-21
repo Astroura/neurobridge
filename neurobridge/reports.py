@@ -17,7 +17,7 @@ def generate(path,destination):
     timestamps=np.atleast_1d(values['timestamps'])
     eeg=np.column_stack([np.atleast_1d(values[c]) for c in CHANNELS])
     np.savez_compressed(destination/'recording.npz',timestamps=timestamps,eeg=eeg,channel_names=np.array(CHANNELS),nominal_sample_rate=np.array(256))
-    (destination/'quality.json').write_text(json.dumps({k:v for k,v in result.items() if k!='channels'},indent=2))
+    (destination/'quality.json').write_text(json.dumps({k:v for k,v in result.items() if k!='channels'},indent=2), encoding='utf-8')
     fig=Figure(figsize=(float(TOKENS['plot-report-width']),float(TOKENS['plot-report-height'])),layout='constrained');FigureCanvasAgg(fig)
     axes=fig.subplots(4,2)
     for i,c in enumerate(result['channels']):

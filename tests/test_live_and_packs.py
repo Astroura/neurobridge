@@ -56,7 +56,7 @@ class LiveTests(unittest.TestCase):
      return Recorder(args,**kwargs)
     m.wait=lambda _:None
     for command in [dict(trial_id='WRONG',action='start_speaking'),dict(trial_id='T01',action='start_speaking'),dict(trial_id='T01',action='end_speaking'),dict(trial_id='T01',answers=[0,3],rating=3)]:m.answers.put(command)
-    with patch.object(m.subprocess,'Popen',popen),contextlib.redirect_stdout(io.StringIO()):m.main()
+    with patch.object(m,'audio_command',side_effect=lambda path:['/usr/bin/afplay',str(path)]),patch.object(m.subprocess,'Popen',popen),contextlib.redirect_stdout(io.StringIO()):m.main()
     with (folder/'events.csv').open() as f:events=list(csv.DictReader(f))
     names=[e['event'] for e in events]
     if prerecorded:

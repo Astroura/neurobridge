@@ -4,7 +4,7 @@ from pathlib import Path
 from functools import wraps
 from runtime import CODE
 
-TOKENS=json.loads((CODE/'static/theme.json').read_text())
+TOKENS=json.loads((CODE/'static/theme.json').read_text(encoding='utf-8'))
 
 def css():
     return ':root{'+''.join('--'+key+':'+str(value)+';' for key,value in TOKENS.items())+'}'

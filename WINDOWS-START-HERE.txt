@@ -1,0 +1,37 @@
+NEUROBRIDGE FOR WINDOWS 10 (64-BIT) - RESEARCH PREVIEW 0.7.0
+
+1. Extract the entire ZIP to a folder you can write to. Keep the _internal
+   folder and NeuroBridge-Worker.exe beside NeuroBridge.exe.
+2. Open NeuroBridge.exe. No Python, MuseLSL install, Petal or BlueMuse is needed.
+   The native window requires Microsoft Edge WebView2 Runtime and .NET 4.8.
+   Windows 10 22H2 normally has .NET 4.8 and most PCs already have WebView2.
+   If WebView2 is missing, install Microsoft's Evergreen Runtime:
+   https://developer.microsoft.com/microsoft-edge/webview2/
+3. Choose your recording folder in Folder and headset.
+4. Turn on the Muse and Bluetooth. Close any other Muse connection.
+   Click Start Muse in console. Keep that window open and wait for Streaming EEG.
+   You can alternatively use Connect inside app. Use one method at a time.
+   Start-Muse.cmd is included as the equivalent manual launcher.
+5. Click Start live check. Inspect TP9, AF7, AF8 and TP10. Refit before collecting
+   if rail saturation persists. Each trial requires 10 passing seconds followed
+   by a 30-second quiet baseline. Read QUALITY-PROTOCOL.md for the fixed rules.
+6. Import the same stimulus ZIPs, or add audio/live trials. Questionnaires,
+   listening-only trials, raw CSVs, quality analysis, graphs and exports match Mac.
+7. Stop the session and wait for saving before closing anything. For an external
+   Muse console, press Control+C in that console to disconnect. Closing the app
+   does not stop an external console stream.
+
+Your selected folder holds EEG, answers, events, session metadata and reports.
+Export workspace lets you choose a destination folder for an archive.
+Settings and app.log: %LOCALAPPDATA%\NeuroBridge (or a configured support folder).
+Windows audio uses the bundled FFmpeg decoder and native WAV playback. Markers
+bracket playback-worker requests/returns including decoding, not acoustic onset.
+
+Target: Windows 10 22H2 x64 with a working Bluetooth Low Energy adapter.
+Build and software checks run on GitHub's Windows Server 2022 runner. A real
+Windows 10 headset/audio rehearsal is still required before study collection.
+The executable is unsigned; institutional security policies may block it.
+Do not disable security protections. Contact the maintainer if blocked.
+
+This is research preview software, not a medical device or validated
+comprehension classifier. Quality screening thresholds are project-specific.

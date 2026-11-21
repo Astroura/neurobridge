@@ -6,13 +6,15 @@ scipy==1.13.1
 pandas==2.3.3
 matplotlib==3.9.4
 pywebview==5.4
-pyobjc-core==11.1
-pyobjc-framework-Cocoa==11.1
-pyobjc-framework-WebKit==11.1
-pyobjc-framework-Quartz==11.1
-pyobjc-framework-Security==11.1
-pyobjc-framework-CoreBluetooth==11.1
-pyobjc-framework-libdispatch==11.1
+pyobjc-core==11.1; sys_platform == 'darwin'
+pyobjc-framework-Cocoa==11.1; sys_platform == 'darwin'
+pyobjc-framework-WebKit==11.1; sys_platform == 'darwin'
+pyobjc-framework-Quartz==11.1; sys_platform == 'darwin'
+pyobjc-framework-Security==11.1; sys_platform == 'darwin'
+pyobjc-framework-CoreBluetooth==11.1; sys_platform == 'darwin'
+pyobjc-framework-libdispatch==11.1; sys_platform == 'darwin'
 bleak==1.1.1
 bitstring==4.4.0
 scikit-learn==1.6.1
+pythonnet==3.0.5; sys_platform == "win32"
+imageio-ffmpeg==0.6.0; sys_platform == "win32"

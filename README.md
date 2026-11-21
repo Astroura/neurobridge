@@ -126,3 +126,27 @@ Active capture keeps Stop and the timer visible. During experiment questions, pa
 ### Terminal connection fallback
 
 Choose **Start Muse in Terminal** in Folder and headset. It opens a generated `Start-Muse.command` using the bundled MuseLSL worker with `--backend bleak --lsltime`, matching the original working script. No separate Python installation is needed. Wait for **Streaming EEG**, keep Terminal open, return to NeuroBridge and choose **Start live check**. Inspect all four traces before collecting. Stop recording first, then press **Control+C in Terminal** to disconnect. Closing NeuroBridge does not stop this external Terminal stream. The in-app Disconnect button controls only the in-app worker. Do not run another Muse connection at the same time.
+
+### Windows 10 build (0.7.0 preview)
+
+Download **NeuroBridge-Windows10-x64.zip**, extract the entire folder and open `NeuroBridge.exe`. Keep `_internal` and `NeuroBridge-Worker.exe` beside it. Python, MuseLSL and the audio decoder are bundled. The same interface, stimulus packs, questionnaire/live/listening-only modes, quality protocol, cleaning, CSV/NumPy exports and plots are shared with Mac. Choose any writable recording folder and a separate destination for exported archives.
+
+Target: Windows 10 22H2, 64-bit, with a Bluetooth Low Energy adapter, .NET Framework 4.8 and [Microsoft WebView2 Runtime](https://developer.microsoft.com/microsoft-edge/webview2/). Most Windows 10 PCs already have WebView2; install Microsoft's Evergreen Runtime if missing. This preview is unsigned. Institutional policies may block it; do not disable security protections.
+
+Use **Start Muse in console** (or the included `Start-Muse.cmd`), wait for **Streaming EEG**, then **Start live check**. Keep that console open; Control+C there disconnects. **Connect inside app** is also supported using Bleak's Windows WinRT backend. Do not use both connection methods at once. The EEG streamer runs separately from the GUI's COM apartment to avoid Windows BLE callback hangs. Internal workers use cooperative stop requests so Stop session can flush partial recordings instead of terminating them abruptly.
+
+Windows supports the same WAV, MP3, AIFF/AIF and M4A imports. Its bundled FFmpeg decoder prepares PCM audio for native Windows WAV playback. Audio event markers bracket worker requests/returns, including decoding and scheduling; they do not measure acoustic onset. Do not interpret playback-worker latency as comprehension or EEG latency. Native folder and Save dialogs choose local destinations. Settings and `app.log` live in `%LOCALAPPDATA%\NeuroBridge`.
+
+GitHub CI builds on Windows Server 2022 using Python 3.12 x64. It runs the common tests, frozen imports/Muse packet decoding/report exports, all five packaged audio-format decoders, a synthetic local LSL recording followed by a graceful stop, and native WebView2 window checks for Setup, Recordings and Review & clean. CI uses an isolated runner and does not add synthetic streams to a participant's machine. A real **Windows 10 + Muse + headphones** rehearsal is still required to validate Bluetooth drivers, speaker output and the full collection procedure. CI is not a Windows 10 hardware certification.
+
+Build from source on Windows:
+
+```powershell
+py -3.12 -m venv .venv
+.venv\Scripts\python -m pip install -r requirements-build.txt
+.venv\Scripts\python -m unittest discover -s tests -v
+.venv\Scripts\python -m PyInstaller --noconfirm NeuroBridge.spec
+dist\NeuroBridge\NeuroBridge-Worker.exe --self-test
+```
+
+See `WINDOWS-START-HERE.txt` in the download for partner setup instructions. Third-party license files are bundled in `_internal/third_party_licenses`; FFmpeg's redistribution notices are included with its Python distribution.

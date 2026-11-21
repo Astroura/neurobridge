@@ -4,7 +4,8 @@ DATA=Path(os.environ.get('NEUROBRIDGE_DATA_DIR',str(Path.home()/'Documents'/'Neu
 CODE=(Path(sys._MEIPASS)/'neurobridge') if getattr(sys,'frozen',False) else Path(__file__).resolve().parent
 
 def worker(kind,*args):
-    base=[sys.executable] if getattr(sys,'frozen',False) else [sys.executable,str(CODE.parent/'app.py')]
+    executable=str(Path(sys.executable).with_name('NeuroBridge-Worker.exe')) if sys.platform=='win32' and getattr(sys,'frozen',False) else sys.executable
+    base=[executable] if getattr(sys,'frozen',False) else [executable,str(CODE.parent/'app.py')]
     return base+['--worker',kind]+[str(a) for a in args]
 
 def ensure(path):

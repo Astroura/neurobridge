@@ -1,10 +1,12 @@
-import os,sys,tempfile,unittest,shlex,fcntl
+import os,sys,tempfile,unittest,shlex
 from pathlib import Path
 from unittest.mock import patch
 sys.path.insert(0,str(Path(__file__).resolve().parents[1]/'neurobridge'))
 import terminal_muse
+from platform_support import FileLock
 
 class TerminalMuseTests(unittest.TestCase):
+    @unittest.skipUnless(sys.platform=="darwin", "macOS command-file launcher")
     def test_launcher_quotes_paths_and_keeps_known_working_options(self):
         with tempfile.TemporaryDirectory(prefix="Muse space ' ") as tmp, patch.dict(os.environ,{'NEUROBRIDGE_SUPPORT_DIR':tmp}), patch.object(terminal_muse.sys,'platform','darwin'), patch.object(terminal_muse,'worker',return_value=['/some app/NeuroBridge','--worker','terminal-stream','--backend','bleak','--lsltime']), patch.object(terminal_muse.subprocess,'run') as run:
             path=terminal_muse.launch();lines=path.read_text().splitlines()
@@ -15,11 +17,12 @@ class TerminalMuseTests(unittest.TestCase):
     def test_lock_detects_active_worker_and_releases_without_stale_pid(self):
         with tempfile.TemporaryDirectory() as tmp, patch.dict(os.environ,{'NEUROBRIDGE_SUPPORT_DIR':tmp}):
             self.assertFalse(terminal_muse.terminal_running())
-            with (Path(tmp)/'terminal-muse.lock').open('a') as lock:
-                fcntl.flock(lock,fcntl.LOCK_EX|fcntl.LOCK_NB)
+            lock=FileLock(Path(tmp)/'terminal-muse.lock');self.assertTrue(lock.acquire())
+            try:
                 self.assertTrue(terminal_muse.terminal_running())
                 with patch('muselsl.cli.CLI') as cli:
                     terminal_muse.run();cli.assert_not_called()
+            finally:lock.close()
             self.assertFalse(terminal_muse.terminal_running())
     def test_terminal_worker_dispatches_identical_muselsl_options(self):
         with tempfile.TemporaryDirectory() as tmp, patch.dict(os.environ,{'NEUROBRIDGE_SUPPORT_DIR':tmp}), patch.object(sys,'argv',['terminal-stream','--backend','bleak','--lsltime']), patch('muselsl.cli.CLI') as cli:

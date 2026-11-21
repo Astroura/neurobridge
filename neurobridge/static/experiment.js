@@ -85,3 +85,5 @@ async function poll(){try{
 $('participant-mode').onclick=()=>{participantMode=!participantMode;poll();};
 $('new-session').onclick=()=>{dismissedSession=state.session_folder;poll();};
 updateSummary();poll();setInterval(poll,1000);
+
+(async()=>{try{const p=await api("/api/storage");if(p.platform==="win32"){$("terminal-muse").textContent="Start Muse in console";$("terminal-help").textContent="Runs the bundled Muse startup command. Wait for Streaming EEG, keep the console open, then click Start live check. Press Control+C in the console to disconnect.";$("bluetooth-help").textContent="Enable Bluetooth in Windows Settings → Devices. Close other Muse apps, turn the headset off and on, then try Start Muse in console. A Bluetooth Low Energy adapter is required.";}}catch(e){notice(e.message);}})();

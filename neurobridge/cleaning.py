@@ -125,7 +125,7 @@ def clean(path, destination, options=None, session_folder=None):
     trial_rows = []
     if session_folder and (Path(session_folder)/'events.csv').is_file():
         pending = {}
-        with (Path(session_folder)/'events.csv').open() as stream:
+        with (Path(session_folder)/'events.csv').open(encoding='utf-8') as stream:
             for event in csv.DictReader(stream):
                 name = event['event']; key = event['trial_id']
                 if name in ['AUDIO_PLAY_REQUEST','LIVE_SPEECH_START_REQUEST']: pending[key] = event
@@ -143,18 +143,18 @@ def clean(path, destination, options=None, session_folder=None):
     report = dict(file=path.name,source_sha256=hashlib.sha256(path.read_bytes()).hexdigest(),duration_seconds=float(elapsed[-1]),recorded_seconds=len(t)/FS,samples=len(t),gaps=len(boundaries)-2,gap_seconds=float(np.sum(dt[dt>.020]-1/FS)),usable_percent=float(usable.mean()*100),usable_seconds=float(usable.sum()/FS),rejected_percent=float((~usable).mean()*100),settings=settings,warnings=warnings,channels=channels,intervals=intervals,trials=trial_rows)
     if session_folder and (Path(session_folder)/'events.csv').is_file():
         from quality import assess_trials,POLICY,policy_hash
-        with (Path(session_folder)/'events.csv').open() as stream:events=list(csv.DictReader(stream))
+        with (Path(session_folder)/'events.csv').open(encoding='utf-8') as stream:events=list(csv.DictReader(stream))
         config_path=Path(session_folder)/'session.json'
-        config=json.loads(config_path.read_text()) if config_path.is_file() else {}
+        config=json.loads(config_path.read_text(encoding='utf-8')) if config_path.is_file() else {}
         report['quality_trials']=assess_trials(t,x,filtered,usable,events,config,settings)
         report['quality_policy']=POLICY;report['quality_policy_sha256']=policy_hash()
     destination.mkdir(parents=True,exist_ok=False)
-    with (destination/'cleaned.csv').open('w',newline='') as stream:
+    with (destination/'cleaned.csv').open('w',newline='', encoding='utf-8') as stream:
         writer=csv.writer(stream);writer.writerow(['timestamps']+CHANNELS+['usable_all_channels']+['usable_'+c for c in CHANNELS])
         for i in range(len(t)):writer.writerow([f'{t[i]:.9f}']+[f'{v:.9g}' if np.isfinite(v) else '' for v in filtered[i]]+[int(usable[i])]+usable_channel[i].astype(int).tolist())
     if 'quality_trials' in report:
-        (destination/'quality_policy.json').write_text(json.dumps({'policy':report['quality_policy'],'sha256':report['quality_policy_sha256']},indent=2))
-        with (destination/'quality_trials.csv').open('w',newline='') as output:
+        (destination/'quality_policy.json').write_text(json.dumps({'policy':report['quality_policy'],'sha256':report['quality_policy_sha256']},indent=2), encoding='utf-8')
+        with (destination/'quality_trials.csv').open('w',newline='', encoding='utf-8') as output:
             fields=['trial_id','clip_id','eligible','prospective','baseline_accepted_epochs','baseline_candidate_epochs','listening_accepted_epochs','listening_candidate_epochs','channel','band','baseline_uv2','listening_uv2','change_db','reasons']
             writer=csv.DictWriter(output,fieldnames=fields);writer.writeheader()
             for trial in report['quality_trials']:
@@ -162,10 +162,10 @@ def clean(path, destination, options=None, session_folder=None):
                 for feature in trial['features'] or [{}]:writer.writerow({**row,**feature})
     np.savez_compressed(destination/'cleaned.npz',timestamps=t,eeg=filtered,usable=usable,usable_channel=usable_channel,reason_bits=reasons,channel_names=np.array(CHANNELS),sample_rate_hz=np.array(FS))
     for filename,rows,fields in [('rejected_intervals.csv',intervals,['channel','start','end','reason','reason_bits']),('trial_analysis.csv',trial_rows,['trial_id','clip_id','mode','channel','marked_seconds','recorded_seconds','usable_seconds','recorded_samples','usable_samples','usable_percent','spectral_windows','theta','alpha','beta'])]:
-        with (destination/filename).open('w',newline='') as stream:
+        with (destination/filename).open('w',newline='', encoding='utf-8') as stream:
             writer=csv.DictWriter(stream,fieldnames=fields);writer.writeheader();writer.writerows(rows)
-    (destination/'analysis.json').write_text(json.dumps(report,indent=2,allow_nan=False))
-    (destination/'PROCESSING.txt').write_text('NeuroBridge Review & clean\n\n'+json.dumps(settings,indent=2)+'\n\n'+'\n'.join(warnings)+'\n\ncleaned.csv and cleaned.npz preserve original timestamps and sample count. CSV blanks / NPZ NaNs mark rejected channel samples. usable is the common four-channel mask used for band powers; usable_channel is per-channel availability. Interval times are seconds from the first EEG timestamp. Manual exclusions apply to all channels. Trial boundaries, when available, are operator/playback request markers, not measured acoustic onsets. Theta 4–8, alpha 8–13, beta 13–30 Hz powers are absolute µV² after filtering. They do not measure comprehension. No source CSV is changed. The source SHA-256 is in analysis.json.\n')
+    (destination/'analysis.json').write_text(json.dumps(report,indent=2,allow_nan=False), encoding='utf-8')
+    (destination/'PROCESSING.txt').write_text('NeuroBridge Review & clean\n\n'+json.dumps(settings,indent=2)+'\n\n'+'\n'.join(warnings)+'\n\ncleaned.csv and cleaned.npz preserve original timestamps and sample count. CSV blanks / NPZ NaNs mark rejected channel samples. usable is the common four-channel mask used for band powers; usable_channel is per-channel availability. Interval times are seconds from the first EEG timestamp. Manual exclusions apply to all channels. Trial boundaries, when available, are operator/playback request markers, not measured acoustic onsets. Theta 4–8, alpha 8–13, beta 13–30 Hz powers are absolute µV² after filtering. They do not measure comprehension. No source CSV is changed. The source SHA-256 is in analysis.json.\n', encoding='utf-8')
     from matplotlib.figure import Figure
     from matplotlib.backends.backend_agg import FigureCanvasAgg
     fig=Figure(figsize=(float(TOKENS['plot-report-clean-width']),float(TOKENS['plot-report-clean-height'])),layout='constrained');FigureCanvasAgg(fig);axes=fig.subplots(4,3)

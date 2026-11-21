@@ -1,11 +1,12 @@
-"""Native Mac audio + LSL-clock events + continuous EEG session runner."""
+"""Native desktop audio + LSL-clock events + continuous EEG session runner."""
 import csv,json,os,queue,random,signal,subprocess,sys,threading,time
 from pathlib import Path
 from pylsl import local_clock
 from runtime import worker
+from platform_support import spawn_worker,request_stop,remove_control,audio_command
 from quality import LiveQuality,POLICY,policy_hash
 
-folder=Path(sys.argv[1]); config=json.loads((folder/'session.json').read_text())
+folder=Path(sys.argv[1]); config=json.loads((folder/'session.json').read_text(encoding='utf-8'))
 root=folder.parent.parent
 cancel=threading.Event(); answers=queue.Queue(); audio=None; recorder=None
 
@@ -14,7 +15,7 @@ def emit(**kw):
     with emit_lock:print(json.dumps(kw),flush=True)
 def stop(*_):
     cancel.set()
-    if audio and audio.poll() is None: audio.terminate()
+    if audio and audio.poll() is None: request_stop(audio)
 signal.signal(signal.SIGINT,stop);signal.signal(signal.SIGTERM,stop)
 def commands():
     for line in sys.stdin:
@@ -26,16 +27,16 @@ def wait(seconds):
     if cancel.wait(seconds): raise RuntimeError('Session aborted; partial data preserved.')
 def main():
     global audio,recorder
-    events=(folder/'events.csv').open('x',newline='');ew=csv.writer(events)
+    events=(folder/'events.csv').open('x',newline='', encoding='utf-8');ew=csv.writer(events)
     ew.writerow(['participant_id','session_id','trial_id','clip_id','event','lsl_timestamp','details'])
-    response=(folder/'answers.csv').open('x',newline='');rw=csv.writer(response)
+    response=(folder/'answers.csv').open('x',newline='', encoding='utf-8');rw=csv.writer(response)
     rw.writerow(['participant_id','session_id','trial_id','clip_id','practice','q1_response','q2_response','q1_correct','q2_correct','comprehension_score','understanding_rating','lsl_timestamp','language','mode','speaker_id','response_mode'])
     def event(name,trial='',clip='',details=''):
         stamp=local_clock()
         ew.writerow([config['participant'],folder.name,trial,clip,name,f'{stamp:.9f}',details]);events.flush();os.fsync(events.fileno());return stamp
     ready=threading.Event(); failed=[];quality=LiveQuality();gated=config.get('quality_policy') is not None
     if gated and (config['quality_policy']!=POLICY or config.get('quality_policy_sha256')!=policy_hash()):raise ValueError('Unknown or modified quality policy')
-    recorder=subprocess.Popen(worker('record',root/'raw'/config['eeg_file'],'3600','require-lsl-clock',*(['quality-v1'] if gated else [])),stdout=subprocess.PIPE,stderr=subprocess.STDOUT,text=True)
+    recorder=spawn_worker(worker('record',root/'raw'/config['eeg_file'],'3600','require-lsl-clock',*(['quality-v1'] if gated else [])),stdout=subprocess.PIPE,stderr=subprocess.STDOUT,text=True,encoding='utf-8',errors='replace')
     def read():
         last_preview=0.
         for line in recorder.stdout:
@@ -116,7 +117,7 @@ def main():
                         if time.monotonic()>deadline:raise RuntimeError('Pre-playback signal check timed out. Partial EEG preserved.')
                         wait(.5)
                 event('AUDIO_PLAY_REQUEST',tid,cid)
-                audio=subprocess.Popen(['/usr/bin/afplay',str(root/'stimuli/audio'/clip['audio'])],stdout=subprocess.DEVNULL,stderr=subprocess.PIPE)
+                audio=spawn_worker(audio_command(root/'stimuli/audio'/clip['audio']),stdout=subprocess.DEVNULL,stderr=subprocess.PIPE)
                 emit(phase='listening',message='Listen quietly. Rest follows playback.' if clip.get('response_mode')=='none' else 'Listen quietly. Questions follow playback.',step='listening')
                 while audio.poll() is None: health();wait(.2)
                 if audio.returncode: raise RuntimeError('Audio playback failed: '+audio.stderr.read().decode()[:300])
@@ -141,7 +142,7 @@ def main():
             emit(phase='rest',message='Rest for five seconds',step='rest',questions=None)
             wait(5)
         health();event('SESSION_END');emit(phase='saving',message='Saving EEG and session files',step='saving')
-        recorder.send_signal(signal.SIGINT);recorder.wait(timeout=15)
+        request_stop(recorder);recorder.wait(timeout=15)
         if recorder.returncode: raise RuntimeError('EEG recorder failed while saving. Partial files preserved.')
         config['status']='complete';config['finished_lsl']=local_clock()
         if gated:
@@ -150,7 +151,7 @@ def main():
                 import uuid
                 from cleaning import clean
                 run=uuid.uuid4().hex
-                (folder/'session.json').write_text(json.dumps(config,indent=2))
+                (folder/'session.json').write_text(json.dumps(config,indent=2), encoding='utf-8')
                 clean(root/'raw'/config['eeg_file'],root/'cleaned'/run,{'amplitude_uv':200,'notch_hz':0,'exclusions':[]},folder)
                 config['quality_analysis_run']=run
             except Exception as exc:config['quality_analysis_error']=str(exc)
@@ -159,10 +160,16 @@ def main():
         config['status']='aborted';config['error']=str(exc);event('SESSION_ABORTED',details=str(exc))
         emit(phase='error',message=str(exc),step='error',questions=None)
     finally:
-        if audio and audio.poll() is None: audio.terminate()
+        if audio and audio.poll() is None: request_stop(audio)
         if recorder.poll() is None:
-            recorder.send_signal(signal.SIGINT)
+            request_stop(recorder)
             try: recorder.wait(timeout=15)
             except subprocess.TimeoutExpired: recorder.terminate()
-        (folder/'session.json').write_text(json.dumps(config,indent=2));events.close();response.close()
+        remove_control(recorder)
+        if audio:
+            if audio.poll() is None:
+                try:audio.wait(timeout=5)
+                except subprocess.TimeoutExpired:audio.terminate()
+            remove_control(audio)
+        (folder/'session.json').write_text(json.dumps(config,indent=2), encoding='utf-8');events.close();response.close()
 if __name__=='__main__':main()

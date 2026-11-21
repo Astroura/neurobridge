@@ -42,7 +42,7 @@ def main():
         # Flush buffered data. Record from the first new sample, not stream discovery time.
         inlet.pull_chunk(timeout=0, max_samples=100000)
         total, first, last, last_received, report = 0, None, None, time.monotonic(), 0
-        with path.open('x', newline='') as f:
+        with path.open('x', newline='', encoding='utf-8') as f:
             writer = csv.writer(f)
             writer.writerow(['timestamps'] + labels)
             emit(phase='waiting', message='Connected. Waiting for EEG samples…')
